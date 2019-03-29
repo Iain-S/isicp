@@ -10,6 +10,7 @@ __pycache__
 *.out
 */Thumbs.db
 
-[0-9]*.html
+# Don't ignore generated html files on this branch
+# [0-9]*.html
 
 coding-js
