@@ -826,7 +826,7 @@ C.make_MCQ("scheme-ex-f-f-mcq",
 <a name="%_sec_1.3.3"></a>
 <h3> 1.3.3 Procedures as General Methods </h3>
 
-<p> We introduced compound procedures in section @ref{1-1-4} as a mechanism for abstracting patterns of numerical operations so as to make them independent of the particular numbers involved. With higher-order procedures, such as the <tt>integral</tt> procedure of section @ref{1-3-1}, we began to see a more powerful kind of abstraction: procedures used to express general methods of computation, independent of the particular functions involved. In this section we discuss two more elaborate examples &mdash; general methods for finding zeros and fixed points of functions &mdash; and show how these methods can be expressed directly as procedures.
+<p> We introduced compound procedures in section <a href="1-1-elements.html#%_sec_1.1.4">1.1.4</a> as a mechanism for abstracting patterns of numerical operations so as to make them independent of the particular numbers involved. With higher-order procedures, such as the <tt>integral</tt> procedure of section @ref{1-3-1}, we began to see a more powerful kind of abstraction: procedures used to express general methods of computation, independent of the particular functions involved. In this section we discuss two more elaborate examples &mdash; general methods for finding zeros and fixed points of functions &mdash; and show how these methods can be expressed directly as procedures.
 
 <h4> Finding roots of equations by the half-interval method </h4>
 
@@ -860,7 +860,7 @@ C.deps_of["scheme-define-search"] = ["scheme-define-average", "scheme-define-clo
 
 <p> We assume that we are initially given the function <em> f </em> together with points at which its values are negative and positive. We first compute the midpoint of the two given points. Next we check to see if the given interval is small enough, and if so we simply return the midpoint as our answer. Otherwise, we compute as a test value the value of <em> f </em> at the midpoint. If the test value is positive, then we continue the process with a new interval running from the original negative point to the midpoint. If the test value is negative, we continue with the interval from the midpoint to the positive point. Finally, there is the possibility that the test value is 0, in which case the midpoint is itself the root we are searching for.
 
-<p> To test whether the endpoints are &ldquo;close enough&rdquo; we can use a procedure similar to the one used in section <a href="1-1-elements.html">1.1.7</a> for computing square roots:<a name="footnote_link_1-55" class="footnote_link" href="#footnote_1-55">55</a>
+<p> To test whether the endpoints are &ldquo;close enough&rdquo; we can use a procedure similar to the one used in section <a href="1-1-elements.html#%_sec_1.1.7">1.1.7</a> for computing square roots:<a name="footnote_link_1-55" class="footnote_link" href="#footnote_1-55">55</a>
 
 <div id="scheme-define-close-enough">
 (define (close-enough? x y)
