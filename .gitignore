@@ -1,8 +1,11 @@
 # python specific
 *.pyc
 __pycache__
+.idea/
+venv/
 
-## generic files to ignore
+
+# generic files to ignore
 *~
 *.lock
 *.DS_Store
@@ -10,7 +13,9 @@ __pycache__
 *.out
 */Thumbs.db
 
+
 # Don't ignore generated html files on this branch
 # [0-9]*.html
+
 
 coding-js
