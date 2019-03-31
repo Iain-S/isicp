@@ -1,3 +1,5 @@
+# Replacements to be made to the .content.html files when converting to html5
+
 (< (abs
 with
 (&lt; (abs
@@ -5,16 +7,20 @@ with
 <a name="(%_sec_.*)" \/>
 with
 <a name="\1"></a>
+and
+<a name="(.*)"></a>\n<h3>
+with
+<h3 id="\1">
 
 <tt>
 with 
 <code>
-
+and
 </tt>
 with
 </code>
 
-html#%_sec
+%_sec_
 with
-html%23%25_sec
+sec_
 
