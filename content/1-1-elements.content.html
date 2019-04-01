@@ -1128,8 +1128,7 @@ C.prompt("scheme-square-sqrt", ["scheme-define-square", "scheme-define-sqrt"]);
 
 <p> The sqrt program also illustrates that the simple procedural language we have introduced so far is sufficient for writing any purely numerical program that one could write in, say, C or Pascal. This might seem surprising, since we have not included in our language any iterative (looping) constructs that direct the computer to do something over and over again. Sqrt-iter, on the other hand, demonstrates how iteration can be accomplished using no special construct other than the ordinary ability to call a procedure.<a id="footnote_link_1-24" class="footnote_link" href="#footnote_1-24">24</a>
 
-<div class="exercise">
-
+<div class="exercise" id="thm_1.6">
 <p> <b> Exercise 1.6. </b> Alyssa P. Hacker doesn’t see why <code>if</code> needs to be provided as a special form. “Why can’t I just define it as an ordinary procedure in terms of <code>cond?</code>” she asks. Alyssa’s friend Eva Lu Ator claims  this can indeed be done, and she defines a new version of <code>if</code>:
 
 <div id="scheme-define-new-if">
@@ -1245,8 +1244,7 @@ C.frozen_prompt("scheme-ex-17-my-test", ["scheme-define-square", "scheme-ex-17-i
 
 <p>
 
-<div class="exercise">
-
+<div class="exercise" id="thm_1.8">
 <p> <b> Exercise 1.8. </b> Newton's method for cube roots is  based on the fact that if y is an approximation to the cube root of x, then a better approximation is given  by the value
 
 $$
