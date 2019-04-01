@@ -1,189 +1,95 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-
-
-<link rel="stylesheet" type="text/css" href="coding-js/deps/codemirror/lib/codemirror.css"/>
-
-<link rel="stylesheet" type="text/css" href="coding-js/deps/codemirror/theme/monokai.css"/>
-
-<link rel="stylesheet" type="text/css" href="css/isicp.css"/>
-
-<link rel="stylesheet" type="text/css" href="css/footnotes.css"/>
-
-<link rel="stylesheet" type="text/css" href="css/theme.css"/>
-
-
-
-<script src="js/TOC.js"></script>
-
-<script src="js/jquery.min.js"></script>
-
-<script src="coding-js/deps/codemirror/lib/codemirror.js"></script>
-
-<script src="coding-js/deps/codemirror/mode/scheme/scheme.js"></script>
-
-<script src="coding-js/coding.js"> </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
-
-<script>
-
-  window.initialEvalIsCompleted = false;
-
-  C = new CodingJS("coding-js/", "scheme", {
-
-    onFocus: function (s) {
-
-      var ts = "";
-
-      for (var i = 0, d = C.get_all_deps(s); i < d.length; i++) {  //TODO list all deps
-
-          ts += C.editor_of[d[i]].getValue() + "\n\n";
-
-      }
-
-
-
-      ts += "<b>" + C.editor_of[s].getValue() + "</b>";
-
-
-
-      if (!window.initialEvalIsCompleted) return;
-
-
-
-      ga('send', 'event', 'editor', 'focus', s, 1);
-
-      mixpanel.track('editor focus', {
-
-        'editor_name': s,
-
-      });
-
-      console.log('mixpanel editor focus');
-
-    },
-
-    onBlur: function (s, editor_value) {
-
-      if (!window.initialEvalIsCompleted) return;
-
-      mixpanel.track('editor blur', {
-
-        'editor_name': s,
-
-        'editor_value': C.editor_of[s].getValue(),
-
-      });
-
-      console.log('mixpanel editor blur', s, C.editor_of[s].getValue());
-
-    },
-
-    onInitialEvalHasCompleted: function () {
-
-      window.initialEvalIsCompleted = true;
-
-    }
-
-  });
-
-</script>
-
-<script src="js/footnotes.js"></script>
-
-
-
-<script type="text/x-mathjax-config">
-
-MathJax.Hub.Config({
-
-  tex2jax: {inlineMath: [['$','$']]}
-
-});
-
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
-
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="coding-js/deps/codemirror/lib/codemirror.css"/>
+        <link rel="stylesheet" type="text/css" href="coding-js/deps/codemirror/theme/monokai.css"/>
+        <link rel="stylesheet" type="text/css" href="css/isicp.css"/>
+        <link rel="stylesheet" type="text/css" href="css/footnotes.css"/>
+        <link rel="stylesheet" type="text/css" href="css/theme.css"/>
+        <script src="js/TOC.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="coding-js/deps/codemirror/lib/codemirror.js"></script>
+        <script src="coding-js/deps/codemirror/mode/scheme/scheme.js"></script>
+        <script src="coding-js/coding.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+        <script>
+            window.initialEvalIsCompleted = false;
+            C = new CodingJS("coding-js/", "scheme", {
+              onFocus: function (s) {
+                var ts = "";
+                for (var i = 0, d = C.get_all_deps(s); i < d.length; i++) {  //TODO list all deps
+                    ts += C.editor_of[d[i]].getValue() + "\n\n";
+                }
+            
+                ts += "<b>" + C.editor_of[s].getValue() + "</b>";
+            
+                if (!window.initialEvalIsCompleted) return;
+            
+                ga('send', 'event', 'editor', 'focus', s, 1);
+                mixpanel.track('editor focus', {
+                  'editor_name': s,
+                });
+                console.log('mixpanel editor focus');
+              },
+              onBlur: function (s, editor_value) {
+                if (!window.initialEvalIsCompleted) return;
+                mixpanel.track('editor blur', {
+                  'editor_name': s,
+                  'editor_value': C.editor_of[s].getValue(),
+                });
+                console.log('mixpanel editor blur', s, C.editor_of[s].getValue());
+              },
+              onInitialEvalHasCompleted: function () {
+                window.initialEvalIsCompleted = true;
+              }
+            });
+        </script>
+        <script src="js/footnotes.js"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {inlineMath: [['$','$']]}
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <title>iSICP Chapter 1 - Building Abstractions with Procedures</title>
+        <!-- <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            
+            ga('create', 'UA-36868476-1', 'auto');
+            ga('send', 'pageview');
+            </script> -->
+        <!-- start Mixpanel -->
+        <script>(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+            for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+            mixpanel.init("272f9543615f00ee5f6a20cf7d9f689d");
+        </script>
+        <!-- end Mixpanel -->
+    </head>
+    <body>
+        <script>
+            // paper = Raphael($("#raphael-target")[0]);
+            
+        </script>
+        <div id="main">
 
-
-
-<script type="text/javascript">
-
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-
-
-  ga('create', 'UA-36868476-1', 'auto');
-
-  ga('send', 'pageview');
-
-</script>
-
-<!-- start Mixpanel -->
-
-<script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-
-for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
-
-mixpanel.init("272f9543615f00ee5f6a20cf7d9f689d");</script>
-
-<!-- end Mixpanel -->
-
-
-
-</head>
-
-<body>
-
-
-
-<script>
-
-
-
-// paper = Raphael($("#raphael-target")[0]);
-
-
-
-</script>
-
-
-
-<div id="main">
-
-
-
-
-<a href='index.html' style="float:left"> <img src='images/chevron-up.svg' height=64 width=64> </a>
+<a href='index.html' style="float:left"> <img src='images/chevron-up.svg' height=64 width=64 alt="up chevron"> </a>
 <span style="float:right">
-<a href='1-1-elements.html'> <img src='images/chevron-right.svg' height=64 width=64> </a>
+    <a href='1-1-elements.html'> <img src='images/chevron-right.svg' height=64 width=64 alt="right chevron"> </a>
 </span>
 <br> <br>
 <h2> Building Abstractions with Procedures </h2>
 
 <hr>
 
-<blockquote style="font-size:0.8em;">The acts of the mind, wherein it exerts its power over simple ideas, are chiefly these three: 1. Combining several simple ideas into one compound one, and thus all complex ideas are made. 2. The second is bringing two ideas, whether simple or complex, together, and setting them by one another so as to take a view of them at once, without uniting them into one, by which it gets all its ideas of relations. 3. The third is separating them from all other ideas that accompany them in their real existence: this is called abstraction, and thus all its general ideas are made.
+<blockquote style="font-size:0.8em;">
+    The acts of the mind, wherein it exerts its power over simple ideas, are chiefly these three: 1. Combining several simple ideas into one compound one, and thus all complex ideas are made. 2. The second is bringing two ideas, whether simple or complex, together, and setting them by one another so as to take a view of them at once, without uniting them into one, by which it gets all its ideas of relations. 3. The third is separating them from all other ideas that accompany them in their real existence: this is called abstraction, and thus all its general ideas are made.
 
-<p> John Locke, An Essay Concerning Human Understanding (1690)
+    <p> John Locke, An Essay Concerning Human Understanding (1690)
 </blockquote>
 
 <p> We are about to study the idea of a computational process. Computational processes are abstract beings that inhabit computers. As they evolve, processes manipulate other abstract things called data. The evolution of a process is directed by a pattern of rules called a program. People create programs to direct processes. In effect, we conjure the spirits of the computer with our spells.
@@ -200,31 +106,19 @@ mixpanel.init("272f9543615f00ee5f6a20cf7d9f689d");</script>
 
 <p> We need an appropriate language for describing processes, and we will use for this purpose the programming language Lisp. Just as our everyday thoughts are usually expressed in our natural language (such as English, French, or Japanese), and descriptions of quantitative phenomena are expressed with mathematical notations, our procedural thoughts will be expressed in Lisp. Lisp was invented in the late 1950s as a formalism for reasoning about the use of certain kinds of logical expressions, called recursion equations, as a model for computation. The language was conceived by John McCarthy and is based on his paper "Recursive Functions of Symbolic Expressions and Their Computation by Machine" (McCarthy 1960).
 
-<p> Despite its inception as a mathematical formalism, Lisp is a practical programming language. A Lisp interpreter is a machine that carries out processes described in the Lisp language. The first Lisp interpreter was implemented by McCarthy with the help of colleagues and students in the Artificial Intelligence Group of the MIT Research Laboratory of Electronics and in the MIT Computation Center.<a name="footnote_link_1-1" class="footnote_link" href="#footnote_1-1">1</a> Lisp, whose name is an acronym for LISt Processing, was designed to provide symbol-manipulating capabilities for attacking programming problems such as the symbolic differentiation and integration of algebraic expressions. It included for this purpose new data objects known as atoms and lists, which most strikingly set it apart from all other languages of the period.
+<p> Despite its inception as a mathematical formalism, Lisp is a practical programming language. A Lisp interpreter is a machine that carries out processes described in the Lisp language. The first Lisp interpreter was implemented by McCarthy with the help of colleagues and students in the Artificial Intelligence Group of the MIT Research Laboratory of Electronics and in the MIT Computation Center.<a id="footnote_link_1-1" class="footnote_link" href="#footnote_1-1">1</a> Lisp, whose name is an acronym for LISt Processing, was designed to provide symbol-manipulating capabilities for attacking programming problems such as the symbolic differentiation and integration of algebraic expressions. It included for this purpose new data objects known as atoms and lists, which most strikingly set it apart from all other languages of the period.
 
-<p> Lisp was not the product of a concerted design effort. Instead, it evolved informally in an experimental manner in response to users' needs and to pragmatic implementation considerations. Lisp's informal evolution has continued through the years, and the community of Lisp users has traditionally resisted attempts to promulgate any ``official'' definition of the language. This evolution, together with the flexibility and elegance of the initial conception, has enabled Lisp, which is the second oldest language in widespread use today (only Fortran is older), to continually adapt to encompass the most modern ideas about program design. Thus, Lisp is by now a family of dialects, which, while sharing most of the original features, may differ from one another in significant ways. The dialect of Lisp used in this book is called Scheme.<a name="footnote_link_1-2" class="footnote_link" href="#footnote_1-2">2</a> 
+<p> Lisp was not the product of a concerted design effort. Instead, it evolved informally in an experimental manner in response to users' needs and to pragmatic implementation considerations. Lisp's informal evolution has continued through the years, and the community of Lisp users has traditionally resisted attempts to promulgate any ``official'' definition of the language. This evolution, together with the flexibility and elegance of the initial conception, has enabled Lisp, which is the second oldest language in widespread use today (only Fortran is older), to continually adapt to encompass the most modern ideas about program design. Thus, Lisp is by now a family of dialects, which, while sharing most of the original features, may differ from one another in significant ways. The dialect of Lisp used in this book is called Scheme.<a id="footnote_link_1-2" class="footnote_link" href="#footnote_1-2">2</a> 
 
-<p> Because of its experimental character and its emphasis on symbol manipulation, Lisp was at first very inefficient for numerical computations, at least in comparison with Fortran. Over the years, however, Lisp compilers have been developed that translate programs into machine code that can perform numerical computations reasonably efficiently. And for special applications, Lisp has been used with great effectiveness.<a name="footnote_link_1-3" class="footnote_link" href="#footnote_1-3">3</a> Although Lisp has not yet overcome its old reputation as hopelessly inefficient, Lisp is now used in many applications where efficiency is not the central concern. For example, Lisp has become a language of choice for operating-system shell languages and for extension languages for editors and computer-aided design systems.
+<p> Because of its experimental character and its emphasis on symbol manipulation, Lisp was at first very inefficient for numerical computations, at least in comparison with Fortran. Over the years, however, Lisp compilers have been developed that translate programs into machine code that can perform numerical computations reasonably efficiently. And for special applications, Lisp has been used with great effectiveness.<a id="footnote_link_1-3" class="footnote_link" href="#footnote_1-3">3</a> Although Lisp has not yet overcome its old reputation as hopelessly inefficient, Lisp is now used in many applications where efficiency is not the central concern. For example, Lisp has become a language of choice for operating-system shell languages and for extension languages for editors and computer-aided design systems.
 
 <p> If Lisp is not a mainstream language, why are we using it as the framework for our discussion of programming? Because the language possesses unique features that make it an excellent medium for studying important programming constructs and data structures and for relating them to the linguistic features that support them. The most significant of these features is the fact that Lisp descriptions of processes, called procedures, can themselves be represented and manipulated as Lisp data. The importance of this is that there are powerful program-design techniques that rely on the ability to blur the traditional distinction between ``passive'' data and ``active'' processes. As we shall discover, Lisp's flexibility in handling procedures as data makes it one of the most convenient languages in existence for exploring these techniques. The ability to represent procedures as data also makes Lisp an excellent language for writing programs that must manipulate other programs as data, such as the interpreters and compilers that support computer languages. Above and beyond these considerations, programming in Lisp is great fun.
 
-
-
-
-<br>
-
-<br>
-
-
-
-<hr>
-
-
-
-<div id="footnotes">
-
-<h3 id='Notes'> Notes </h3>
-
+            <br>
+            <br>
+            <hr>
+            <div id="footnotes">
+                <h3 id='Notes'> Notes </h3>
 
 
 <div id="footnote_1-1" class="footnote"> 
@@ -241,28 +135,18 @@ The two dialects in which most major Lisp programs of the 1970s were written are
 One such special application was a breakthrough computation of scientific importance -- an integration of the motion of the Solar System that extended previous results by nearly two orders of magnitude, and demonstrated that the dynamics of the Solar System is chaotic. This computation was made possible by new integration algorithms, a special-purpose compiler, and a special-purpose computer all implemented with the aid of software tools written in Lisp (Abelson et al. 1992; Sussman and Wisdom 1992).
 </p></div>
 
-
-</div>
-
-
-
-<hr>
-
-
-
-<p> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png"/></a><br/> Based on Structure and Interpretation of Computer Programs, a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://mitpress.mit.edu/sicp/" rel="dct:source" target="_blank">https://mitpress.mit.edu/sicp/</a>.
-
-
-
-<p> <a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics"/></a>
-
-
-
-</div>
-
-
-
-</body>
-
+            </div>
+            <hr>
+            <p> 
+                <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />
+                <!-- ToDo Add an html5/rdfa compatible equivalent of xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type" -->
+                <span >Interactive SICP</span> is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at 
+                <!-- ToDo Add an html5/rdfa compatible equivalent of xmlns:dct="http://purl.org/dc/terms/" rel="dct:source" -->
+                <a href="https://mitpress.mit.edu/sicp/">https://mitpress.mit.edu/sicp/</a>.
+            </p>
+            <p> 
+                <a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics"/></a>
+            </p>
+        </div>
+    </body>
 </html>
-
