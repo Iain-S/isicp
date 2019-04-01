@@ -50,15 +50,15 @@ C.no_output_frozen_prompt("scheme-set-balance");
 <p> <b>Figure 3.15:</b> Effect of <code>(set-cdr! x y)</code> on the lists in Figure 3-12.
 </div>
 
-<p> The primitive mutators for pairs are <code>set-car!</code> and <code>set-cdr!</code>. <code>Set-car!</code> takes two arguments, the first of which must be a pair. It modifies this pair, replacing the <code>car</code> pointer by a pointer to the second argument of <code>set-car!</code>.<a name="footnote_link_3-16" class="footnote_link" href="#footnote_3-16">16</a>
+<p> The primitive mutators for pairs are <code>set-car!</code> and <code>set-cdr!</code>. <code>Set-car!</code> takes two arguments, the first of which must be a pair. It modifies this pair, replacing the <code>car</code> pointer by a pointer to the second argument of <code>set-car!</code>.<a id="footnote_link_3-16" class="footnote_link" href="#footnote_3-16">16</a>
 
-<p> As an example, suppose that <code>x</code> is bound to the list <code>((a b) c d)</code> and <code>y</code> to the list <code>(e f)</code> as illustrated in Figure 3-12. Evaluating the expression <code>(set-car!  x y)</code> modifies the pair to which <code>x</code> is bound, replacing its <code>car</code> by the value of <code>y</code>. The result of the operation is shown in Figure 3-13. The structure <code>x</code> has been modified and would now be printed as <code>((e f) c d)</code>. The pairs representing the list <code>(a b)</code>, identified by the pointer that was replaced, are now detached from the original structure.<a name="footnote_link_3-17" class="footnote_link" href="#footnote_3-17">17</a>
+<p> As an example, suppose that <code>x</code> is bound to the list <code>((a b) c d)</code> and <code>y</code> to the list <code>(e f)</code> as illustrated in Figure 3-12. Evaluating the expression <code>(set-car!  x y)</code> modifies the pair to which <code>x</code> is bound, replacing its <code>car</code> by the value of <code>y</code>. The result of the operation is shown in Figure 3-13. The structure <code>x</code> has been modified and would now be printed as <code>((e f) c d)</code>. The pairs representing the list <code>(a b)</code>, identified by the pointer that was replaced, are now detached from the original structure.<a id="footnote_link_3-17" class="footnote_link" href="#footnote_3-17">17</a>
 
 <p> Compare Figure 3-13 with Figure 3-14, which illustrates the result of executing <code>(define z (cons y (cdr x)))</code> with <code>x</code> and <code>y</code> bound to the original lists of Figure 3-12. The variable <code>z</code> is now bound to a new pair created by the <code>cons</code> operation; the list to which <code>x</code> is bound is unchanged.
 
 <p> The <code>set-cdr!</code> operation is similar to <code>set-car!</code>. The only difference is that the <code>cdr</code> pointer of the pair, rather than the <code>car</code> pointer, is replaced. The effect of executing <code>(set-cdr! x y)</code> on the lists of Figure 3-12 is shown in Figure 3-15. Here the <code>cdr</code> pointer of <code>x</code> has been replaced by the pointer to <code>(e f)</code>. Also, the list <code>(c d)</code>, which used to be the <code>cdr</code> of <code>x</code>, is now detached from the structure.
 
-<p> <code>Cons</code> builds new list structure by creating new pairs, while <code>set-car!</code> and <code>set-cdr!</code> modify existing pairs. Indeed, we could implement <code>cons</code> in terms of the two mutators, together with a procedure <code>get-new-pair</code>, which returns a new pair that is not part of any existing list structure. We obtain the new pair, set its <code>car</code> and <code>cdr</code> pointers to the designated objects, and return the new pair as the result of the <code>cons</code>.<a name="footnote_link_3-18" class="footnote_link" href="#footnote_3-18">18</a>
+<p> <code>Cons</code> builds new list structure by creating new pairs, while <code>set-car!</code> and <code>set-cdr!</code> modify existing pairs. Indeed, we could implement <code>cons</code> in terms of the two mutators, together with a procedure <code>get-new-pair</code>, which returns a new pair that is not part of any existing list structure. We obtain the new pair, set its <code>car</code> and <code>cdr</code> pointers to the designated objects, and return the new pair as the result of the <code>cons</code>.<a id="footnote_link_3-18" class="footnote_link" href="#footnote_3-18">18</a>
 
 <div id="scheme-define-cons-with-set">
 (define (get-new-pair) '(() ()))
@@ -227,7 +227,7 @@ C.prompt("scheme-define-z1", ["scheme-define-x"]);
 C.prompt("scheme-define-z2");
 </script>
 
-<p> In this structure, the pairs in the two <code>(a b)</code> lists are distinct, although the actual symbols are shared.<a name="footnote_link_3-19" class="footnote_link" href="#footnote_3-19">19</a>
+<p> In this structure, the pairs in the two <code>(a b)</code> lists are distinct, although the actual symbols are shared.<a id="footnote_link_3-19" class="footnote_link" href="#footnote_3-19">19</a>
 
 <p> When thought of as a list, <code>z1</code> and <code>z2</code> both represent ``the same''list, <code>((a b) a b)</code>. In general, sharing is completely undetectable if we operate on lists using only <code>cons</code>, <code>car</code>, and <code>cdr</code>. However, if we allow mutators on list structure, sharing becomes significant. As an example of the difference that sharing can make, consider the following procedure, which modifies the <code>car</code> of the structure to which it is applied:
 
@@ -279,7 +279,7 @@ C.prompt("scheme-test-set-to-wow-z2", ["scheme-define-z2", "scheme-define-set-to
 
 <p> One way to detect sharing in list structures is to use the predicate <code>eq?</code>, which we introduced in section <a href="2-3-symbolic.html">2.3.1</a> as a way to test whether two symbols are equal. More generally, <code>(eq?  x y)</code> tests whether <code>x</code> and <code>y</code> are the same object (that is, whether <code>x</code> and <code>y</code> are equal as pointers). Thus, with <code>z1</code> and <code>z2</code> as defined in figures Figure 3-16 and Figure 3-17, <code>(eq?  (car z1) (cdr z1))</code> is true and <code>(eq? (car z2) (cdr z2))</code> is false.
 
-<p> As will be seen in the following sections, we can exploit sharing to greatly extend the repertoire of data structures that can be represented by pairs. On the other hand, sharing can also be dangerous, since modifications made to structures will also affect other structures that happen to share the modified parts. The mutation operations <code>set-car!</code> and <code>set-cdr!</code> should be used with care; unless we have a good understanding of how our data objects are shared, mutation can have unanticipated results.<a name="footnote_link_3-20" class="footnote_link" href="#footnote_3-20">20</a>
+<p> As will be seen in the following sections, we can exploit sharing to greatly extend the repertoire of data structures that can be represented by pairs. On the other hand, sharing can also be dangerous, since modifications made to structures will also affect other structures that happen to share the modified parts. The mutation operations <code>set-car!</code> and <code>set-cdr!</code> should be used with care; unless we have a good understanding of how our data objects are shared, mutation can have unanticipated results.<a id="footnote_link_3-20" class="footnote_link" href="#footnote_3-20">20</a>
 
 <div class="exercise" id="thm_3.15">
 <p> <b>Exercise 3.15:</b> Draw box-and-pointer diagrams to explain the effect of <code>set-to-wow!</code> on the structures <code>z1</code> and <code>z2</code> above.
@@ -373,7 +373,7 @@ C.prompt("scheme-define-cons");
 C.prompt("scheme-define-cons-set-car-cdr");
 </script>
 
-<p> Assignment is all that is needed, theoretically, to account for the behavior of mutable data. As soon as we admit <code>set!</code> to our language, we raise all the issues, not only of assignment, but of mutable data in general.<a name="footnote_link_3-21" class="footnote_link" href="#footnote_3-21">21</a>
+<p> Assignment is all that is needed, theoretically, to account for the behavior of mutable data. As soon as we admit <code>set!</code> to our language, we raise all the issues, not only of assignment, but of mutable data in general.<a id="footnote_link_3-21" class="footnote_link" href="#footnote_3-21">21</a>
 
 <div class="exercise" id="thm_3.20">
 <p> <b>Exercise 3.20:</b> Draw environment diagrams to illustrate the evaluation of the sequence of expressions
@@ -516,7 +516,7 @@ C.prompt("scheme-define-front-queue", ["scheme-define-make-queue"]);
 C.prompt("scheme-define-insert-queue", ["scheme-define-front-queue"]);
 </script>
 
-<p> To delete the item at the front of the queue, we merely modify the front pointer so that it now points at the second item in the queue, which can be found by following the <code>cdr</code> pointer of the first item (see Figure 3-21):<a name="footnote_link_3-22" class="footnote_link" href="#footnote_3-22">22</a>
+<p> To delete the item at the front of the queue, we merely modify the front pointer so that it now points at the second item in the queue, which can be found by following the <code>cdr</code> pointer of the first item (see Figure 3-21):<a id="footnote_link_3-22" class="footnote_link" href="#footnote_3-22">22</a>
 
 <div class="figure">
 <img src="images/ch3-Z-G-21.gif">
@@ -583,7 +583,7 @@ C.prompt("scheme-define-make-queue-dispatch");
 <p>
 
 <div class="exercise" id="thm_3.23">
-<p> <b>Exercise 3.23:</b> A <em>deque</em> ("double-ended queue") is a sequence in which items can be inserted and deleted at either the front or the rear. Operations on deques are the constructor <code>make-deque</code>, the predicate <code>empty-deque?</code>, selectors <code>front-deque</code> and <code>rear-deque</code>, and mutators <code>front-insert-deque!</code>, <code>rear-insert-deque!</code>, <code>front-delete-deque!</code>, and <code>rear-delete-deque!</code>. Show how to represent deques using pairs, and give implementations of the operations.<a name="footnote_link_3-23" class="footnote_link" href="#footnote_3-23">23</a>  All operations should be accomplished in $\Theta(1)$ steps.
+<p> <b>Exercise 3.23:</b> A <em>deque</em> ("double-ended queue") is a sequence in which items can be inserted and deleted at either the front or the rear. Operations on deques are the constructor <code>make-deque</code>, the predicate <code>empty-deque?</code>, selectors <code>front-deque</code> and <code>rear-deque</code>, and mutators <code>front-insert-deque!</code>, <code>rear-insert-deque!</code>, <code>front-delete-deque!</code>, and <code>rear-delete-deque!</code>. Show how to represent deques using pairs, and give implementations of the operations.<a id="footnote_link_3-23" class="footnote_link" href="#footnote_3-23">23</a>  All operations should be accomplished in $\Theta(1)$ steps.
 </div>
 
 <h3 id="sec_3.3.3"> 3.3.3 Representing Tables </h3>
@@ -603,7 +603,7 @@ c:  3
 <p> <b>Figure 3.22:</b> A table represented as a headed list.
 </div>
 
-<p> To extract information from a table we use the <code>lookup</code> procedure, which takes a key as argument and returns the associated value (or false if there is no value stored under that key). <code>Lookup</code> is defined in terms of the <code>assoc</code> operation, which expects a key and a list of records as arguments. Note that <code>assoc</code> never sees the dummy record. <code>Assoc</code> returns the record that has the given key as its <code>car</code>.<a name="footnote_link_3-24" class="footnote_link" href="#footnote_3-24">24</a>  <code>Lookup</code> then checks to see that the resulting record returned by <code>assoc</code> is not false, and returns the value (the <code>cdr</code>) of the record.
+<p> To extract information from a table we use the <code>lookup</code> procedure, which takes a key as argument and returns the associated value (or false if there is no value stored under that key). <code>Lookup</code> is defined in terms of the <code>assoc</code> operation, which expects a key and a list of records as arguments. Note that <code>assoc</code> never sees the dummy record. <code>Assoc</code> returns the record that has the given key as its <code>car</code>.<a id="footnote_link_3-24" class="footnote_link" href="#footnote_3-24">24</a>  <code>Lookup</code> then checks to see that the resulting record returned by <code>assoc</code> is not false, and returns the value (the <code>cdr</code>) of the record.
 
 <div id="scheme-define-lookup">
 (define (lookup key table)
@@ -626,7 +626,7 @@ C.prompt("scheme-define-lookup");
 C.prompt("scheme-define-assoc");
 </script>
 
-<p> To insert a value in a table under a specified key, we first use <code>assoc</code> to see if there is already a record in the table with this key. If not, we form a new record by <code>cons</code>ing the key with the value, and insert this at the head of the table's list of records, after the dummy record. If there already is a record with this key, we set the <code>cdr</code> of this record to the designated new value. The header of the table provides us with a fixed location to modify in order to insert the new record.<a name="footnote_link_3-25" class="footnote_link" href="#footnote_3-25">25</a>
+<p> To insert a value in a table under a specified key, we first use <code>assoc</code> to see if there is already a record in the table with this key. If not, we form a new record by <code>cons</code>ing the key with the value, and insert this at the head of the table's list of records, after the dummy record. If there already is a record with this key, we set the <code>cdr</code> of this record to the designated new value. The header of the table provides us with a fixed location to modify in order to insert the new record.<a id="footnote_link_3-25" class="footnote_link" href="#footnote_3-25">25</a>
 
 <div id="scheme-define-insert-table">
 (define (insert! key value table)
@@ -897,7 +897,7 @@ C.prompt("scheme-wire-up-wires");
 C.prompt("scheme-define-half-adder");
 </script>
 
-<p> The advantage of making this definition is that we can use <code>half-adder</code> itself as a building block in creating more complex circuits. Figure 3-26, for example, shows a <code>full-adder</code> composed of two half-adders and an or-gate.<a name="footnote_link_3-26" class="footnote_link" href="#footnote_3-26">26</a> We can construct a full-adder as follows:
+<p> The advantage of making this definition is that we can use <code>half-adder</code> itself as a building block in creating more complex circuits. Figure 3-26, for example, shows a <code>full-adder</code> composed of two half-adders and an or-gate.<a id="footnote_link_3-26" class="footnote_link" href="#footnote_3-26">26</a> We can construct a full-adder as follows:
 
 <div id="scheme-define-full-adder">
 (define (full-adder a b c-in sum c-out)
@@ -1084,7 +1084,7 @@ C.prompt("scheme-define-call-each");
 
 <p> The local procedure <code>accept-action-procedure!</code> adds the given procedure to the list of procedures to be run, and then runs the new procedure once. (See Exercise 3-31.)
 
-<p> With the local <code>dispatch</code> procedure set up as specified, we can provide the following procedures to access the local operations on wires:<a name="footnote_link_3-27" class="footnote_link" href="#footnote_3-27">27</a>
+<p> With the local <code>dispatch</code> procedure set up as specified, we can provide the following procedures to access the local operations on wires:<a id="footnote_link_3-27" class="footnote_link" href="#footnote_3-27">27</a>
 
 <div id="scheme-define-get-set-signal-add-action">
 (define (get-signal wire)
@@ -1282,7 +1282,7 @@ C.prompt("scheme-define-make-time-segment");
 
 <p> The agenda itself is a one-dimensional table of time segments. It differs from the tables described in section <a href="3-3-modeling.html">3.3.3</a> in that the segments will be sorted in order of increasing time. In addition, we store the <code>current time</code>
 
-<p> (i.e., the time of the last action that was processed) at the head of the agenda. A newly constructed agenda has no time segments and has a current time of 0:<a name="footnote_link_3-28" class="footnote_link" href="#footnote_3-28">28</a>
+<p> (i.e., the time of the last action that was processed) at the head of the agenda. A newly constructed agenda has no time segments and has a current time of 0:<a id="footnote_link_3-28" class="footnote_link" href="#footnote_3-28">28</a>
 
 <div id="scheme-define-agenda-helpers">
 (define (make-agenda) (list 0))
@@ -1349,7 +1349,7 @@ C.prompt("scheme-define-empty-agenda");
 C.prompt("scheme-define-add-to-agenda");
 </script>
 
-<p> The procedure that removes the first item from the agenda deletes the item at the front of the queue in the first time segment. If this deletion makes the time segment empty, we remove it from the list of segments:<a name="footnote_link_3-29" class="footnote_link" href="#footnote_3-29">29</a>
+<p> The procedure that removes the first item from the agenda deletes the item at the front of the queue in the first time segment. If this deletion makes the time segment empty, we remove it from the list of segments:<a id="footnote_link_3-29" class="footnote_link" href="#footnote_3-29">29</a>
 
 <div>
 (define (remove-first-agenda-item! agenda)
@@ -1362,7 +1362,7 @@ C.prompt("scheme-define-add-to-agenda");
 C.prompt();
 </script>
 
-<p> The first agenda item is found at the head of the queue in the first time segment. Whenever we extract an item, we also update the current time:<a name="footnote_link_3-30" class="footnote_link" href="#footnote_3-30">30</a>
+<p> The first agenda item is found at the head of the queue in the first time segment. Whenever we extract an item, we also update the current time:<a id="footnote_link_3-30" class="footnote_link" href="#footnote_3-30">30</a>
 <div>
 (define (first-agenda-item agenda)
   (if (empty-agenda? agenda)
@@ -1388,7 +1388,7 @@ C.prompt();
 dAE = FL
 </pre>
 
-<p> Such an equation is not one-directional. Given any four of the quantities, we can use it to compute the fifth. Yet translating the equation into a traditional computer language would force us to choose one of the quantities to be computed in terms of the other four. Thus, a procedure for computing the area A could not be used to compute the deflection d, even though the computations of A and d arise from the same equation.<a name="footnote_link_3-31" class="footnote_link" href="#footnote_3-31">31</a>
+<p> Such an equation is not one-directional. Given any four of the quantities, we can use it to compute the fifth. Yet translating the equation into a traditional computer language would force us to choose one of the quantities to be computed in terms of the other four. Thus, a procedure for computing the area A could not be used to compute the deflection d, even though the computations of A and d arise from the same equation.<a id="footnote_link_3-31" class="footnote_link" href="#footnote_3-31">31</a>
 
 <p> In this section, we sketch the design of a language that enables us to work in terms of relations themselves. The primitive elements of the language are <code>primitive constraints</code> , which state that certain relations hold between quantities. For example, <code>(adder a b c)</code> specifies that the quantities a, b, and c must be related by the equation a + b = c, <code>(multiplier x y z)</code> expresses the constraint xy = z, and <code>(constant 3.14 x)</code> says that the value of x must be 3.14.
 
@@ -1726,7 +1726,7 @@ C.prompt("scheme-define-probe");
 C.prompt("scheme-define-make-connector");
 </script>
 
-<p> The connector's local procedure <code>set-my-value</code> is called when there is a request to set the connector's value. If the connector does not currently have a value, it will set its value and remember as <code>informant</code> the constraint that requested the value to be set.<a name="footnote_link_3-32" class="footnote_link" href="#footnote_3-32">32</a>  Then the connector will notify all of its participating constraints except the constraint that requested the value to be set. This is accomplished using the following iterator, which applies a designated procedure to all items in a list except a given one:
+<p> The connector's local procedure <code>set-my-value</code> is called when there is a request to set the connector's value. If the connector does not currently have a value, it will set its value and remember as <code>informant</code> the constraint that requested the value to be set.<a id="footnote_link_3-32" class="footnote_link" href="#footnote_3-32">32</a>  Then the connector will notify all of its participating constraints except the constraint that requested the value to be set. This is accomplished using the following iterator, which applies a designated procedure to all items in a list except a given one:
 
 <div id="scheme-define-for-each-except">
 (define (for-each-except exception procedure list)
@@ -1864,7 +1864,7 @@ C.prompt("scheme-define-cfc-op");
 C.prompt("scheme-define-cp");
 </script>
 
-<p> Define analogous procedures <code>c-</code>, <code>c*</code>, <code>c/</code>, and <code>cv</code> (constant value) that enable us to define compound constraints as in the converter example above.<a name="footnote_link_3-33" class="footnote_link" href="#footnote_3-33">33</a>
+<p> Define analogous procedures <code>c-</code>, <code>c*</code>, <code>c/</code>, and <code>cv</code> (constant value) that enable us to define compound constraints as in the converter example above.<a id="footnote_link_3-33" class="footnote_link" href="#footnote_3-33">33</a>
  </div>
 @@
 

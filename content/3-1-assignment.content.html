@@ -33,7 +33,7 @@
 C.prompt("scheme-withdraw-25-25-60-15", ["scheme-define-withdraw"]);
 </script>
 
-<p> Observe that the expression <code>(withdraw 25)</code>, evaluated twice, yields different values. This is a new kind of behavior for a procedure. Until now, all our procedures could be viewed as specifications for computing mathematical functions. A call to a procedure computed the value of the function applied to the given arguments, and two calls to the same procedure with the same arguments always produced the same result.<a name="footnote_link_3-1" class="footnote_link" href="#footnote_3-1">1</a>
+<p> Observe that the expression <code>(withdraw 25)</code>, evaluated twice, yields different values. This is a new kind of behavior for a procedure. Until now, all our procedures could be viewed as specifications for computing mathematical functions. A call to a procedure computed the value of the function applied to the given arguments, and two calls to the same procedure with the same arguments always produced the same result.<a id="footnote_link_3-1" class="footnote_link" href="#footnote_3-1">1</a>
 
 <p> To implement <code>withdraw</code>, we can use a variable <code>balance</code> to indicate the balance of money in the account and define <code>withdraw</code> as a procedure that accesses <code>balance</code>. The <code>withdraw</code> procedure checks to see if <code>balance</code> is at least as large as the requested <code>amount</code>. If so, <code>withdraw</code> decrements <code>balance</code> by <code>amount</code> and returns the new value of <code>balance</code>. Otherwise, <code>withdraw</code> returns the <em>Insufficient funds</em> message. Here are the definitions of <code>balance</code> and <code>withdraw</code>:
 
@@ -68,7 +68,7 @@ C.no_output_frozen_prompt("scheme-decrement-balance");
 C.no_output_frozen_prompt("scheme-set-syntax");
 </script>
 
-<p> Here &lt;name> is a symbol and &lt;new-value&gt; is any expression. <code>Set!</code> changes &lt;name> so that its value is the result obtained by evaluating &lt;new-value&gt;. In the case at hand, we are changing <code>balance</code> so that its new value will be the result of subtracting <code>amount</code> from the previous value of <code>balance</code>.<a name="footnote_link_3-2" class="footnote_link" href="#footnote_3-2">2</a>
+<p> Here &lt;name> is a symbol and &lt;new-value&gt; is any expression. <code>Set!</code> changes &lt;name> so that its value is the result obtained by evaluating &lt;new-value&gt;. In the case at hand, we are changing <code>balance</code> so that its new value will be the result of subtracting <code>amount</code> from the previous value of <code>balance</code>.<a id="footnote_link_3-2" class="footnote_link" href="#footnote_3-2">2</a>
 
 <p> <code>withdraw</code> also uses the <code>begin</code> special form to cause two expressions to be evaluated in the case where the <code>if</code> test is true: first decrementing <code>balance</code> and then returning the value of <code>balance</code>. In general, evaluating the expression
 
@@ -79,7 +79,7 @@ C.no_output_frozen_prompt("scheme-set-syntax");
 C.no_output_frozen_prompt("scheme-begin-syntax");
 </script>
 
-<p> causes the expressions <code><em>&lt;exp_1&gt;</em></code> through <code><em>&lt;exp_k&gt;</em></code> to be evaluated in sequence and the value of the final expression &lt;exp_k&gt; to be returned as the value of the entire <code>begin</code> form.<a name="footnote_link_3-3" class="footnote_link" href="#footnote_3-3">3</a>
+<p> causes the expressions <code><em>&lt;exp_1&gt;</em></code> through <code><em>&lt;exp_k&gt;</em></code> to be evaluated in sequence and the value of the final expression &lt;exp_k&gt; to be returned as the value of the entire <code>begin</code> form.<a id="footnote_link_3-3" class="footnote_link" href="#footnote_3-3">3</a>
 
 <p> Although <code>withdraw</code> works as desired, the variable <code>balance</code> presents a problem. As specified above, <code>balance</code> is a name defined in the global environment and is freely accessible to be examined or modified by any procedure. It would be much better if we could somehow make <code>balance</code> internal to <code>withdraw</code>, so that <code>withdraw</code> would be the only procedure that could access <code>balance</code> directly and any other procedure could access <code>balance</code> only indirectly (through calls to <code>withdraw</code>). This would more accurately model the notion that <code>balance</code> is a local state variable used by <code>withdraw</code> to keep track of the state of the account.
 
@@ -98,11 +98,11 @@ C.no_output_frozen_prompt("scheme-begin-syntax");
 C.prompt("scheme-define-new-withdraw");
 </script>
 
-<p> What we have done here is use <code>let</code> to establish an environment with a local variable <code>balance</code>, bound to the initial value 100. Within this local environment, we use <code>lambda</code> to create a procedure that takes <code>amount</code> as an argument and behaves like our previous <code>withdraw</code> procedure. This procedure &ndash; returned as the result of evaluating the <code>let</code> expression &ndash; is <code>new-withdraw</code>, which behaves in precisely the same way as <code>withdraw</code> but whose variable <code>balance</code> is not accessible by any other procedure.<a name="footnote_link_3-4" class="footnote_link" href="#footnote_3-4">4</a>
+<p> What we have done here is use <code>let</code> to establish an environment with a local variable <code>balance</code>, bound to the initial value 100. Within this local environment, we use <code>lambda</code> to create a procedure that takes <code>amount</code> as an argument and behaves like our previous <code>withdraw</code> procedure. This procedure &ndash; returned as the result of evaluating the <code>let</code> expression &ndash; is <code>new-withdraw</code>, which behaves in precisely the same way as <code>withdraw</code> but whose variable <code>balance</code> is not accessible by any other procedure.<a id="footnote_link_3-4" class="footnote_link" href="#footnote_3-4">4</a>
 
 <p> Combining <code>set!</code> with local variables is the general programming technique we will use for constructing computational objects with local state. Unfortunately, using this technique raises a serious problem: When we first introduced procedures, we also introduced the substitution model of evaluation (section <a href="1-1-elements.html">1.1.5</a>) to provide an interpretation of what procedure application means. We said that applying a procedure should be interpreted as evaluating the body of the procedure with the formal parameters replaced by their values. The trouble is that, as soon as we introduce assignment into our language, substitution is no longer an adequate model of procedure application. (We will see why this is so in section <a href="3-1-assignment.html">3.1.3</a>.)  As a consequence, we technically have at this point no way to understand why the <code>new-withdraw</code> procedure behaves as claimed above. In order to really understand a procedure such as <code>new-withdraw</code>, we will need to develop a new model of procedure application. In section <a href="3-2-environment.html">3.2</a> we will introduce such a model, together with an explanation of <code>set!</code> and local variables. First, however, we examine some variations on the theme established by <code>new-withdraw</code>.
 
-<p> The following procedure, <code>make-withdraw</code>, creates ``withdrawal processors.''  The formal parameter <code>balance</code> in <code>make-withdraw</code> specifies the initial amount of money in the account.<a name="footnote_link_3-5" class="footnote_link" href="#footnote_3-5">5</a>
+<p> The following procedure, <code>make-withdraw</code>, creates ``withdrawal processors.''  The formal parameter <code>balance</code> in <code>make-withdraw</code> specifies the initial amount of money in the account.<a id="footnote_link_3-5" class="footnote_link" href="#footnote_3-5">5</a>
 
 <div id="scheme-define-make-withdraw">
 (define (make-withdraw balance)
@@ -264,7 +264,7 @@ x_3 = (rand-update x_2)
 C.no_output_frozen_prompt("scheme-rand-update");
 </script>
 
-<p> then the sequence of values $x_1, x_2, x_3, \ldots$ will have the desired statistical properties.<a name="footnote_link_3-6" class="footnote_link" href="#footnote_3-6">6</a>
+<p> then the sequence of values $x_1, x_2, x_3, \ldots$ will have the desired statistical properties.<a id="footnote_link_3-6" class="footnote_link" href="#footnote_3-6">6</a>
 
 <p> We can implement <code>rand</code> as a procedure with a local state variable $x$ that is initialized to some fixed value <code>random-init</code>. Each call to <code>rand</code> computes <code>rand-update</code> of the current value of $x$, returns this as the random number, and also stores this as the new value of $x$.
 
@@ -290,7 +290,7 @@ C.prompt("scheme-define-rand", ["scheme-hidden-define-rand-update-init"]);
 
 <p> Of course, we could generate the same sequence of random numbers without using assignment by simply calling <code>rand-update</code> directly. However, this would mean that any part of our program that used random numbers would have to explicitly remember the current value of <code>x</code> to be passed as an argument to <code>rand-update</code>. To realize what an annoyance this would be, consider using random numbers to implement a technique called <em>Monte Carlo simulation</em> .
 
-<p> The Monte Carlo method consists of choosing sample experiments at random from a large set and then making deductions on the basis of the probabilities estimated from tabulating the results of those experiments. For example, we can approximate $\pi$ using the fact that $\frac{6}{\pi^2}$ is the probability that two integers chosen at random will have no factors in common; that is, that their greatest common divisor will be $1$.<a name="footnote_link_3-7" class="footnote_link" href="#footnote_3-7">7</a> To obtain the approximation to $\pi$, we perform a large number of experiments. In each experiment we choose two integers at random and perform a test to see if their GCD is $1$. The fraction of times that the test is passed gives us our estimate of $\frac{6}{\pi^2}$, and from this we obtain our approximation to $\pi$.
+<p> The Monte Carlo method consists of choosing sample experiments at random from a large set and then making deductions on the basis of the probabilities estimated from tabulating the results of those experiments. For example, we can approximate $\pi$ using the fact that $\frac{6}{\pi^2}$ is the probability that two integers chosen at random will have no factors in common; that is, that their greatest common divisor will be $1$.<a id="footnote_link_3-7" class="footnote_link" href="#footnote_3-7">7</a> To obtain the approximation to $\pi$, we perform a large number of experiments. In each experiment we choose two integers at random and perform a test to see if their GCD is $1$. The fraction of times that the test is passed gives us our estimate of $\frac{6}{\pi^2}$, and from this we obtain our approximation to $\pi$.
 
 <p> The heart of our program is a procedure <code>monte-carlo</code>, which takes as arguments the number of times to try an experiment, together with the experiment, represented as a no-argument procedure that will return either true or false each time it is run. <code>monte-carlo</code> runs the experiment for the designated number of trials and returns a number telling the fraction of the trials in which the experiment was found to be true.
 
@@ -365,7 +365,7 @@ C.prompt("scheme-define-monte-carlo-with-rand", ["scheme-hidden-define-rand-upda
 
 <p> Implement Monte Carlo integration as a procedure <code>estimate-integral</code> that takes as arguments a predicate <code>P</code>, upper and lower bounds <code>x1</code>, <code>x2</code>, <code>y1</code>, and <code>y2</code> for the rectangle, and the number of trials to perform in order to produce the estimate. Your procedure should use the same <code>monte-carlo</code> procedure that was used above to estimate [pi]. Use your <code>estimate-integral</code> to produce an estimate of [pi] by measuring the area of a unit circle.
 
-<p> You will find it useful to have a procedure that returns a number chosen at random from a given range. The following <code>random-in-range</code> procedure implements this in terms of the <code>random</code> procedure used in section <a href="1-2-procedures.html">1.2.6</a>, which returns a nonnegative number less than its input.<a name="footnote_link_3-8" class="footnote_link" href="#footnote_3-8">8</a>
+<p> You will find it useful to have a procedure that returns a number chosen at random from a given range. The following <code>random-in-range</code> procedure implements this in terms of the <code>random</code> procedure used in section <a href="1-2-procedures.html">1.2.6</a>, which returns a nonnegative number less than its input.<a id="footnote_link_3-8" class="footnote_link" href="#footnote_3-8">8</a>
 
 <div id="scheme-define-random-in-range">
 (define (random-in-range low high)
@@ -483,7 +483,7 @@ C.no_output_frozen_prompt("scheme-decrementer-final");
 C.no_output_frozen_prompt("scheme-make-simplified-withdraw-25-20");
 </script>
 
-<p> We first simplify the operator by substituting 25 for <code>balance</code> in the body of <code>make-simplified-withdraw</code>. This reduces the expression to <a name="footnote_link_3-9" class="footnote_link" href="#footnote_3-9">9</a>
+<p> We first simplify the operator by substituting 25 for <code>balance</code> in the body of <code>make-simplified-withdraw</code>. This reduces the expression to <a id="footnote_link_3-9" class="footnote_link" href="#footnote_3-9">9</a>
 
 <div id="scheme-lambda-make-simplified-withdraw">
 ((lambda (amount) (set! balance (- 25 amount)) 25) 20)
@@ -570,7 +570,7 @@ C.prompt("scheme-define-peter-paul-acc", ["scheme-define-make-account"]);
 C.prompt("scheme-define-peter-as-paul-acc", ["scheme-define-make-account"]);
 </script>
 
-<p> In the first situation, the two bank accounts are distinct. Transactions made by Peter will not affect Paul's account, and vice versa. In the second situation, however, we have defined <code>paul-acc</code> to be <em>the same thing</em> as <code>peter-acc</code>. In effect, Peter and Paul now have a joint bank account, and if Peter makes a withdrawal from <code>peter-acc</code> Paul will observe less money in <code>paul-acc</code>. These two similar but distinct situations can cause confusion in building computational models. With the shared account, in particular, it can be especially confusing that there is one object (the bank account) that has two different names (<code>peter-acc</code> and <code>paul-acc</code>); if we are searching for all the places in our program where <code>paul-acc</code> can be changed, we must remember to look also at things that change <code>peter-acc</code>.<a name="footnote_link_3-10" class="footnote_link" href="#footnote_3-10">10</a>
+<p> In the first situation, the two bank accounts are distinct. Transactions made by Peter will not affect Paul's account, and vice versa. In the second situation, however, we have defined <code>paul-acc</code> to be <em>the same thing</em> as <code>peter-acc</code>. In effect, Peter and Paul now have a joint bank account, and if Peter makes a withdrawal from <code>peter-acc</code> Paul will observe less money in <code>paul-acc</code>. These two similar but distinct situations can cause confusion in building computational models. With the shared account, in particular, it can be especially confusing that there is one object (the bank account) that has two different names (<code>peter-acc</code> and <code>paul-acc</code>); if we are searching for all the places in our program where <code>paul-acc</code> can be changed, we must remember to look also at things that change <code>peter-acc</code>.<a id="footnote_link_3-10" class="footnote_link" href="#footnote_3-10">10</a>
 
 <p> With reference to the above remarks on "sameness" and "change," observe that if Peter and Paul could only examine their bank balances, and could not perform operations that changed the balance, then the issue of whether the two accounts are distinct would be moot. In general, so long as we never modify data objects, we can regard a compound data object to be precisely the totality of its pieces. For example, a rational number is determined by giving its numerator and its denominator. But this view is no longer valid in the presence of change, where a compound data object has an ``identity'' that is something different from the pieces of which it is composed. A bank account is still ``the same'' bank account even if we change the balance by making a withdrawal; conversely, we could have two different bank accounts with the same state information. This complication is a consequence, not of our programming language, but of our perception of a bank account as an object. We do not, for example, ordinarily regard a rational number as a changeable object with identity, such that we could change the numerator and still have ``the same''rational number.
 
@@ -619,7 +619,7 @@ C.prompt("scheme-define-factorial-imperative");
 C.no_output_frozen_prompt("scheme-wrong-order-assign-factorial");
 </script>
 
-<p> would have produced a different, incorrect result. In general, programming with assignment forces us to carefully consider the relative orders of the assignments to make sure that each statement is using the correct version of the variables that have been changed. This issue simply does not arise in functional programs.<a name="footnote_link_3-11" class="footnote_link" href="#footnote_3-11">11</a>
+<p> would have produced a different, incorrect result. In general, programming with assignment forces us to carefully consider the relative orders of the assignments to make sure that each statement is using the correct version of the variables that have been changed. This issue simply does not arise in functional programs.<a id="footnote_link_3-11" class="footnote_link" href="#footnote_3-11">11</a>
 
 <p> The complexity of imperative programs becomes even worse if we consider applications in which several processes execute concurrently. We will return to this in section <a href="3-4-concurrency.html">3.4</a>. First, however, we will address the issue of providing a computational model for expressions that involve assignment, and explore the uses of objects with local state in designing simulations.
 

@@ -78,7 +78,7 @@ C.prompt("scheme-define-arith-rat", ["scheme-define-rat"]);
 
 <h4> Pairs </h4>
 
-<p> To enable us to implement the concrete level of our data abstraction, our language provides a compound structure called a <em>pair</em>, which can be constructed with the primitive procedure <code>cons</code>. This procedure takes two arguments and returns a compound data object that contains the two arguments as parts. Given a pair, we can extract the parts using the primitive procedures <code>car</code> and <code>cdr</code>. <a name="footnote_link_2-2" class="footnote_link" href="#footnote_2-2">2</a> Thus, we can use <code>cons</code>, <code>car</code>, and <code>cdr</code> as follows:
+<p> To enable us to implement the concrete level of our data abstraction, our language provides a compound structure called a <em>pair</em>, which can be constructed with the primitive procedure <code>cons</code>. This procedure takes two arguments and returns a compound data object that contains the two arguments as parts. Given a pair, we can extract the parts using the primitive procedures <code>car</code> and <code>cdr</code>. <a id="footnote_link_2-2" class="footnote_link" href="#footnote_2-2">2</a> Thus, we can use <code>cons</code>, <code>car</code>, and <code>cdr</code> as follows:
 
 <div id="scheme-define-x-cons-1-2">
 (define x (cons 1 2))
@@ -134,7 +134,7 @@ C.prompt("scheme-car-cdr-z", ["scheme-define-xyz"]);
 
 <h4> Representing rational numbers </h4>
 
-<p> Pairs offer a natural way to complete the rational-number system. Simply represent a rational number as a pair of two integers: a numerator and a denominator. Then <code>make-rat, numer,</code> and <code>denom</code> are readily implemented as follows:<a name="footnote_link_2-3" class="footnote_link" href="#footnote_2-3">3</a>
+<p> Pairs offer a natural way to complete the rational-number system. Simply represent a rational number as a pair of two integers: a numerator and a denominator. Then <code>make-rat, numer,</code> and <code>denom</code> are readily implemented as follows:<a id="footnote_link_2-3" class="footnote_link" href="#footnote_2-3">3</a>
 
 <div id="scheme-define-rat">
 (define (make-rat n d) (cons n d))
@@ -145,7 +145,7 @@ C.prompt("scheme-car-cdr-z", ["scheme-define-xyz"]);
 C.prompt("scheme-define-rat");
 </script>
 
-<p> Also, in order to display the results of our computations, we can print rational numbers by printing the numerator, a slash, and the denominator:<a name="footnote_link_2-4" class="footnote_link" href="#footnote_2-4">4</a>
+<p> Also, in order to display the results of our computations, we can print rational numbers by printing the numerator, a slash, and the denominator:<a id="footnote_link_2-4" class="footnote_link" href="#footnote_2-4">4</a>
 
 <div id="scheme-define-print-rat">
 (define (print-rat x)
@@ -313,7 +313,7 @@ $$
 \frac{\text{(numer x)}}{\text{(denom x)}} = \frac{n}{d}
 $$
 
-<p> In fact, this is the only condition <code>make-rat</code>, <code>numer</code>, and <code>denom</code> must fulfill in order to form a suitable basis for a rational-number representation. In general, we can think of data as defined by some collection of selectors and constructors, together with specified conditions that these procedures must fulfill in order to be a valid representation. <a name="footnote_link_2-5" class="footnote_link" href="#footnote_2-5">5</a>
+<p> In fact, this is the only condition <code>make-rat</code>, <code>numer</code>, and <code>denom</code> must fulfill in order to form a suitable basis for a rational-number representation. In general, we can think of data as defined by some collection of selectors and constructors, together with specified conditions that these procedures must fulfill in order to be a valid representation. <a id="footnote_link_2-5" class="footnote_link" href="#footnote_2-5">5</a>
 
 <p> This point of view can serve to define not only "high-level" data objects, such as rational numbers, but lower-level objects as well. Consider the notion of a pair, which we used in order to define our rational numbers. We never actually said what a pair was, only that the language supplied procedures <code>cons</code>, <code>car</code>, and <code>cdr</code> for operating on pairs. But the only thing we need to know about these three operations is that if we glue two objects together using <code>cons</code> we can retrieve the objects using <code>car</code> and <code>cdr</code>. That is, the operations satisfy the condition that, for any objects <code>x</code> and <code>y</code>, if <code>z</code> is <code>(cons x y)</code> then <code>(car z)</code> is <code>x</code> and <code>(cdr z)</code> is <code>y</code>. Indeed, we mentioned that these three procedures are included as primitives in our language. However, any triple of procedures that satisfies the above condition can be used as the basis for implementing pairs. This point is illustrated strikingly by the fact that we could implement <code>cons</code>, <code>car</code>, and <code>cdr</code> without using any data structures at all but only using procedures. Here are the definitions:
 

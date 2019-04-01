@@ -35,9 +35,9 @@ C.hidden_prompt("scheme-define-square");
 
 <p style="text-align:center"> <b>Figure 2.3:</b> Two ways to combine 1, 2, 3, and 4 using pairs.
 
-<p> The ability to create pairs whose elements are pairs is the essence of list structure's importance as a representational tool. We refer to this ability as the <code>closure property</code>  of <code>cons</code>. In general, an operation for combining data objects satisfies the closure property if the results of combining things with that operation can themselves be combined using the same operation.<a name="footnote_link_2-6" class="footnote_link" href="#footnote_2-6">6</a> Closure is the key to power in any means of combination because it permits us to create <code>hierarchical</code>  structures---structures made up of parts, which themselves are made up of parts, and so on.
+<p> The ability to create pairs whose elements are pairs is the essence of list structure's importance as a representational tool. We refer to this ability as the <code>closure property</code>  of <code>cons</code>. In general, an operation for combining data objects satisfies the closure property if the results of combining things with that operation can themselves be combined using the same operation.<a id="footnote_link_2-6" class="footnote_link" href="#footnote_2-6">6</a> Closure is the key to power in any means of combination because it permits us to create <code>hierarchical</code>  structures---structures made up of parts, which themselves are made up of parts, and so on.
 
-<p> From the outset of Chapter 1, we've made essential use of closure in dealing with procedures, because all but the very simplest programs rely on the fact that the elements of a combination can themselves be combinations. In this section, we take up the consequences of closure for compound data. We describe some conventional techniques for using pairs to represent sequences and trees, and we exhibit a graphics language that illustrates closure in a vivid way.<a name="footnote_link_2-7" class="footnote_link" href="#footnote_2-7">7</a>
+<p> From the outset of Chapter 1, we've made essential use of closure in dealing with procedures, because all but the very simplest programs rely on the fact that the elements of a combination can themselves be combinations. In this section, we take up the consequences of closure for compound data. We describe some conventional techniques for using pairs to represent sequences and trees, and we exhibit a graphics language that illustrates closure in a vivid way.<a id="footnote_link_2-7" class="footnote_link" href="#footnote_2-7">7</a>
 
 <h3 id="sec_2.2.1"> 2.2.1 Representing Sequences </h3>
 
@@ -57,7 +57,7 @@ C.hidden_prompt("scheme-define-square");
 C.prompt("scheme-cons-1-2-3-4");
 </script>
 
-<p> Such a sequence of pairs, formed by nested <code>cons</code>es, is called a <em> list </em>  , and Scheme provides a primitive called <code>list</code> to help in constructing lists.<a name="footnote_link_2-8" class="footnote_link" href="#footnote_2-8">8</a> The above sequence could be produced by <code>(list 1 2 3 4)</code>. In general,
+<p> Such a sequence of pairs, formed by nested <code>cons</code>es, is called a <em> list </em>  , and Scheme provides a primitive called <code>list</code> to help in constructing lists.<a id="footnote_link_2-8" class="footnote_link" href="#footnote_2-8">8</a> The above sequence could be produced by <code>(list 1 2 3 4)</code>. In general,
 
 <div id="scheme-list-syntax">
 (list &lt;a_1&gt; &lt;a_2&gt; ... &lt;a_n&gt;)
@@ -100,7 +100,7 @@ C.prompt("scheme-test-one-through-four", ["scheme-define-one-through-four"]);
 
 <p> Be careful not to confuse the expression <code>(list 1 2 3 4)</code> with the list <code>(1 2 3 4)</code>, which is the result obtained when the expression is evaluated. Attempting to evaluate the expression <code>(1 2 3 4)</code> will signal an error when the interpreter tries to apply the procedure <code>1</code> to arguments <code>2</code>, <code>3</code>, and <code>4</code>.
 
-<p> We can think of <code>car</code> as selecting the first item in the list, and of <code>cdr</code> as selecting the sublist consisting of all but the first item. Nested applications of <code>car</code> and <code>cdr</code> can be used to extract the second, third, and subsequent items in the list.<a name="footnote_link_2-9" class="footnote_link" href="#footnote_2-9">9</a> The constructor <code>cons</code> makes a list like the original one, but with an additional item at the beginning.
+<p> We can think of <code>car</code> as selecting the first item in the list, and of <code>cdr</code> as selecting the sublist consisting of all but the first item. Nested applications of <code>car</code> and <code>cdr</code> can be used to extract the second, third, and subsequent items in the list.<a id="footnote_link_2-9" class="footnote_link" href="#footnote_2-9">9</a> The constructor <code>cons</code> makes a list like the original one, but with an additional item at the beginning.
 
 <div id="scheme-car-one-through-four">
 (car one-through-four)
@@ -145,7 +145,7 @@ C.prompt("scheme-cons-10-one-through-four", ["scheme-define-one-through-four"]);
 C.prompt("scheme-cons-5-one-through-four", ["scheme-define-one-through-four"]);
 </script>
 
-<p> The value of <code>nil</code>, used to terminate the chain of pairs, can be thought of as a sequence of no elements, the <code>empty list</code>  . The word <code>nil</code>  is a contraction of the Latin word <em>nihil</em>, which means "nothing".<a name="footnote_link_2-10" class="footnote_link" href="#footnote_2-10">10</a>
+<p> The value of <code>nil</code>, used to terminate the chain of pairs, can be thought of as a sequence of no elements, the <code>empty list</code>  . The word <code>nil</code>  is a contraction of the Latin word <em>nihil</em>, which means "nothing".<a id="footnote_link_2-10" class="footnote_link" href="#footnote_2-10">10</a>
 
 <h4> List operations </h4>
 
@@ -488,7 +488,7 @@ C.make_static("scheme-define-dotted-tail-syntax-one");
 C.no_output_frozen_prompt("scheme-g");
 </script>
 
-<p> then in the body of <code>g</code>, <code>w</code> will be the list <code>(1 2 3 4 5 6)</code>.<a name="footnote_link_2-11" class="footnote_link" href="#footnote_2-11">11</a>
+<p> then in the body of <code>g</code>, <code>w</code> will be the list <code>(1 2 3 4 5 6)</code>.<a id="footnote_link_2-11" class="footnote_link" href="#footnote_2-11">11</a>
 
 <p> Use this notation to write a procedure <code>same-parity</code> that takes one or more integers and returns a list of all the arguments that have the same even-odd parity as the first argument. For example,
 
@@ -547,7 +547,7 @@ C.editor_of["scheme-ex-define-same-parity"].setOption("onBlur", function(){
 C.prompt("scheme-define-scale-list");
 </script>
 
-<p> We can abstract this general idea and capture it as a common pattern expressed as a higher-order procedure, just as in section <a href="1-3-hop.html">1.3</a>. The higher-order procedure here is called <code>map</code>. <code>map</code> takes as arguments a procedure of one argument and a list, and returns a list of the results produced by applying the procedure to each element in the list:<a name="footnote_link_2-12" class="footnote_link" href="#footnote_2-12">12</a>
+<p> We can abstract this general idea and capture it as a common pattern expressed as a higher-order procedure, just as in section <a href="1-3-hop.html">1.3</a>. The higher-order procedure here is called <code>map</code>. <code>map</code> takes as arguments a procedure of one argument and a list, and returns a list of the results produced by applying the procedure to each element in the list:<a id="footnote_link_2-12" class="footnote_link" href="#footnote_2-12">12</a>
 
 <div id="scheme-define-map">
 (define (map proc items)
@@ -866,7 +866,7 @@ C.prompt("scheme-count-leaves-list-x-x", ["scheme-define-count-leaves", "scheme-
 </li>
 </ul>
 
-<p> To aid in writing recursive procedures on trees, Scheme provides the primitive predicate <code>pair?</code>, which tests whether its argument is a pair. Here is the complete procedure:<a name="footnote_link_2-13" class="footnote_link" href="#footnote_2-13">13</a>
+<p> To aid in writing recursive procedures on trees, Scheme provides the primitive predicate <code>pair?</code>, which tests whether its argument is a pair. Here is the complete procedure:<a id="footnote_link_2-13" class="footnote_link" href="#footnote_2-13">13</a>
 
 <div id="scheme-define-count-leaves">
 (define (count-leaves x)
@@ -1677,7 +1677,7 @@ C.prompt("scheme-define-enumerate-interval");
 C.prompt("scheme-enumerate-interval-2-7", ["scheme-define-enumerate-interval"]);
 </script>
 
-<p> To enumerate the leaves of a tree, we can use<a name="footnote_link_2-14" class="footnote_link" href="#footnote_2-14">14</a>
+<p> To enumerate the leaves of a tree, we can use<a id="footnote_link_2-14" class="footnote_link" href="#footnote_2-14">14</a>
 
 <div id="scheme-define-enumerate-tree">
 (define (enumerate-tree tree)
@@ -1801,7 +1801,7 @@ C.prompt("scheme-product-of-squares-of-odd-elements-1-to-5", ["scheme-define-pro
 C.prompt("scheme-define-salary-of-highest-paid-programmer");
 </script>
 
-<p> These examples give just a hint of the vast range of operations that can be expressed as sequence operations.<a name="footnote_link_2-15" class="footnote_link" href="#footnote_2-15">15</a>
+<p> These examples give just a hint of the vast range of operations that can be expressed as sequence operations.<a id="footnote_link_2-15" class="footnote_link" href="#footnote_2-15">15</a>
 
 <p> Sequences, implemented here as lists, serve as a conventional interface that permits us to combine processing modules. Additionally, when we uniformly represent structures as sequences, we have localized the data-structure dependencies in our programs to a small number of sequence operations. By changing these, we can experiment with alternative representations of sequences, while leaving the overall design of our programs intact. We will exploit this capability in section <a href="3-5-streams.html">3.5</a>, when we generalize the sequence-processing paradigm to admit infinite sequences.
 
@@ -1926,7 +1926,7 @@ $$
 $$
 
 
-<p> In other words, we start with $a_n$, multiply by $x$, add $a_{n-1}$, multiply by $x$, and so on, until we reach $a_0$.<a name="footnote_link_2-16" class="footnote_link" href="#footnote_2-16">16</a>
+<p> In other words, we start with $a_n$, multiply by $x$, add $a_{n-1}$, multiply by $x$, and so on, until we reach $a_0$.<a id="footnote_link_2-16" class="footnote_link" href="#footnote_2-16">16</a>
 
 <p> Fill in the following template to produce a procedure that evaluates a polynomial using Horner's rule. Assume that the coefficients of the polynomial are arranged in a sequence, from $a_0$ through $a_n$.
 
@@ -2097,7 +2097,7 @@ $$
 </li>
 </ul>
 
-<p> We can define the dot product as<a name="footnote_link_2-17" class="footnote_link" href="#footnote_2-17">17</a>
+<p> We can define the dot product as<a id="footnote_link_2-17" class="footnote_link" href="#footnote_2-17">17</a>
 
 <div id="scheme-define-dot-product">
 (define (dot-product v w)
@@ -2194,7 +2194,7 @@ C.prompt("scheme-ex-define-reverse-with-foldr");
 
 <h4> Nested Mappings </h4>
 
-<p> We can extend the sequence paradigm to include many computations that are commonly expressed using nested loops.<a name="footnote_link_2-18" class="footnote_link" href="#footnote_2-18">18</a> Consider this problem: Given a positive integer n, find all ordered pairs of distinct positive integers i and j, where 1 &lt;= j&lt; i&lt;= n, such that i + j is prime. For example, if n is 6, then the pairs are the following:
+<p> We can extend the sequence paradigm to include many computations that are commonly expressed using nested loops.<a id="footnote_link_2-18" class="footnote_link" href="#footnote_2-18">18</a> Consider this problem: Given a positive integer n, find all ordered pairs of distinct positive integers i and j, where 1 &lt;= j&lt; i&lt;= n, such that i + j is prime. For example, if n is 6, then the pairs are the following:
 
 \begin{array}{c|ccc}
 i &amp; 2 &amp; 3 &amp; 4 &amp; 4 &amp; 5 &amp; 6 &amp; 6 \\
@@ -2206,7 +2206,7 @@ i+j &amp; 3 &amp; 5 &amp; 5 &amp; 7 &amp; 7 &amp; 7 &amp; 11
 
 <p> A natural way to organize this computation is to generate the sequence of all ordered pairs of positive integers less than or equal to $n$, filter to select those pairs whose sum is prime, and then, for each pair $(i, j)$ that passes through the filter, produce the triple $(i,j,i+j)$.
 
-<p> Here is a way to generate the sequence of pairs: For each integer $i &lt;= n$, enumerate the integers $j&lt;i$, and for each such $i$ and $j$ generate the pair $(i,j)$. In terms of sequence operations, we map along the sequence <code>(enumerate-interval 1 n)</code>. For each $i$ in this sequence, we map along the sequence <code>(enumerate-interval 1 (- i 1))</code>. For each $j$ in this latter sequence, we generate the pair <code>(list i j)</code>. This gives us a sequence of pairs for each $i$. Combining all the sequences for all the $i$ (by accumulating with <code>append</code>) produces the required sequence of pairs:<a name="footnote_link_2-19" class="footnote_link" href="#footnote_2-19">19</a>
+<p> Here is a way to generate the sequence of pairs: For each integer $i &lt;= n$, enumerate the integers $j&lt;i$, and for each such $i$ and $j$ generate the pair $(i,j)$. In terms of sequence operations, we map along the sequence <code>(enumerate-interval 1 n)</code>. For each $i$ in this sequence, we map along the sequence <code>(enumerate-interval 1 (- i 1))</code>. For each $j$ in this latter sequence, we generate the pair <code>(list i j)</code>. This gives us a sequence of pairs for each $i$. Combining all the sequences for all the $i$ (by accumulating with <code>append</code>) produces the required sequence of pairs:<a id="footnote_link_2-19" class="footnote_link" href="#footnote_2-19">19</a>
 
 <div id="scheme-define-pairs-sum-to-prime">
 (define n 6)
@@ -2287,7 +2287,7 @@ C.prompt("scheme-define-make-pair-sum");
 C.prompt("scheme-define-prime-sum-pairs", ["scheme-define-map", "scheme-define-filter", "scheme-define-flatmap", "scheme-define-enumerate-interval"]);
 </script>
 
-<p> Nested mappings are also useful for sequences other than those that enumerate intervals. Suppose we wish to generate all the permutations of a set $S$; that is, all the ways of ordering the items in the set. For instance, the permutations of $\{1,2,3\}$ are $\{1,2,3\}$, $\{1,3,2\}$, $\{2,1,3\}$, $\{2,3,1\}$, $\{3,1,2\}$, and $\{3,2,1\}$. Here is a plan for generating the permutations of $S$: For each item $x$ in $S$, recursively generate the sequence of permutations of $S - x$,<a name="footnote_link_2-20" class="footnote_link" href="#footnote_2-20">20</a> and adjoin $x$ to the front of each one. This yields, for each x in S, the sequence of permutations of S that begin with $x$. Combining these sequences for all $x$ gives all the permutations of $S$:<a name="footnote_link_2-21" class="footnote_link" href="#footnote_2-21">21</a>
+<p> Nested mappings are also useful for sequences other than those that enumerate intervals. Suppose we wish to generate all the permutations of a set $S$; that is, all the ways of ordering the items in the set. For instance, the permutations of $\{1,2,3\}$ are $\{1,2,3\}$, $\{1,3,2\}$, $\{2,1,3\}$, $\{2,3,1\}$, $\{3,1,2\}$, and $\{3,2,1\}$. Here is a plan for generating the permutations of $S$: For each item $x$ in $S$, recursively generate the sequence of permutations of $S - x$,<a id="footnote_link_2-20" class="footnote_link" href="#footnote_2-20">20</a> and adjoin $x$ to the front of each one. This yields, for each x in S, the sequence of permutations of S that begin with $x$. Combining these sequences for all $x$ gives all the permutations of $S$:<a id="footnote_link_2-21" class="footnote_link" href="#footnote_2-21">21</a>
 
 <div id="scheme-define-permutations">
 (define (permutations s)
@@ -2385,7 +2385,7 @@ C.no_output_frozen_prompt("scheme-louise-queens-flatmap");
 
 <p> TODO: eventually I hope to implement this picture language in javascript. However it is not done yet.
 
-<p> This section presents a simple language for drawing pictures that illustrates the power of data abstraction and closure, and also exploits higher-order procedures in an essential way. The language is designed to make it easy to experiment with patterns such as the ones in Figure 2-9, which are composed of repeated elements that are shifted and scaled.<a name="footnote_link_2-22" class="footnote_link" href="#footnote_2-22">22</a> In this language, the data objects being combined are represented as procedures rather than as list structure. Just as <code>cons</code>, which satisfies the closure property, allowed us to easily build arbitrarily complicated list structure, the operations in this language, which also satisfy the closure property, allow us to easily build arbitrarily complicated patterns.
+<p> This section presents a simple language for drawing pictures that illustrates the power of data abstraction and closure, and also exploits higher-order procedures in an essential way. The language is designed to make it easy to experiment with patterns such as the ones in Figure 2-9, which are composed of repeated elements that are shifted and scaled.<a id="footnote_link_2-22" class="footnote_link" href="#footnote_2-22">22</a> In this language, the data objects being combined are represented as procedures rather than as list structure. Just as <code>cons</code>, which satisfies the closure property, allowed us to easily build arbitrarily complicated list structure, the operations in this language, which also satisfy the closure property, allow us to easily build arbitrarily complicated patterns.
 
 <p>
 
@@ -2400,7 +2400,7 @@ C.no_output_frozen_prompt("scheme-louise-queens-flatmap");
 
 <p> When we began our study of programming in section <a href="1-1-elements.html">1.1</a>, we emphasized the importance of describing a language by focusing on the language's primitives, its means of combination, and its means of abstraction. We'll follow that framework here.
 
-<p> Part of the elegance of this picture language is that there is only one kind of element, called a <code>painter</code> . A painter draws an image that is shifted and scaled to fit within a designated parallelogram-shaped frame. For example, there's a primitive painter we'll call <code>wave</code> that makes a crude line drawing, as shown in Figure 2-10. The actual shape of the drawing depends on the frame---all four images in Figure 2-10 are produced by the same <code>wave</code> painter, but with respect to four different frames. Painters can be more elaborate than this: The primitive painter called <code>rogers</code> paints a picture of MIT's founder, William Barton Rogers, as shown in Figure 2-11.<a name="footnote_link_2-23" class="footnote_link" href="#footnote_2-23">23</a> The four images in Figure 2-11 are drawn with respect to the same four frames as the <code>wave</code> images in Figure 2-10.
+<p> Part of the elegance of this picture language is that there is only one kind of element, called a <code>painter</code> . A painter draws an image that is shifted and scaled to fit within a designated parallelogram-shaped frame. For example, there's a primitive painter we'll call <code>wave</code> that makes a crude line drawing, as shown in Figure 2-10. The actual shape of the drawing depends on the frame---all four images in Figure 2-10 are produced by the same <code>wave</code> painter, but with respect to four different frames. Painters can be more elaborate than this: The primitive painter called <code>rogers</code> paints a picture of MIT's founder, William Barton Rogers, as shown in Figure 2-11.<a id="footnote_link_2-23" class="footnote_link" href="#footnote_2-23">23</a> The four images in Figure 2-11 are drawn with respect to the same four frames as the <code>wave</code> images in Figure 2-10.
 
 <p> To combine images, we use various operations that construct new painters from given painters. For example, the <code>beside</code> operation takes two painters and produces a new, compound painter that draws the first painter's image in the left half of the frame and the second painter's image in the right half of the frame. Similarly, <code>below</code> takes two painters and produces a compound painter that draws the first painter's image below the second painter's image. Some operations transform a single painter to produce a new painter. For example, <code>flip-vert</code> takes a painter and produces a painter that draws its image upside-down, and <code>flip-horiz</code> produces a painter that draws the original painter's image left-to-right reversed.
 
@@ -2561,7 +2561,7 @@ C.prompt("scheme-define-square-limit");
 C.prompt("scheme-define-square-of-four");
 </script>
 
-<p> Then <code>flipped-pairs</code> can be defined in terms of <code>square-of-four</code> as follows:<a name="footnote_link_2-24" class="footnote_link" href="#footnote_2-24">24</a>
+<p> Then <code>flipped-pairs</code> can be defined in terms of <code>square-of-four</code> as follows:<a id="footnote_link_2-24" class="footnote_link" href="#footnote_2-24">24</a>
 
 <div id="scheme-define-flipped-pairs-with-square-of-four">
 (define (flipped-pairs painter)
@@ -2574,7 +2574,7 @@ C.prompt("scheme-define-flipped-pairs-with-square-of-four");
 </script>
 
 
-<p> and <code>square-limit</code> can be expressed as<a name="footnote_link_2-25" class="footnote_link" href="#footnote_2-25">25</a>
+<p> and <code>square-limit</code> can be expressed as<a id="footnote_link_2-25" class="footnote_link" href="#footnote_2-25">25</a>
 
 <div id="scheme-define-square-limit-with-square-of-four">
 (define (square-limit painter n)
@@ -2618,7 +2618,7 @@ $$
 $$
 
 
-<p> For example, (0,0) is mapped to the origin of the frame, (1,1) to the vertex diagonally opposite the origin, and (0.5,0.5) to the center of the frame. We can create a frame's coordinate map with the following procedure:<a name="footnote_link_2-26" class="footnote_link" href="#footnote_2-26">26</a>
+<p> For example, (0,0) is mapped to the origin of the frame, (1,1) to the vertex diagonally opposite the origin, and (0.5,0.5) to the center of the frame. We can create a frame's coordinate map with the following procedure:<a id="footnote_link_2-26" class="footnote_link" href="#footnote_2-26">26</a>
 
 <div id="scheme-define-frame-coord-map">
 (define (frame-coord-map frame)
@@ -2685,7 +2685,7 @@ C.prompt("scheme-ex-define-make-frame");
 
 <p> A painter is represented as a procedure that, given a frame as argument, draws a particular image shifted and scaled to fit the frame. That is to say, if <code>p</code> is a painter and <code>f</code> is a frame, then we produce <code>p</code>'s image in <code>f</code> by calling <code>p</code> with <code>f</code> as argument.
 
-<p> The details of how primitive painters are implemented depend on the particular characteristics of the graphics system and the type of image to be drawn. For instance, suppose we have a procedure <code>draw-line</code> that draws a line on the screen between two specified points. Then we can create painters for line drawings, such as the <code>wave</code> painter in Figure 2-10, from lists of line segments as follows:<a name="footnote_link_2-27" class="footnote_link" href="#footnote_2-27">27</a>
+<p> The details of how primitive painters are implemented depend on the particular characteristics of the graphics system and the type of image to be drawn. For instance, suppose we have a procedure <code>draw-line</code> that draws a line on the screen between two specified points. Then we can create painters for line drawings, such as the <code>wave</code> painter in Figure 2-10, from lists of line segments as follows:<a id="footnote_link_2-27" class="footnote_link" href="#footnote_2-27">27</a>
 
 <div id="scheme-ex-define-segments-to-painter">
 (define (segments->painter segment-list)
@@ -2703,7 +2703,7 @@ C.prompt("scheme-ex-define-segments-to-painter");
 
 <p> The segments are given using coordinates with respect to the unit square. For each segment in the list, the painter transforms the segment endpoints with the frame coordinate map and draws a line between the transformed points.
 
-<p> Representing painters as procedures erects a powerful abstraction barrier in the picture language. We can create and intermix all sorts of primitive painters, based on a variety of graphics capabilities. The details of their implementation do not matter. Any procedure can serve as a painter, provided that it takes a frame as argument and draws something scaled to fit the frame.<a name="footnote_link_2-28" class="footnote_link" href="#footnote_2-28">28</a>
+<p> Representing painters as procedures erects a powerful abstraction barrier in the picture language. We can create and intermix all sorts of primitive painters, based on a variety of graphics capabilities. The details of their implementation do not matter. Any procedure can serve as a painter, provided that it takes a frame as argument and draws something scaled to fit the frame.<a id="footnote_link_2-28" class="footnote_link" href="#footnote_2-28">28</a>
 
 <div class="exercise" id="thm_2.48">
 <p> <b>Exercise 2.48:</b> A directed line segment in the plane can be represented as a pair of vectors---the vector running from the origin to the start-point of the segment, and the vector running from the origin to the end-point of the segment. Use your vector representation from Exercise 2-46 to define a representation for segments with a constructor <code>make-segment</code> and selectors <code>start-segment</code> and <code>end-segment</code>.
@@ -2780,7 +2780,7 @@ C.prompt("scheme-define-flip-vert");
 C.prompt("scheme-define-shrink-to-upper-right");
 </script>
 
-<p> Other transformations rotate images counterclockwise by 90 degrees<a name="footnote_link_2-29" class="footnote_link" href="#footnote_2-29">29</a>
+<p> Other transformations rotate images counterclockwise by 90 degrees<a id="footnote_link_2-29" class="footnote_link" href="#footnote_2-29">29</a>
 
 <div id="scheme-define-rotate90">
 (define (rotate90 painter)
@@ -2793,7 +2793,7 @@ C.prompt("scheme-define-shrink-to-upper-right");
 C.prompt("scheme-define-rotate90");
 </script>
 
-<p> or squash images towards the center of the frame:<a name="footnote_link_2-30" class="footnote_link" href="#footnote_2-30">30</a>
+<p> or squash images towards the center of the frame:<a id="footnote_link_2-30" class="footnote_link" href="#footnote_2-30">30</a>
 
 <div id="scheme-define-squash-inwards">
 (define (squash-inwards painter)
@@ -2847,7 +2847,7 @@ C.prompt("scheme-define-beside");
 
 <p> We have also obtained a glimpse of another crucial idea about languages and program design. This is the approach of <code>stratified design</code> , the notion that a complex system should be structured as a sequence of levels that are described using a sequence of languages. Each level is constructed by combining parts that are regarded as primitive at that level, and the parts constructed at each level are used as primitives at the next level. The language used at each level of a stratified design has primitives, means of combination, and means of abstraction appropriate to that level of detail.
 
-<p> Stratified design pervades the engineering of complex systems. For example, in computer engineering, resistors and transistors are combined (and described using a language of analog circuits) to produce parts such as and-gates and or-gates, which form the primitives of a language for digital-circuit design.<a name="footnote_link_2-31" class="footnote_link" href="#footnote_2-31">31</a> These parts are combined to build processors, bus structures, and memory systems, which are in turn combined to form computers, using languages appropriate to computer architecture. Computers are combined to form distributed systems, using languages appropriate for describing network interconnections, and so on.
+<p> Stratified design pervades the engineering of complex systems. For example, in computer engineering, resistors and transistors are combined (and described using a language of analog circuits) to produce parts such as and-gates and or-gates, which form the primitives of a language for digital-circuit design.<a id="footnote_link_2-31" class="footnote_link" href="#footnote_2-31">31</a> These parts are combined to build processors, bus structures, and memory systems, which are in turn combined to form computers, using languages appropriate to computer architecture. Computers are combined to form distributed systems, using languages appropriate for describing network interconnections, and so on.
 
 <p> As a tiny example of stratification, our picture language uses primitive elements (primitive painters) that are created using a language that specifies points and lines to provide the lists of line segments for <code>segments->painter</code>, or the shading details for a painter like <code>rogers</code>. The bulk of our description of the picture language focused on combining these primitives, using geometric combiners such as <code>beside</code> and <code>below</code>. We also worked at a higher level, regarding <code>beside</code> and <code>below</code> as primitives to be manipulated in a language whose operations, such as <code>square-of-four</code>, capture common patterns of combining geometric combiners.
 

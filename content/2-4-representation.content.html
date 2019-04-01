@@ -37,7 +37,7 @@
 
 <h3 id="sec_2.4.1"> 2.4.1 Representations for Complex Numbers </h3>
 
-<p> We will develop a system that performs arithmetic operations on complex numbers as a simple but unrealistic example of a program that uses generic operations. We begin by discussing two plausible representations for complex numbers as ordered pairs: rectangular form (real part and imaginary part) and polar form (magnitude and angle).<a name="footnote_link_2-43" class="footnote_link" href="#footnote_2-43">43</a> Section <a href="2-4-representation.html">2.4.2</a> will show how both representations can be made to coexist in a single system through the use of type tags and generic operations.
+<p> We will develop a system that performs arithmetic operations on complex numbers as a simple but unrealistic example of a program that uses generic operations. We begin by discussing two plausible representations for complex numbers as ordered pairs: rectangular form (real part and imaginary part) and polar form (magnitude and angle).<a id="footnote_link_2-43" class="footnote_link" href="#footnote_2-43">43</a> Section <a href="2-4-representation.html">2.4.2</a> will show how both representations can be made to coexist in a single system through the use of type tags and generic operations.
 
 <p> Like rational numbers, complex numbers are naturally represented as ordered pairs. The set of complex numbers can be thought of as a two-dimensional space with two orthogonal axes, the "real" axis and the "imaginary" axis. (See Figure 2-20.)  From this point of view, the complex number $z = x + iy$ (where $i^2 = - 1$) can be thought of as the point in the plane whose real coordinate is $x$ and whose imaginary coordinate is $y$. Addition of complex numbers reduces in this representation to addition of coordinates:
 
@@ -116,7 +116,7 @@ x &amp;= r \cos A  \qquad \qquad r=\sqrt{x^2+y^2} \\
 y &amp;= r \sin A  \qquad \qquad A=\arctan{y,x}
 \end{align}
 
-<p> which relate the real and imaginary parts (x, y) to the magnitude and the angle (r, A).<a name="footnote_link_2-44" class="footnote_link" href="#footnote_2-44">44</a>  Ben's representation is therefore given by the following selectors and constructors:
+<p> which relate the real and imaginary parts (x, y) to the magnitude and the angle (r, A).<a id="footnote_link_2-44" class="footnote_link" href="#footnote_2-44">44</a>  Ben's representation is therefore given by the following selectors and constructors:
 
 <div id="scheme-define-rectangular-selectors">
 (define (real-part z) (car z))
@@ -390,7 +390,7 @@ C.prompt("scheme-define-tagged-constructors");
 C.prompt("scheme-define-install-rectangular-package");
 </script>
 
-<p> Notice that the internal procedures here are the same procedures from section <a href="2-4-representation.html">2.4.1</a> that Ben wrote when he was working in isolation. No changes are necessary in order to interface them to the rest of the system. Moreover, since these procedure definitions are internal to the installation procedure, Ben needn't worry about name conflicts with other procedures outside the rectangular package. To interface these to the rest of the system, Ben installs his <code>real-part</code> procedure under the operation name <code>real-part</code> and the type <code>(rectangular)</code>, and similarly for the other selectors.<a name="footnote_link_2-45" class="footnote_link" href="#footnote_2-45">45</a> The interface also defines the constructors to be used by the external system.<a name="footnote_link_2-46" class="footnote_link" href="#footnote_2-46">46</a> These are identical to Ben's internally defined constructors, except that they attach the tag.
+<p> Notice that the internal procedures here are the same procedures from section <a href="2-4-representation.html">2.4.1</a> that Ben wrote when he was working in isolation. No changes are necessary in order to interface them to the rest of the system. Moreover, since these procedure definitions are internal to the installation procedure, Ben needn't worry about name conflicts with other procedures outside the rectangular package. To interface these to the rest of the system, Ben installs his <code>real-part</code> procedure under the operation name <code>real-part</code> and the type <code>(rectangular)</code>, and similarly for the other selectors.<a id="footnote_link_2-45" class="footnote_link" href="#footnote_2-45">45</a> The interface also defines the constructors to be used by the external system.<a id="footnote_link_2-46" class="footnote_link" href="#footnote_2-46">46</a> These are identical to Ben's internally defined constructors, except that they attach the tag.
 
 <p> Alyssa's polar package is analogous:
 
@@ -426,7 +426,7 @@ C.prompt("scheme-define-install-polar-package");
 
 <p> Even though Ben and Alyssa both still use their original procedures defined with the same names as each other's (e.g., <code>real-part</code>), these definitions are now internal to different procedures (see section <a href="1-1-elements.html">1.1.8</a>), so there is no name conflict.
 
-<p> The complex-arithmetic selectors access the table by means of a general ``operation'' procedure called <code>apply-generic</code>, which applies a generic operation to some arguments. <code>apply-generic</code> looks in the table under the name of the operation and the types of the arguments and applies the resulting procedure if one is present:<a name="footnote_link_2-47" class="footnote_link" href="#footnote_2-47">47</a>
+<p> The complex-arithmetic selectors access the table by means of a general ``operation'' procedure called <code>apply-generic</code>, which applies a generic operation to some arguments. <code>apply-generic</code> looks in the table under the name of the operation and the types of the arguments and applies the resulting procedure if one is present:<a id="footnote_link_2-47" class="footnote_link" href="#footnote_2-47">47</a>
 
 <div id="scheme-defne-apply-generic">
 (define (apply-generic op . args)
@@ -588,7 +588,7 @@ What corresponding changes to the derivative system are required?
 C.prompt("scheme-define-make-intelligent-complex-from-real-imag");
 </script>
 
-<p> The corresponding <code>apply-generic</code> procedure, which applies a generic operation to an argument, now simply feeds the operation's name to the data object and lets the object do the work:<a name="footnote_link_2-48" class="footnote_link" href="#footnote_2-48">48</a>
+<p> The corresponding <code>apply-generic</code> procedure, which applies a generic operation to an argument, now simply feeds the operation's name to the data object and lets the object do the work:<a id="footnote_link_2-48" class="footnote_link" href="#footnote_2-48">48</a>
 
 <div id="scheme-define-message-passing-apply-generic">
 (define (apply-generic op arg) (arg op))

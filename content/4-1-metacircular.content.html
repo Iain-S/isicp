@@ -12,7 +12,7 @@
 <br> <br>
 <h2> The Metacircular Evaluator </h2>
 
-<p> Our evaluator for Lisp will be implemented as a Lisp program. It may seem circular to think about evaluating Lisp programs using an evaluator that is itself implemented in Lisp. However, evaluation is a process, so it is appropriate to describe the evaluation process using Lisp, which, after all, is our tool for describing processes.<a name="footnote_link_1-3" class="footnote_link" href="#footnote_1-3">3</a> An evaluator that is written in the same language that it evaluates is said to be <code>metacircular</code>  .
+<p> Our evaluator for Lisp will be implemented as a Lisp program. It may seem circular to think about evaluating Lisp programs using an evaluator that is itself implemented in Lisp. However, evaluation is a process, so it is appropriate to describe the evaluation process using Lisp, which, after all, is our tool for describing processes.<a id="footnote_link_1-3" class="footnote_link" href="#footnote_1-3">3</a> An evaluator that is written in the same language that it evaluates is said to be <code>metacircular</code>  .
 The metacircular evaluator is essentially a Scheme formulation of the
 environment model of evaluation described in section <a href="3-2-environment.html">3.2</a>. Recall that
 the model has two basic parts:
@@ -27,7 +27,7 @@ the model has two basic parts:
 </li>
 </ul>
 
-<p> These two rules describe the essence of the evaluation process, a basic cycle in which expressions to be evaluated in environments are reduced to procedures to be applied to arguments, which in turn are reduced to new expressions to be evaluated in new environments, and so on, until we get down to symbols, whose values are looked up in the environment, and to primitive procedures, which are applied directly (see Figure 4-1).<a name="footnote_link_1-4" class="footnote_link" href="#footnote_1-4">4</a> This evaluation cycle will be embodied by the interplay between the two critical procedures in the evaluator, <code>eval</code> and <code>apply</code>, which are
+<p> These two rules describe the essence of the evaluation process, a basic cycle in which expressions to be evaluated in environments are reduced to procedures to be applied to arguments, which in turn are reduced to new expressions to be evaluated in new environments, and so on, until we get down to symbols, whose values are looked up in the environment, and to primitive procedures, which are applied directly (see Figure 4-1).<a id="footnote_link_1-4" class="footnote_link" href="#footnote_1-4">4</a> This evaluation cycle will be embodied by the interplay between the two critical procedures in the evaluator, <code>eval</code> and <code>apply</code>, which are
 described in section <a href="4-1-metacircular.html">4.1.1</a> (see Figure 4-1).
 
 <p> The implementation of the evaluator will depend upon procedures that define the <em>syntax</em> of the expressions to be evaluated. We will use data abstraction to make the evaluator independent of the representation of the language. For example, rather than committing to a choice that an assignment is to be represented by a list beginning with the symbol <code>set!</code> we use an abstract predicate <code>assignment?</code> to test for an assignment, and we use abstract selectors <code>assignment-variable</code> and <code>assignment-value</code> to access the parts of an assignment. Implementation of expressions will be described in detail in section <a href="4-1-metacircular.html">4.1.2</a>. There are also operations, described in section <a href="4-1-metacircular.html">4.1.3</a>, that specify the representation of procedures and environments. For example, <code>make-procedure</code> constructs compound procedures, <code>lookup-variable-value</code> accesses the values of variables, and <code>apply-primitive-procedure</code> applies a primitive procedure to a given list of arguments.
@@ -150,7 +150,7 @@ C.prompt("scheme-apply", ["scheme-eval"]);
 
 <h4> Procedure arguments </h4>
 
-<p> When <code>eval</code> processes a procedure application, it uses <code>list-of-values</code> to produce the list of arguments to which the procedure is to be applied. <code>List-of-values</code> takes as an argument the operands of the combination. It evaluates each operand and returns a list of the corresponding values:<a name="footnote_link_1-5" class="footnote_link" href="#footnote_1-5">5</a>
+<p> When <code>eval</code> processes a procedure application, it uses <code>list-of-values</code> to produce the list of arguments to which the procedure is to be applied. <code>List-of-values</code> takes as an argument the operands of the combination. It evaluates each operand and returns a list of the corresponding values:<a id="footnote_link_1-5" class="footnote_link" href="#footnote_1-5">5</a>
 
 <div id="scheme-list-of-values">
 (define (list-of-values exps env)
@@ -178,7 +178,7 @@ C.prompt("scheme-list-of-values");
 C.prompt("scheme-eval-if");
 </script>
 
-<p> The use of <code>true?</code> in <code>eval-if</code> highlights the issue of the connection between an implemented language and an implementation language. The <code>if-predicate</code> is evaluated in the language being implemented and thus yields a value in that language. The interpreter predicate <code>true?</code> translates that value into a value that can be tested by the <code>if</code> in the implementation language: The metacircular representation of truth might not be the same as that of the underlying Scheme.<a name="footnote_link_1-6" class="footnote_link" href="#footnote_1-6">6</a>
+<p> The use of <code>true?</code> in <code>eval-if</code> highlights the issue of the connection between an implemented language and an implementation language. The <code>if-predicate</code> is evaluated in the language being implemented and thus yields a value in that language. The interpreter predicate <code>true?</code> translates that value into a value that can be tested by the <code>if</code> in the implementation language: The metacircular representation of truth might not be the same as that of the underlying Scheme.<a id="footnote_link_1-6" class="footnote_link" href="#footnote_1-6">6</a>
 
 <h4> Sequences </h4>
 
@@ -210,7 +210,7 @@ C.prompt("scheme-eval-assignment");
 </script>
 
 
-<p> Definitions of variables are handled in a similar manner.<a name="footnote_link_1-7" class="footnote_link" href="#footnote_1-7">7</a>
+<p> Definitions of variables are handled in a similar manner.<a id="footnote_link_1-7" class="footnote_link" href="#footnote_1-7">7</a>
 
 <div id="scheme-eval-definition">
 (define (eval-definition exp env)
@@ -224,7 +224,7 @@ C.prompt("scheme-eval-definition");
 </script>
 
 <p> We have chosen here to return the symbol <code>ok</code> as the value of an
-assignment or a definition.<a name="footnote_link_1-8" class="footnote_link" href="#footnote_1-8">8</a>
+assignment or a definition.<a id="footnote_link_1-8" class="footnote_link" href="#footnote_1-8">8</a>
 
 <div class="exercise" id="thm_4.1">
 <p> <b>Exercise 4.1:</b> Notice that we cannot tell whether the metacircular evaluator evaluates operands from left to right or from right to left. Its evaluation order is inherited from the underlying Lisp: If the arguments to <code>cons</code> in <code>list-of-values</code> are evaluated from left to right, then <code>list-of-values</code> will evaluate operands from left to right; and if the arguments to <code>cons</code> are evaluated from right to left, then <code>list-of-values</code> will evaluate operands from right to left.
@@ -264,7 +264,7 @@ C.prompt("scheme-variable-p");
 </script>
 
 <li>
-<p> Quotations have the form <code>(quote &lt;text-of-quotation&gt;)</code>:<a name="footnote_link_1-9" class="footnote_link" href="#footnote_1-9">9</a>
+<p> Quotations have the form <code>(quote &lt;text-of-quotation&gt;)</code>:<a id="footnote_link_1-9" class="footnote_link" href="#footnote_1-9">9</a>
 
 <div id="scheme-quoted-p">
 (define (quoted? exp)
@@ -380,7 +380,7 @@ C.prompt("scheme-define-make-lambda");
 </script>
 
 <li>
-<p> Conditionals begin with <code>if</code> and have a predicate, a consequent, and an (optional) alternative. If the expression has no alternative part, we provide <code>false</code> as the alternative.<a name="footnote_link_1-10" class="footnote_link" href="#footnote_1-10">10</a>
+<p> Conditionals begin with <code>if</code> and have a predicate, a consequent, and an (optional) alternative. If the expression has no alternative part, we provide <code>false</code> as the alternative.<a id="footnote_link_1-10" class="footnote_link" href="#footnote_1-10">10</a>
 
 <div id="scheme-define-if-p">
 (define (if? exp) (tagged-list? exp 'if))
@@ -409,7 +409,7 @@ C.prompt("scheme-define-make-if");
 </script>
 
 <li>
-<p> <code>Begin</code> packages a sequence of expressions into a single expression. We include syntax operations on <code>begin</code> expressions to extract the actual sequence from the <code>begin</code> expression, as well as selectors that return the first expression and the rest of the expressions in the sequence.<a name="footnote_link_1-11" class="footnote_link" href="#footnote_1-11">11</a>
+<p> <code>Begin</code> packages a sequence of expressions into a single expression. We include syntax operations on <code>begin</code> expressions to extract the actual sequence from the <code>begin</code> expression, as well as selectors that return the first expression and the rest of the expressions in the sequence.<a id="footnote_link_1-11" class="footnote_link" href="#footnote_1-11">11</a>
 
 <div id="scheme-define-begin-p">
 (define (begin? exp) (tagged-list? exp 'begin))
@@ -491,7 +491,7 @@ C.no_output_frozen_prompt("scheme-ex-cond-post-desugar");
 
 <p> Implementing the evaluation of <code>cond</code> in this way simplifies the evaluator because it reduces the number of special forms for which the evaluation process must be explicitly specified.
 
-<p> We include syntax procedures that extract the parts of a <code>cond</code> expression, and a procedure <code>cond->if</code> that transforms <code>cond</code> expressions into <code>if</code> expressions. A case analysis begins with <code>cond</code> and has a list of predicate-action clauses. A clause is an <code>else</code> clause if its predicate is the symbol <code>else</code>.<a name="footnote_link_1-12" class="footnote_link" href="#footnote_1-12">12</a>
+<p> We include syntax procedures that extract the parts of a <code>cond</code> expression, and a procedure <code>cond->if</code> that transforms <code>cond</code> expressions into <code>if</code> expressions. A case analysis begins with <code>cond</code> and has a list of predicate-action clauses. A clause is an <code>else</code> clause if its predicate is the symbol <code>else</code>.<a id="footnote_link_1-12" class="footnote_link" href="#footnote_1-12">12</a>
 
 <div id="scheme-define-cond-p">
 (define (cond? exp) (tagged-list? exp 'cond))
@@ -526,7 +526,7 @@ C.no_output_frozen_prompt("scheme-ex-cond-post-desugar");
 C.prompt("scheme-define-cond-p");
 </script>
 
-<p> Expressions (such as <code>cond</code>) that we choose to implement as syntactic transformations are called <code>derived expressions</code>. <code>Let</code> expressions are also derived expressions (see Exercise 4-6).<a name="footnote_link_1-13" class="footnote_link" href="#footnote_1-13">4</a>
+<p> Expressions (such as <code>cond</code>) that we choose to implement as syntactic transformations are called <code>derived expressions</code>. <code>Let</code> expressions are also derived expressions (see Exercise 4-6).<a id="footnote_link_1-13" class="footnote_link" href="#footnote_1-13">4</a>
 
 <div class="exercise" id="thm_4.2">
 <p> <b>Exercise 4.2:</b> Louis Reasoner plans to reorder the <code>cond</code> clauses in <code>eval</code> so that the clause for procedure applications appears before the clause for assignments. He argues that this will make the interpreter more efficient: Since programs usually contain more applications than assignments, definitions, and so on, his modified <code>eval</code> will usually check fewer clauses than the original <code>eval</code> before identifying the type of an expression.
@@ -785,7 +785,7 @@ C.prompt();
 
 <p> Each frame of an environment is represented as a pair of lists: a list of the
 variables bound in that frame and a list of the associated
-values.<a name="footnote_link_1-14" class="footnote_link" href="#footnote_1-14">14</a>
+values.<a id="footnote_link_1-14" class="footnote_link" href="#footnote_1-14">14</a>
 
 <div>
 (define (make-frame variables values)
@@ -890,7 +890,7 @@ If no such binding exists, we adjoin one to the first frame.
 C.prompt();
 </script>
 
-<p> The method described here is only one of many plausible ways to represent environments. Since we used data abstraction to isolate the rest of the evaluator from the detailed choice of representation, we could change the environment representation if we wanted to. (See Exercise 4-11.)  In a production-quality Lisp system, the speed of the evaluator's environment operations---especially that of variable lookup---has a major impact on the performance of the system. The representation described here, although conceptually simple, is not efficient and would not ordinarily be used in a production system.<a name="footnote_link_1-15" class="footnote_link" href="#footnote_1-15">15</a>
+<p> The method described here is only one of many plausible ways to represent environments. Since we used data abstraction to isolate the rest of the evaluator from the detailed choice of representation, we could change the environment representation if we wanted to. (See Exercise 4-11.)  In a production-quality Lisp system, the speed of the evaluator's environment operations---especially that of variable lookup---has a major impact on the performance of the system. The representation described here, although conceptually simple, is not efficient and would not ordinarily be used in a production system.<a id="footnote_link_1-15" class="footnote_link" href="#footnote_1-15">15</a>
 
 <div class="exercise" id="thm_4.11">
 <p> <b>Exercise 4.11:</b> Instead of representing a frame
@@ -975,7 +975,7 @@ C.prompt();
 </script>
 
 <p> <code>Setup-environment</code> will get the primitive names and implementation
-procedures from a list:<a name="footnote_link_1-16" class="footnote_link" href="#footnote_1-16">16</a>
+procedures from a list:<a id="footnote_link_1-16" class="footnote_link" href="#footnote_1-16">16</a>
 
 <div>
 (define primitive-procedures
@@ -1000,7 +1000,7 @@ C.prompt();
 
 <p> To apply a primitive procedure, we simply apply the implementation procedure to
 the arguments, using the underlying Lisp
-system:<a name="footnote_link_1-17" class="footnote_link" href="#footnote_1-17">17</a>
+system:<a id="footnote_link_1-17" class="footnote_link" href="#footnote_1-17">17</a>
 
 <div>
 (define (apply-primitive-procedure proc args)
@@ -1019,7 +1019,7 @@ Lisp system. It prints a <code>prompt</code>
 evaluates this expression in the global environment, and prints the result. We
 precede each printed result by an <code>output prompt</code>
  so as to distinguish
-the value of the expression from other output that may be printed.<a name="footnote_link_1-18" class="footnote_link" href="#footnote_1-18">18</a>
+the value of the expression from other output that may be printed.<a id="footnote_link_1-18" class="footnote_link" href="#footnote_1-18">18</a>
 
 <div>
 (define input-prompt ";;; M-Eval input:")

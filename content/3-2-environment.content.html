@@ -44,7 +44,7 @@ with each formal parameter replaced by the corresponding argument.
 <ul>
 
 <li>
-<p> Evaluate the subexpressions of the combination.<a name="footnote_link_3-12" class="footnote_link" href="#footnote_3-12">12</a>
+<p> Evaluate the subexpressions of the combination.<a id="footnote_link_3-12" class="footnote_link" href="#footnote_3-12">12</a>
 </li>
 
 <li>
@@ -105,7 +105,7 @@ C.prompt("scheme-define-square-lambda");
 </li>
 </ul>
 
-<p> We also specify that defining a symbol using <code>define</code> creates a binding in the current environment frame and assigns to the symbol the indicated value.<a name="footnote_link_3-13" class="footnote_link" href="#footnote_3-13">13</a>Finally, we specify the behavior of <code>set!</code>, the operation that forced us to introduce the environment model in the first place. Evaluating the expression <code>(set! &lt;variable&gt; &lt;value&gt;)</code> in some environment locates the binding of the variable in the environment and changes that binding to indicate the new value. That is, one finds the first frame in the environment that contains a binding for the variable and modifies that frame. If the variable is unbound in the environment, then <code>set!</code> signals an error.
+<p> We also specify that defining a symbol using <code>define</code> creates a binding in the current environment frame and assigns to the symbol the indicated value.<a id="footnote_link_3-13" class="footnote_link" href="#footnote_3-13">13</a>Finally, we specify the behavior of <code>set!</code>, the operation that forced us to introduce the environment model in the first place. Evaluating the expression <code>(set! &lt;variable&gt; &lt;value&gt;)</code> in some environment locates the binding of the variable in the environment and changes that binding to indicate the new value. That is, one finds the first frame in the environment that contains a binding for the variable and modifies that frame. If the variable is unbound in the environment, then <code>set!</code> signals an error.
 
 <p> These evaluation rules, though considerably more complex than the substitution model, are still reasonably straightforward. Moreover, the evaluation model, though abstract, provides a correct description of how the interpreter evaluates expressions. In Chapter 4 we shall see how this model can serve as a blueprint for implementing a working interpreter. The following sections elaborate the details of the model by analyzing some illustrative programs.
 
@@ -186,7 +186,7 @@ C.prompt("scheme-define-factorial");
 C.prompt("scheme-define-factorial-iterative");
 </script>
 
-<p> Show the environment structures created by evaluating <code>(factorial 6)</code> using each version of the <code>factorial</code> procedure.<a name="footnote_link_3-14" class="footnote_link" href="#footnote_3-14">14</a>
+<p> Show the environment structures created by evaluating <code>(factorial 6)</code> using each version of the <code>factorial</code> procedure.<a id="footnote_link_3-14" class="footnote_link" href="#footnote_3-14">14</a>
 </div>
 
 <h3 id="sec_3.2.3"> 3.2.3 Frames as the Repository of Local State </h3>
@@ -291,7 +291,7 @@ another call to <code>make-withdraw</code>:
 C.prompt("scheme-define-w2", ["scheme-define-make-withdraw"]);
 </script>
 
-<p> <p> This produces the environment structure of Figure 3-10, which shows that <code>W2</code> is a procedure object, that is, a pair with some code and an environment. The environment E2 for <code>W2</code> was created by the call to <code>make-withdraw</code>. It contains a frame with its own local binding for <code>balance</code>. On the other hand, <code>W1</code> and <code>W2</code> have the same code: the code specified by the <code>lambda</code> expression in the body of <code>make-withdraw</code>.<a name="footnote_link_3-15" class="footnote_link" href="#footnote_3-15">15</a> We see here why <code>W1</code> and <code>W2</code> behave as independent objects. Calls to <code>W1</code> reference the state variable <code>balance</code> stored in E1, whereas calls to <code>W2</code> reference the <code>balance</code> stored in E2. Thus, changes to the local state of one object do not affect the other object.
+<p> <p> This produces the environment structure of Figure 3-10, which shows that <code>W2</code> is a procedure object, that is, a pair with some code and an environment. The environment E2 for <code>W2</code> was created by the call to <code>make-withdraw</code>. It contains a frame with its own local binding for <code>balance</code>. On the other hand, <code>W1</code> and <code>W2</code> have the same code: the code specified by the <code>lambda</code> expression in the body of <code>make-withdraw</code>.<a id="footnote_link_3-15" class="footnote_link" href="#footnote_3-15">15</a> We see here why <code>W1</code> and <code>W2</code> behave as independent objects. Calls to <code>W1</code> reference the state variable <code>balance</code> stored in E1, whereas calls to <code>W2</code> reference the <code>balance</code> stored in E2. Thus, changes to the local state of one object do not affect the other object.
 
 <div class="figure">
 <img src="images/ch3-Z-G-11.gif">
