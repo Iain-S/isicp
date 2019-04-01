@@ -17,7 +17,7 @@
 <div class="exercise">
 
 <div>
-(make-machine <register-names> <operations> <controller>)
+(make-machine &lt;register-names> &lt;operations> &lt;controller>)
 </div>
 <script>
 C.prompt();
@@ -26,7 +26,7 @@ C.prompt();
 <p> constructs and returns a model of the machine with the given registers, operations, and controller.
 
 <div>
-(set-register-contents! <machine-model> <register-name> <value>)
+(set-register-contents! &lt;machine-model> &lt;register-name> &lt;value>)
 </div>
 <script>
 C.prompt();
@@ -35,7 +35,7 @@ C.prompt();
 <p> stores a value in a simulated register in the given machine.
 
 <div>
-(get-register-contents <machine-model> <register-name>)
+(get-register-contents &lt;machine-model> &lt;register-name>)
 </div>
 <script>
 C.prompt();
@@ -44,7 +44,7 @@ C.prompt();
 <p> returns the contents of a simulated register in the given machine.
 
 <div>
-(start <machine-model>)
+(start &lt;machine-model>)
 </div>
 <script>
 C.prompt();
@@ -882,7 +882,7 @@ C.prompt();
 <p> <b>Exercise 5.19:</b> Alyssa P. Hacker wants a <code>breakpoint</code> feature in the simulator to help her debug her machine designs. You have been hired to install this feature for her. She wants to be able to specify a place in the controller sequence where the simulator will stop and allow her to examine the state of the machine. You are to implement a procedure
 
 <div>
-(set-breakpoint <machine> <label> <n>)
+(set-breakpoint &lt;machine> &lt;label> &lt;n>)
 </div>
 <script>
 C.prompt();
@@ -900,7 +900,7 @@ C.prompt();
 <p> installs a breakpoint in <code>gcd-machine</code> just before the assignment to register <code>a</code>. When the simulator reaches the breakpoint it should print the label and the offset of the breakpoint and stop executing instructions. Alyssa can then use <code>get-register-contents</code> and <code>set-register-contents!</code> to manipulate the state of the simulated machine. She should then be able to continue execution by saying
 
 <div>
-(proceed-machine <machine>)
+(proceed-machine &lt;machine>)
 </div>
 <script>
 C.prompt();
@@ -909,7 +909,7 @@ C.prompt();
 <p> She should also be able to remove a specific breakpoint by means of
 
 <div>
-(cancel-breakpoint <machine> <label> <n>)
+(cancel-breakpoint &lt;machine> &lt;label> &lt;n>)
 </div>
 <script>
 C.prompt();
@@ -918,7 +918,7 @@ C.prompt();
 <p> or to remove all breakpoints by means of
 
 <div>
-(cancel-all-breakpoints <machine>)
+(cancel-all-breakpoints &lt;machine>)
 </div>
 <script>
 C.prompt();

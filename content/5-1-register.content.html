@@ -26,7 +26,7 @@ C.prompt();
 
 <p> A machine to carry out this algorithm must keep track of two numbers, a and b, so let us assume that these numbers are stored in two registers with those names. The basic operations required are testing whether the contents of register <code>b</code> is zero and computing the remainder of the contents of register <code>a</code> divided by the contents of register <code>b</code>. The remainder operation is a complex process, but assume for the moment that we have a primitive device that computes remainders. On each cycle of the GCD algorithm, the contents of register <code>a</code> must be replaced by the contents of register <code>b</code>, and the contents of <code>b</code> must be replaced by the remainder of the old contents of <code>a</code> divided by the old contents of <code>b</code>. It would be convenient if these replacements could be done simultaneously, but in our model of register machines we will assume that only one register can be assigned a new value at each step. To accomplish the replacements, our machine will use a third ``temporary'' register, which we call <code>t</code>. (First the remainder will be placed in <code>t</code>, then the contents of <code>b</code> will be placed in <code>a</code>, and finally the remainder stored in <code>t</code> will be placed in <code>b</code>.)
 
-<p> We can illustrate the registers and operations required for this machine by using the data-path diagram shown in Figure 5-1. In this diagram, the registers (<code>a</code>, <code>b</code>, and <code>t</code>) are represented by rectangles. Each way to assign a value to a register is indicated by an arrow with an <code>X</code> behind the head, pointing from the source of data to the register. We can think of the <code>X</code> as a button that, when pushed, allows the value at the source to ``flow'' into the designated register. The label next to each button is the name we will use to refer to the button. The names are arbitrary, and can be chosen to have mnemonic value (for example, <code>a<-b</code> denotes pushing the button that assigns the contents of register <code>b</code> to register <code>a</code>). The source of data for a register can be another register (as in the <code>a<-b</code> assignment), an operation result (as in the <code>t<-r</code> assignment), or a constant (a built-in value that cannot be changed, represented in a data-path diagram by a triangle containing the constant).
+<p> We can illustrate the registers and operations required for this machine by using the data-path diagram shown in Figure 5-1. In this diagram, the registers (<code>a</code>, <code>b</code>, and <code>t</code>) are represented by rectangles. Each way to assign a value to a register is indicated by an arrow with an <code>X</code> behind the head, pointing from the source of data to the register. We can think of the <code>X</code> as a button that, when pushed, allows the value at the source to ``flow'' into the designated register. The label next to each button is the name we will use to refer to the button. The names are arbitrary, and can be chosen to have mnemonic value (for example, <code>a&lt;-b</code> denotes pushing the button that assigns the contents of register <code>b</code> to register <code>a</code>). The source of data for a register can be another register (as in the <code>a&lt;-b</code> assignment), an operation result (as in the <code>t&lt;-r</code> assignment), or a constant (a built-in value that cannot be changed, represented in a data-path diagram by a triangle containing the constant).
 
 <p> An operation that computes a value from constants and the contents of registers is represented in a data-path diagram by a trapezoid containing a name for the operation. For example, the box marked <code>rem</code> in Figure 5-1 represents an operation that computes the remainder of the contents of the registers <code>a</code> and <code>b</code> to which it is attached. Arrows (without buttons) point from the input registers and constants to the box, and arrows connect the operation's output value to registers. A test is represented by a circle containing a name for the test. For example, our GCD machine has an operation that tests whether the contents of register <code>b</code> is zero. A test also has arrows from its input registers and constants, but it has no output arrows; its value is used by the controller rather than by the data paths. Overall, the data-path diagram shows the registers and operations that are required for the machine and how they must be connected. If we view the arrows as wires and the <code>X</code> buttons as switches, the data-path diagram is very like the wiring diagram for a machine that could be constructed from electrical components.
 
@@ -36,16 +36,16 @@ C.prompt();
 <pre>
                               ___
 +-----+          +-----+     /   \
-|  a  |<--(X)----|  b  +--->|  =  |
-+--+--+   a<-b   +-+---+     \___/
+|  a  |&lt;--(X)----|  b  +--->|  =  |
++--+--+   a&lt;-b   +-+---+     \___/
    |               |  ^        ^
    +------+   +----+  |        |
-          |   |      (X) b<-t  |
+          |   |      (X) b&lt;-t  |
        .--+---+--.   |       / \
         \  rem  /     |      / O \
          \_____/      |     +-----+
             |         |
-           (X) t<-r   |
+           (X) t&lt;-r   |
             |         |
             V         |
          +-----+      |
@@ -64,22 +64,22 @@ C.prompt();
        |
        V
       / \ yes
-+--->< = >-----> done
++--->&lt; = >-----> done
 |     \ /
 |      | no
 |      V
 |  +------+
-|  | t<-r |
+|  | t&lt;-r |
 |  +---+--+
 |      |
 |      V
 |  +------+
-|  | a<-b |
+|  | a&lt;-b |
 |  +---+--+
 |      |
 |      V
 |  +------+
-+--+ b<-t |
++--+ b&lt;-t |
    +------+
 </pre>
 </div>
@@ -138,11 +138,11 @@ machine.
 (data-paths
  (registers
   ((name a)
-   (buttons ((name a<-b) (source (register b)))))
+   (buttons ((name a&lt;-b) (source (register b)))))
   ((name b)
-   (buttons ((name b<-t) (source (register t)))))
+   (buttons ((name b&lt;-t) (source (register t)))))
   ((name t)
-   (buttons ((name t<-r) (source (operation rem))))))
+   (buttons ((name t&lt;-r) (source (operation rem))))))
 
  (operations
   ((name rem)
@@ -154,9 +154,9 @@ machine.
  test-b                           ; label
    (test =)                       ; test
    (branch (label gcd-done))      ; conditional branch
-   (t<-r)                         ; button push
-   (a<-b)                         ; button push
-   (b<-t)                         ; button push
+   (t&lt;-r)                         ; button push
+   (a&lt;-b)                         ; button push
+   (b&lt;-t)                         ; button push
    (goto (label test-b))          ; unconditional branch
  gcd-done)                        ; label
 </div>
@@ -170,7 +170,7 @@ C.prompt();
 
 <p> Unfortunately, it is difficult to read such a description. In order to understand the controller instructions we must constantly refer back to the definitions of the button names and the operation names, and to understand what the buttons do we may have to refer to the definitions of the operation names. We will thus transform our notation to combine the information from the data-path and controller descriptions so that we see it all together.
 
-<p> To obtain this form of description, we will replace the arbitrary button and operation names by the definitions of their behavior. That is, instead of saying (in the controller) ``Push button <code>t<-r</code>'' and separately saying (in the data paths) ``Button <code>t<-r</code> assigns the value of the <code>rem</code> operation to register <code>t</code>'' and ``The <code>rem</code> operation's inputs are the contents of registers <code>a</code> and <code>b</code>,'' we will say (in the controller) ``Push the button that assigns to register <code>t</code> the value of the <code>rem</code> operation on the contents of registers <code>a</code> and <code>b</code>.''Similarly, instead of saying (in the controller) ``Perform the <code>=</code> test''and separately saying (in the data paths) ``The <code>=</code> test operates on the contents of register <code>b</code> and the constant 0,'' we will say ``Perform the <code>=</code> test on the contents of register <code>b</code> and the constant 0.''  We will omit the data-path description, leaving only the controller sequence. Thus, the GCD machine is described as follows:
+<p> To obtain this form of description, we will replace the arbitrary button and operation names by the definitions of their behavior. That is, instead of saying (in the controller) ``Push button <code>t&lt;-r</code>'' and separately saying (in the data paths) ``Button <code>t&lt;-r</code> assigns the value of the <code>rem</code> operation to register <code>t</code>'' and ``The <code>rem</code> operation's inputs are the contents of registers <code>a</code> and <code>b</code>,'' we will say (in the controller) ``Push the button that assigns to register <code>t</code> the value of the <code>rem</code> operation on the contents of registers <code>a</code> and <code>b</code>.''Similarly, instead of saying (in the controller) ``Perform the <code>=</code> test''and separately saying (in the data paths) ``The <code>=</code> test operates on the contents of register <code>b</code> and the constant 0,'' we will say ``Perform the <code>=</code> test on the contents of register <code>b</code> and the constant 0.''  We will omit the data-path description, leaving only the controller sequence. Thus, the GCD machine is described as follows:
 
 <div>
 (controller
@@ -234,21 +234,21 @@ C.prompt();
                        |
                +-------*------+
                |              |
-        a<-rd (X)            (X) b<-rd
+        a&lt;-rd (X)            (X) b&lt;-rd
                |              |
                V              V           ___
             +-----+        +-----+       /   \
-            |  a  |<--(X)--+  b  +----->|  =  |
-            +-+-+-+  a<-b  +-+---+       \___/
+            |  a  |&lt;--(X)--+  b  +----->|  =  |
+            +-+-+-+  a&lt;-b  +-+---+       \___/
               | |            |  ^          ^
            +--+ +----+    +--+  |          |
-           |         |    |    (X) b<-t   / \
+           |         |    |    (X) b&lt;-t   / \
            V         V    V     |        / O \
       .---------. .---------. |       /_____\
 --(X)->\ print /    \  rem  /   |
    P    \_____/      \_____/    |
                         |       |
-                       (X) t<-r |
+                       (X) t&lt;-r |
                         |       |
                         V       |
                      +-----+    |
@@ -286,7 +286,7 @@ C.prompt();
 
 <div>
 (define (remainder n d)
-  (if (< n d)
+  (if (&lt; n d)
       n
       (remainder (- n d) d)))
 </div>
@@ -302,18 +302,18 @@ C.prompt();
 <pre>
                                     ___
 +-----+         +-----+            /   \
-|  a  |<--(X)---+  b  +-------*-->|  =  |
-+--+--+   a<-b  +-+---+       |    \___/
+|  a  |&lt;--(X)---+  b  +-------*-->|  =  |
++--+--+   a&lt;-b  +-+---+       |    \___/
    |              |  ^        |
-  (X) t<-a        |  |        |
-   |              | (X) b<-t  |
+  (X) t&lt;-a        |  |        |
+   |              | (X) b&lt;-t  |
    V              |  |       _V_
 +-----+           |  |      /   \
-|  t  +-------*---|--*-----|  <  |
+|  t  +-------*---|--*-----|  &lt;  |
 +-----+       |   |         \___/
    ^          V   V
    |        ---------
-  (X) t<-d   \  -  /
+  (X) t&lt;-d   \  -  /
    |          --+--
    |            |
    +------------+
@@ -323,23 +323,23 @@ C.prompt();
      |
      V
     / \ yes            +-------+
-+->< = >----> done     | t<-d  |<--+
++->&lt; = >----> done     | t&lt;-d  |&lt;--+
 |   \ /                +---+---+   |
 |    | no                  |       |
 |    |                     V       |
 |    |   +------+         / \ no   |
-|    +-->| t<-a +------->< < >-----+
+|    +-->| t&lt;-a +------->&lt; &lt; >-----+
 |        +------+         \ /
 |                          | yes
 |      +-------------------+
 |      V
 |  +-------+
-|  | a<-b  |
+|  | a&lt;-b  |
 |  +---+---+
 |      |
 |      V
 |  +-------+
-+--+ b<-t  |
++--+ b&lt;-t  |
    +-------+
 </pre>
 </div>
@@ -364,7 +364,7 @@ C.prompt();
    (branch (label gcd-done))
    (assign t (reg a))
  rem-loop
-   (test (op <) (reg t) (reg b))
+   (test (op &lt;) (reg t) (reg b))
    (branch (label rem-done))
    (assign t (op -) (reg t) (reg b))
    (goto (label rem-loop))
@@ -386,7 +386,7 @@ C.prompt();
 <div>
 (define (sqrt x)
   (define (good-enough? guess)
-    (< (abs (- (square guess) x)) 0.001))
+    (&lt; (abs (- (square guess) x)) 0.001))
   (define (improve guess)
     (average guess (/ x guess)))
   (define (sqrt-iter guess)
@@ -412,16 +412,16 @@ C.prompt();
 <pre>
                             ___                                 ___
 +-----+        +-----+     /   \    +-----+        +-----+     /   \
-|  a  |<-(X)---+  b  |--->|  =  |   |  c  |<-(X)---+  d  |--->|  =  |
-+--+--+  a<-b  ++----+     \___/    +--+--+  c<-d  ++----+     \___/
+|  a  |&lt;-(X)---+  b  |--->|  =  |   |  c  |&lt;-(X)---+  d  |--->|  =  |
++--+--+  a&lt;-b  ++----+     \___/    +--+--+  c&lt;-d  ++----+     \___/
    |            |  ^         ^         |            |  ^         ^
    `----.  .---'  |         |         `----.  .---'  |         |
-        V   V     (X) b<-t   |              V   V     (X) d<-t   |
+        V   V     (X) b&lt;-t   |              V   V     (X) d&lt;-t   |
        -------     |        / \            -------     |        / \
        \ rem /     |       /_0_\           \ rem /     |       /_0_\
         --+--      |                        --+--      |
           |        |                          |        |
-         (X) t<-r  |                         (X) s<-r  |
+         (X) t&lt;-r  |                         (X) s&lt;-r  |
           |        |                          |        |
           V        |                          V        |
        +-----+     |                       +-----+     |
@@ -606,7 +606,7 @@ C.prompt();
 
 <div>
 (define (fib n)
-  (if (< n 2)
+  (if (&lt; n 2)
       n
       (+ (fib (- n 1)) (fib (- n 2)))))
 </div>
@@ -628,8 +628,8 @@ C.prompt();
     |          |              |
     V          |          +---+---+   sn    +-------+
 +-------+      |          |       +---(X)-->|       |
-|  val  |<-(X)-|----------+   n   |         | stack |
-+-----+-+      |          |       |<--(X)---+       |
+|  val  |&lt;-(X)-|----------+   n   |         | stack |
++-----+-+      |          |       |&lt;--(X)---+       |
   ^   |        |          +-------+   rn    +-+-----+
   |   |        |            ^                 |   ^
  (X)  |        |            |                 |   |
@@ -686,7 +686,7 @@ Fibonacci numbers.
 (controller
    (assign continue (label fib-done))
  fib-loop
-   (test (op <) (reg n) (const 2))
+   (test (op &lt;) (reg n) (const 2))
    (branch (label immediate-answer))
    ;; set up to compute <em>Fib</em>(n - 1)
    (save continue)
@@ -725,7 +725,7 @@ C.prompt();
 <p> <b>Exercise 5.4:</b> Specify register machines that implement each of the following procedures. For each machine, write a controller instruction sequence and draw a diagram showing the data paths.
 
 <ul>
-@item
+<li>
 Recursive exponentiation:
 
 <div>
@@ -738,7 +738,8 @@ Recursive exponentiation:
 C.prompt();
 </script>
 
-@item
+</li>
+<li>
 Iterative exponentiation:
 
 <div>
@@ -752,7 +753,7 @@ Iterative exponentiation:
 <script>
 C.prompt();
 </script>
-
+</li>
 </ul>
 </div>
 
@@ -766,7 +767,7 @@ C.prompt();
 
 <h3 id="sec_5.1.5"> 5.1.5 Instruction Summary </h3>
 
-<p> A controller instruction in our register-machine language has one of the following forms, where each <input_i> is either <code>(reg <register-name</code>>) or <code>(const <constant-value</code>>). These instructions were introduced in section <a href="5-1-register.html">5.1.1</a>:
+<p> A controller instruction in our register-machine language has one of the following forms, where each &lt;input_i> is either <code>(reg &lt;register-name>)</code> or <code>(const &lt;constant-value>)</code>. These instructions were introduced in section <a href="5-1-register.html">5.1.1</a>:
 
 <div>
 (assign &lt;register-name&gt; (reg &lt;register-name&gt;))
@@ -790,9 +791,9 @@ C.prompt();
 <p> The use of registers to hold labels was introduced in section <a href="5-1-register.html">5.1.3</a>:
 
 <div>
-(assign <register-name> (label <label-name>))
+(assign &lt;register-name> (label &lt;label-name>))
 
-(goto (reg <register-name>))
+(goto (reg &lt;register-name>))
 </div>
 <script>
 C.prompt();
@@ -801,15 +802,15 @@ C.prompt();
 <p> Instructions to use the stack were introduced in section <a href="5-1-register.html">5.1.4</a>:
 
 <div>
-(save <register-name>)
+(save &lt;register-name>)
 
-(restore <register-name>)
+(restore &lt;register-name>)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> The only kind of <constant-value> we have seen so far is a number, but later we will use strings, symbols, and lists. For example,@* <code>(const "abc")</code> is the string <code>"abc"</code>,@* <code>(const abc)</code> is the symbol <code>abc</code>,@* <code>(const (a b c))</code> is the list <code>(a b c)</code>,@* and <code>(const ())</code> is the empty list.
+<p> The only kind of &lt;constant-value> we have seen so far is a number, but later we will use strings, symbols, and lists. For example,@* <code>(const "abc")</code> is the string <code>"abc"</code>,@* <code>(const abc)</code> is the symbol <code>abc</code>,@* <code>(const (a b c))</code> is the list <code>(a b c)</code>,@* and <code>(const ())</code> is the empty list.
  @@
 
 {{footnotes}}
