@@ -30,7 +30,7 @@
 
 <p> To see why this is true, let us compare two programs for computing the sum of all the prime numbers in an interval. The first program is written in standard iterative style:@footnote{Assume that we have a predicate <code>prime?</code> (e.g., as in section <a href="1-2-procedures.html">1.2.6</a>) that tests for primality.}
 
-<div id="">
+<div>
 (define (sum-primes a b)
   (define (iter count accum)
     (cond ((> count b) accum)
@@ -44,7 +44,7 @@ C.prompt();
 
 <p> The second program performs the same computation using the sequence operations of section <a href="2-2-closure.html">2.2.3</a>:
 
-<div id="">
+<div>
 (define (sum-primes a b)
   (accumulate +
               0
@@ -58,7 +58,7 @@ C.prompt();
 
 <p> The inefficiency in using lists becomes painfully apparent if we use the sequence paradigm to compute the second prime in the interval from 10,000 to 1,000,000 by evaluating the expression
 
-<div id="">
+<div>
 (car (cdr (filter prime?
                   (enumerate-interval 10000 1000000))))
 </div>
@@ -79,7 +79,7 @@ C.prompt();
 
 <p> There is a distinguishable object, <code>the-empty-stream</code>, which cannot be the result of any <code>cons-stream</code> operation, and which can be identified with the predicate <code>stream-null?</code>.@footnote{In the @acronym{MIT} implementation, <code>the-empty-stream</code> is the same as the empty list <code>'()</code>, and <code>stream-null?</code> is the same as <code>null?</code>.}  Thus we can make and use streams, in just the same way as we can make and use lists, to represent aggregate data arranged in a sequence. In particular, we can build stream analogs of the list operations from Chapter 2, such as <code>list-ref</code>, <code>map</code>, and <code>for-each</code>:@footnote{This should bother you. The fact that we are defining such similar procedures for streams and lists indicates that we are missing some underlying abstraction. Unfortunately, in order to exploit this abstraction, we will need to exert finer control over the process of evaluation than we can at present. We will discuss this point further at the end of section <a href="3-5-streams.html">3.5.4</a>. In section <a href="4-2-lazy.html">4.2</a>, we'll develop a framework that unifies lists and streams.}
 
-<div id="">
+<div>
 (define (stream-ref s n)
   (if (= n 0)
       (stream-car s)
@@ -103,7 +103,7 @@ C.prompt();
 
 <code>Stream-for-each</code> is useful for viewing streams:
 
-<div id="">
+<div>
 (define (display-stream s)
   (stream-for-each display-line s))
 
@@ -117,12 +117,12 @@ C.prompt();
 
 <p> To make the stream implementation automatically and transparently interleave the construction of a stream with its use, we will arrange for the <code>cdr</code> of a stream to be evaluated when it is accessed by the <code>stream-cdr</code> procedure rather than when the stream is constructed by <code>cons-stream</code>. This implementation choice is reminiscent of our discussion of rational numbers in section <a href="2-1-data.html">2.1.2</a>, where we saw that we can choose to implement rational numbers so that the reduction of numerator and denominator to lowest terms is performed either at construction time or at selection time. The two rational-number implementations produce the same data abstraction, but the choice has an effect on efficiency. There is a similar relationship between streams and ordinary lists. As a data abstraction, streams are the same as lists. The difference is the time at which the elements are evaluated. With ordinary lists, both the <code>car</code> and the <code>cdr</code> are evaluated at construction time. With streams, the <code>cdr</code> is evaluated at selection time.
 
-<p> Our implementation of streams will be based on a special form called <code>delay</code>. Evaluating <code>(delay <exp</code>>) does not evaluate the expression <exp>, but rather returns a so-called <code>delayed object</code> , which we can think of as a ``promise'' to evaluate <exp> at some future time. As a companion to <code>delay</code>, there is a procedure called <code>force</code> that takes a delayed object as argument and performs the evaluation---in effect, forcing the <code>delay</code> to fulfill its promise. We will see below how <code>delay</code> and <code>force</code> can be implemented, but first let us use these to construct streams.
+<p> Our implementation of streams will be based on a special form called <code>delay</code>. Evaluating <code>(delay &lt;exp&gt;)</code> does not evaluate the expression &lt;exp&gt;, but rather returns a so-called <code>delayed object</code> , which we can think of as a ``promise'' to evaluate &lt;exp&gt; at some future time. As a companion to <code>delay</code>, there is a procedure called <code>force</code> that takes a delayed object as argument and performs the evaluation---in effect, forcing the <code>delay</code> to fulfill its promise. We will see below how <code>delay</code> and <code>force</code> can be implemented, but first let us use these to construct streams.
 
 <code>Cons-stream</code> is a special form defined so that
 
-<div id="">
-(cons-stream <a> <b>)
+<div>
+(cons-stream &lt;a&gt; &lt;b&gt;)
 </div>
 <script>
 C.prompt();
@@ -131,8 +131,8 @@ C.prompt();
 
 is equivalent to
 
-<div id="">
-(cons <a> (delay <b>))
+<div>
+(cons &lt;a&gt; (delay &lt;b&gt;))
 </div>
 <script>
 C.prompt();
@@ -140,7 +140,7 @@ C.prompt();
 
 <p> What this means is that we will construct streams using pairs. However, rather than placing the value of the rest of the stream into the <code>cdr</code> of the pair we will put there a promise to compute the rest if it is ever requested. <code>Stream-car</code> and <code>stream-cdr</code> can now be defined as procedures:
 
-<div id="">
+<div>
 (define (stream-car stream) (car stream))
 
 (define (stream-cdr stream) (force (cdr stream)))
@@ -149,13 +149,13 @@ C.prompt();
 C.prompt();
 </script>
 
-<p> <code>Stream-car</code> selects the <code>car</code> of the pair; <code>stream-cdr</code> selects the <code>cdr</code> of the pair and evaluates the delayed expression found there to obtain the rest of the stream.@footnote{Although <code>stream-car</code> and <code>stream-cdr</code> can be defined as procedures, <code>cons-stream</code> must be a special form. If <code>cons-stream</code> were a procedure, then, according to our model of evaluation, evaluating <code>(cons-stream <a</code>> <@var{b>)} would automatically cause <b> to be evaluated, which is precisely what we do not want to happen. For the same reason, <code>delay</code> must be a special form, though <code>force</code> can be an ordinary procedure.}
+<p> <code>Stream-car</code> selects the <code>car</code> of the pair; <code>stream-cdr</code> selects the <code>cdr</code> of the pair and evaluates the delayed expression found there to obtain the rest of the stream.@footnote{Although <code>stream-car</code> and <code>stream-cdr</code> can be defined as procedures, <code>cons-stream</code> must be a special form. If <code>cons-stream</code> were a procedure, then, according to our model of evaluation, evaluating <code>(cons-stream &lt;a&gt; &lt;b&gt;)</code> would automatically cause &lt;b&gt; to be evaluated, which is precisely what we do not want to happen. For the same reason, <code>delay</code> must be a special form, though <code>force</code> can be an ordinary procedure.}
 
 <h4> The stream implementation in action </h4>
 
 <p> To see how this implementation behaves, let us analyze the ``outrageous'' prime computation we saw above, reformulated in terms of streams:
 
-<div id="">
+<div>
 (stream-car
  (stream-cdr
   (stream-filter prime?
@@ -169,7 +169,7 @@ C.prompt();
 
 <p> We begin by calling <code>stream-enumerate-interval</code> with the arguments 10,000 and 1,000,000. <code>Stream-enumerate-interval</code> is the stream analog of <code>enumerate-interval</code> (section <a href="2-2-closure.html">2.2.3</a>):
 
-<div id="">
+<div>
 (define (stream-enumerate-interval low high)
   (if (> low high)
       the-empty-stream
@@ -183,7 +183,7 @@ C.prompt();
 
 <p> and thus the result returned by <code>stream-enumerate-interval</code>, formed by the <code>cons-stream</code>, is@footnote{The numbers shown here do not really appear in the delayed expression. What actually appears is the original expression, in an environment in which the variables are bound to the appropriate numbers. For example, <code>(+ low 1)</code> with <code>low</code> bound to 10,000 actually appears where <code>10001</code> is shown.}
 
-<div id="">
+<div>
 (cons 10000
       (delay (stream-enumerate-interval 10001 1000000)))
 </div>
@@ -193,7 +193,7 @@ C.prompt();
 
 <p> That is, <code>stream-enumerate-interval</code> returns a stream represented as a pair whose <code>car</code> is 10,000 and whose <code>cdr</code> is a promise to enumerate more of the interval if so requested. This stream is now filtered for primes, using the stream analog of the <code>filter</code> procedure (section <a href="2-2-closure.html">2.2.3</a>):
 
-<div id="">
+<div>
 (define (stream-filter pred stream)
   (cond ((stream-null? stream) the-empty-stream)
         ((pred (stream-car stream))
@@ -208,7 +208,7 @@ C.prompt();
 
 <p> <code>Stream-filter</code> tests the <code>stream-car</code> of the stream (the <code>car</code> of the pair, which is 10,000). Since this is not prime, <code>stream-filter</code> examines the <code>stream-cdr</code> of its input stream. The call to <code>stream-cdr</code> forces evaluation of the delayed <code>stream-enumerate-interval</code>, which now returns
 
-<div id="">
+<div>
 (cons 10001
       (delay (stream-enumerate-interval 10002 1000000)))
 </div>
@@ -218,7 +218,7 @@ C.prompt();
 
 <p> <code>Stream-filter</code> now looks at the <code>stream-car</code> of this stream, 10,001, sees that this is not prime either, forces another <code>stream-cdr</code>, and so on, until <code>stream-enumerate-interval</code> yields the prime 10,007, whereupon <code>stream-filter</code>, according to its definition, returns
 
-<div id="">
+<div>
 (cons-stream (stream-car stream)
              (stream-filter pred (stream-cdr stream)))
 </div>
@@ -229,7 +229,7 @@ C.prompt();
 
 which in this case is
 
-<div id="">
+<div>
 (cons 10007
       (delay
         (stream-filter
@@ -245,7 +245,7 @@ C.prompt();
 
 <p> This result is now passed to <code>stream-cdr</code> in our original expression. This forces the delayed <code>stream-filter</code>, which in turn keeps forcing the delayed <code>stream-enumerate-interval</code> until it finds the next prime, which is 10,009. Finally, the result passed to <code>stream-car</code> in our original expression is
 
-<div id="">
+<div>
 (cons 10009
       (delay
         (stream-filter
@@ -267,8 +267,8 @@ C.prompt();
 
 <p> Although <code>delay</code> and <code>force</code> may seem like mysterious operations, their implementation is really quite straightforward. <code>Delay</code> must package an expression so that it can be evaluated later on demand, and we can accomplish this simply by treating the expression as the body of a procedure. <code>Delay</code> can be a special form such that
 
-<div id="">
-(delay <exp>)
+<div>
+(delay &lt;exp&gt;)
 </div>
 <script>
 C.prompt();
@@ -276,8 +276,8 @@ C.prompt();
 
 <p> is syntactic sugar for
 
-<div id="">
-(lambda () <exp>)
+<div>
+(lambda () &lt;exp&gt;)
 </div>
 <script>
 C.prompt();
@@ -285,7 +285,7 @@ C.prompt();
 
 <p> <code>Force</code> simply calls the procedure (of no arguments) produced by <code>delay</code>, so we can implement <code>force</code> as a procedure:
 
-<div id="">
+<div>
 (define (force delayed-object)
   (delayed-object))
 </div>
@@ -295,7 +295,7 @@ C.prompt();
 
 <p> This implementation suffices for <code>delay</code> and <code>force</code> to work as advertised, but there is an important optimization that we can include. In many applications, we end up forcing the same delayed object many times. This can lead to serious inefficiency in recursive programs involving streams. (See Exercise 3-57.)  The solution is to build delayed objects so that the first time they are forced, they store the value that is computed. Subsequent forcings will simply return the stored value without repeating the computation. In other words, we implement <code>delay</code> as a special-purpose memoized procedure similar to the one described in Exercise 3-27. One way to accomplish this is to use the following procedure, which takes as argument a procedure (of no arguments) and returns a memoized version of the procedure. The first time the memoized procedure is run, it saves the computed result. On subsequent evaluations, it simply returns the result.
 
-<div id="">
+<div>
 (define (memo-proc proc)
   (let ((already-run? false) (result false))
     (lambda ()
@@ -309,10 +309,10 @@ C.prompt();
 C.prompt();
 </script>
 
-<p> <code>Delay</code> is then defined so that <code>(delay <exp</code>>) is equivalent to
+<p> <code>Delay</code> is then defined so that <code>(delay &lt;exp&gt;)</code> is equivalent to
 
-<div id="">
-(memo-proc (lambda () <exp>))
+<div>
+(memo-proc (lambda () &lt;exp&gt;))
 </div>
 <script>
 C.prompt();
@@ -323,14 +323,14 @@ C.prompt();
 <div class="exercise" id="thm_3.50">
 <p> <b>Exercise 3.50:</b> Complete the following definition, which generalizes <code>stream-map</code> to allow procedures that take multiple arguments, analogous to <code>map</code> in section <a href="2-2-closure.html">2.2.3</a>, footnote Footnote 12.
 
-<div id="">
+<div>
 (define (stream-map proc . argstreams)
-  (if (<??> (car argstreams))
+  (if (&lt;??&gt; (car argstreams))
       the-empty-stream
-      (<??>
-       (apply proc (map <??> argstreams))
+      (&lt;??&gt;
+       (apply proc (map &lt;??&gt; argstreams))
        (apply stream-map
-              (cons proc (map <??> argstreams))))))
+              (cons proc (map &lt;??&gt; argstreams))))))
 </div>
 <script>
 C.prompt();
@@ -340,7 +340,7 @@ C.prompt();
 <div class="exercise" id="thm_3.51">
 <p> <b>Exercise 3.51:</b> In order to take a closer look at delayed evaluation, we will use the following procedure, which simply returns its argument after printing it:
 
-<div id="">
+<div>
 (define (show x)
   (display-line x)
   x)
@@ -351,7 +351,7 @@ C.prompt();
 
 <p> What does the interpreter print in response to evaluating each expression in the following sequence?@footnote{Exercises such as Exercise 3-51 and Exercise 3-52 are valuable for testing our understanding of how <code>delay</code> works. On the other hand, intermixing delayed evaluation with printing---and, even worse, with assignment---is extremely confusing, and instructors of courses on computer languages have traditionally tormented their students with examination questions such as the ones in this section. Needless to say, writing programs that depend on such subtleties is odious programming style. Part of the power of stream processing is that it lets us ignore the order in which events actually happen in our programs. Unfortunately, this is precisely what we cannot afford to do in the presence of assignment, which forces us to be concerned with time and change.}
 
-<div id="">
+<div>
 (define x (stream-map show (stream-enumerate-interval 0 10)))
 
 (stream-ref x 5)
@@ -367,7 +367,7 @@ C.prompt();
 <b>Exercise 3.52:</b> Consider the sequence of
 expressions
 
-<div id="">
+<div>
 (define sum 0)
 
 (define (accum x)
@@ -387,14 +387,14 @@ expressions
 C.prompt();
 </script>
 
-<p> What is the value of <code>sum</code> after each of the above expressions is evaluated?  What is the printed response to evaluating the <code>stream-ref</code> and <code>display-stream</code> expressions?  Would these responses differ if we had implemented <code>(delay <exp</code>>) simply as <code>(lambda () <exp</code>>) without using the optimization provided by <code>memo-proc</code>?  Explain
+<p> What is the value of <code>sum</code> after each of the above expressions is evaluated?  What is the printed response to evaluating the <code>stream-ref</code> and <code>display-stream</code> expressions?  Would these responses differ if we had implemented <code>(delay &lt;exp&gt;)</code> simply as <code>(lambda () &lt;exp&gt;)</code> without using the optimization provided by <code>memo-proc</code>?  Explain
 </div>
 
 <h3 id="sec_3.5.2"> 3.5.2 Infinite Streams </h3>
 
 <p> We have seen how to support the illusion of manipulating streams as complete entities even though, in actuality, we compute only as much of the stream as we need to access. We can exploit this technique to represent sequences efficiently as streams, even if the sequences are very long. What is more striking, we can use streams to represent sequences that are infinitely long. For instance, consider the following definition of the stream of positive integers:
 
-<div id="">
+<div>
 (define (integers-starting-from n)
   (cons-stream n (integers-starting-from (+ n 1))))
 
@@ -408,7 +408,7 @@ C.prompt();
 
 <p> Using <code>integers</code> we can define other infinite streams, such as the stream of integers that are not divisible by 7:
 
-<div id="">
+<div>
 (define (divisible? x y) (= (remainder x y) 0))
 
 (define no-sevens
@@ -421,7 +421,7 @@ C.prompt();
 
 <p> Then we can find integers not divisible by 7 simply by accessing elements of this stream:
 
-<div id="">
+<div>
 (stream-ref no-sevens 100)
 117
 </div>
@@ -431,7 +431,7 @@ C.prompt();
 
 <p> In analogy with <code>integers</code>, we can define the infinite stream of Fibonacci numbers:
 
-<div id="">
+<div>
 (define (fibgen a b)
   (cons-stream a (fibgen b (+ a b))))
 
@@ -445,7 +445,7 @@ C.prompt();
 
 <p> For a look at a more exciting infinite stream, we can generalize the <code>no-sevens</code> example to construct the infinite stream of prime numbers, using a method known as the <code>sieve of Eratosthenes</code> .@footnote{Eratosthenes, a third-century @acronym{B.C.} Alexandrian Greek philosopher, is famous for giving the first accurate estimate of the circumference of the Earth, which he computed by observing shadows cast at noon on the day of the summer solstice. Eratosthenes's sieve method, although ancient, has formed the basis for special-purpose hardware ``sieves''that, until recently, were the most powerful tools in existence for locating large primes. Since the 70s, however, these methods have been superseded by outgrowths of the probabilistic techniques discussed in section <a href="1-2-procedures.html">1.2.6</a>.} We start with the integers beginning with 2, which is the first prime. To get the rest of the primes, we start by filtering the multiples of 2 from the rest of the integers. This leaves a stream beginning with 3, which is the next prime. Now we filter the multiples of 3 from the rest of this stream. This leaves a stream beginning with 5, which is the next prime, and so on. In other words, we construct the primes by a sieving process, described as follows: To sieve a stream <code>S</code>, form a stream whose first element is the first element of <code>S</code> and the rest of which is obtained by filtering all multiples of the first element of <code>S</code> out of the rest of <code>S</code> and sieving the result. This process is readily described in terms of stream operations:
 
-<div id="">
+<div>
 (define (sieve stream)
   (cons-stream
    (stream-car stream)
@@ -462,7 +462,7 @@ C.prompt();
 
 <p> Now to find a particular prime we need only ask for it:
 
-<div id="">
+<div>
 (stream-ref primes 50)
 233
 </div>
@@ -483,7 +483,7 @@ signal-processing system.
   |        __/|                                        |\__       |
   |     __/car|........................................|   \__    |
   |   _/      |           :                            |      \_  |
-----><_       |           V                            |  cons _>---->
+---->&lt;_       |           V                            |  cons _>---->
   |    \__    |    +------------+    +------------+    |    __/   |
   |       \cdr|--->| filter:    |    | sieve      |--->| __/      |
   |          \|    |            |--->|            |    |/         |
@@ -498,7 +498,7 @@ signal-processing system.
 
 <p> The <code>integers</code> and <code>fibs</code> streams above were defined by specifying ``generating'' procedures that explicitly compute the stream elements one by one. An alternative way to specify streams is to take advantage of delayed evaluation to define streams implicitly. For example, the following expression defines the stream <code>ones</code> to be an infinite stream of ones:
 
-<div id="">
+<div>
 (define ones (cons-stream 1 ones))
 </div>
 <script>
@@ -509,7 +509,7 @@ C.prompt();
 
 <p> We can do more interesting things by manipulating streams with operations such as <code>add-streams</code>, which produces the elementwise sum of two given streams:@footnote{This uses the generalized version of <code>stream-map</code> from Exercise 3-50.}
 
-<div id="">
+<div>
 (define (add-streams s1 s2)
   (stream-map + s1 s2))
 </div>
@@ -519,7 +519,7 @@ C.prompt();
 
 <p> Now we can define the integers as follows:
 
-<div id="">
+<div>
 (define integers (cons-stream 1 (add-streams ones integers)))
 </div>
 <script>
@@ -530,7 +530,7 @@ C.prompt();
 
 <p> We can define the Fibonacci numbers in the same style:
 
-<div id="">
+<div>
 (define fibs
   (cons-stream 0
                (cons-stream 1
@@ -551,7 +551,7 @@ C.prompt();
 
 <p> <code>Scale-stream</code> is another useful procedure in formulating such stream definitions. This multiplies each item in a stream by a given constant:
 
-<div id="">
+<div>
 (define (scale-stream stream factor)
   (stream-map (lambda (x) (* x factor)) stream))
 </div>
@@ -561,7 +561,7 @@ C.prompt();
 
 For example,
 
-<div id="">
+<div>
 (define double (cons-stream 1 (scale-stream double 2)))
 </div>
 <script>
@@ -572,7 +572,7 @@ C.prompt();
 
 <p> An alternate definition of the stream of primes can be given by starting with the integers and filtering them by testing for primality. We will need the first prime, 2, to get started:
 
-<div id="">
+<div>
 (define primes
   (cons-stream
    2
@@ -584,7 +584,7 @@ C.prompt();
 
 <p> This definition is not so straightforward as it appears, because we will test whether a number n is prime by checking whether n is divisible by a prime (not by just any integer) less than or equal to <em>[sqrt]</em>(n):
 
-<div id="">
+<div>
 (define (prime? n)
   (define (iter ps)
     (cond ((> (square (stream-car ps)) n) true)
@@ -601,7 +601,7 @@ C.prompt();
 <div class="exercise">
 <b>Exercise 3.53:</b> Without running the program, describe the elements of the stream defined by
 
-<div id="">
+<div>
 (define s (cons-stream 1 (add-streams s s)))
 </div>
 <script>
@@ -612,8 +612,8 @@ C.prompt();
 <div class="exercise">
 <b>Exercise 3.54:</b> Define a procedure <code>mul-streams</code>, analogous to <code>add-streams</code>, that produces the elementwise product of its two input streams. Use this together with the stream of <code>integers</code> to complete the following definition of the stream whose nth element (counting from 0) is n + 1 factorial:
 
-<div id="">
-(define factorials (cons-stream 1 (mul-streams <??> <??>)))
+<div>
+(define factorials (cons-stream 1 (mul-streams &lt;??&gt; &lt;??&gt;)))
 </div>
 <script>
 C.prompt();
@@ -650,14 +650,14 @@ These are all the elements of <code>S</code>.
 
 Now all we have to do is combine elements from these sources. For this we define a procedure <code>merge</code> that combines two ordered streams into one ordered result stream, eliminating repetitions:
 
-<div id="">
+<div>
 (define (merge s1 s2)
   (cond ((stream-null? s1) s2)
         ((stream-null? s2) s1)
         (else
          (let ((s1car (stream-car s1))
                (s2car (stream-car s2)))
-           (cond ((< s1car s2car)
+           (cond ((&lt; s1car s2car)
                   (cons-stream s1car (merge (stream-cdr s1) s2)))
                  ((> s1car s2car)
                   (cons-stream s2car (merge s1 (stream-cdr s2))))
@@ -672,24 +672,24 @@ C.prompt();
 
 Then the required stream may be constructed with <code>merge</code>, as follows:
 
-<div id="">
-(define S (cons-stream 1 (merge <??> <??>)))
+<div>
+(define S (cons-stream 1 (merge &lt;??&gt; &lt;??&gt;)))
 </div>
 <script>
 C.prompt();
 </script>
 
-Fill in the missing expressions in the places marked <??> above.
+Fill in the missing expressions in the places marked &lt;??&gt; above.
 </div>
 
 <div class="exercise">
-<b>Exercise 3.57:</b> How many additions are performed when we compute the nth Fibonacci number using the definition of <code>fibs</code> based on the <code>add-streams</code> procedure?  Show that the number of additions would be exponentially greater if we had implemented <code>(delay <exp</code>>) simply as <code>(lambda () <exp</code>>), without using the optimization provided by the <code>memo-proc</code> procedure described in section <a href="3-5-streams.html">3.5.1</a>.@footnote{This exercise shows how call-by-need is closely related to ordinary memoization as described in Exercise 3-27. In that exercise, we used assignment to explicitly construct a local table. Our call-by-need stream optimization effectively constructs such a table automatically, storing values in the previously forced parts of the stream.}
+<b>Exercise 3.57:</b> How many additions are performed when we compute the nth Fibonacci number using the definition of <code>fibs</code> based on the <code>add-streams</code> procedure?  Show that the number of additions would be exponentially greater if we had implemented <code>(delay &lt;exp&gt;)</code> simply as <code>(lambda () &lt;exp&gt;)</code>, without using the optimization provided by the <code>memo-proc</code> procedure described in section <a href="3-5-streams.html">3.5.1</a>.@footnote{This exercise shows how call-by-need is closely related to ordinary memoization as described in Exercise 3-27. In that exercise, we used assignment to explicitly construct a local table. Our call-by-need stream optimization effectively constructs such a table automatically, storing values in the previously forced parts of the stream.}
 </div>
 
 <div class="exercise">
 <b>Exercise 3.58:</b> Give an interpretation of the stream computed by the following procedure:
 
-<div id="">
+<div>
 (define (expand num den radix)
   (cons-stream
    (quotient (* num radix) den)
@@ -722,7 +722,8 @@ sin x = x - ----- + ------------- - ...
 represented as infinite streams. We will represent the series a_0 + a_1 x + a_2 x^2 + a_3 x^3 + ... as the stream whose elements are the coefficients a_0, a_1, a_2, a_3, ....
 
 <ul>
-@item
+<li>
+<!-- @item -->
 The integral of the series a_0 + a_1 x + a_2 x^2 + a_3 x^3 + ... is the series
 
 <pre>
@@ -732,11 +733,12 @@ c + a_0 x + --- x_1 r^2 + --- a_2 r^3 + --- a_3 r^4 + ...
 </pre>
 
 where c is any constant. Define a procedure <code>integrate-series</code> that takes as input a stream a_0, a_1, a_2, ... representing a power series and returns the stream a_0, (1/2)a_1, (1/3)a_2, ... of coefficients of the non-constant terms of the integral of the series. (Since the result has no constant term, it doesn't represent a power series; when we use <code>integrate-series</code>, we will <code>cons</code> on the appropriate constant.)
-
-@item
+</li>
+<li>
+<!-- @item -->
 The function x |-> e^x is its own derivative. This implies that e^x and the integral of e^x are the same series, except for the constant term, which is e^0 = 1. Accordingly, we can generate the series for e^x as
 
-<div id="">
+<div>
 (define exp-series
   (cons-stream 1 (integrate-series exp-series)))
 </div>
@@ -746,25 +748,26 @@ C.prompt();
 
 Show how to generate the series for sine and cosine, starting from the facts that the derivative of sine is cosine and the derivative of cosine is the negative of sine:
 
-<div id="">
+<div>
 (define cosine-series
-  (cons-stream 1 <??>))
+  (cons-stream 1 &lt;??&gt;))
 
 (define sine-series
-  (cons-stream 0 <??>))
+  (cons-stream 0 &lt;??&gt;))
 </div>
 <script>
 C.prompt();
 </script>
+</li>
 </ul>
 </div>
 
 <div class="exercise">
 <b>Exercise 3.60:</b> With power series represented as streams of coefficients as in Exercise 3-59, adding series is implemented by <code>add-streams</code>. Complete the definition of the following procedure for multiplying series:
 
-<div id="">
+<div>
 (define (mul-series s1 s2)
-  (cons-stream <??> (add-streams <??> <??>)))
+  (cons-stream &lt;??&gt; (add-streams &lt;??&gt; &lt;??&gt;)))
 </div>
 <script>
 C.prompt();
@@ -800,7 +803,7 @@ The stream approach can be illuminating because it allows us to build systems wi
 
 In section <a href="1-2-procedures.html">1.2.1</a>, we introduced iterative processes, which proceed by updating state variables. We know now that we can represent state as a ``timeless'' stream of values rather than as a set of variables to be updated. Let's adopt this perspective in revisiting the square-root procedure from section <a href="1-1-elements.html">1.1.7</a>. Recall that the idea is to generate a sequence of better and better guesses for the square root of x by applying over and over again the procedure that improves guesses:
 
-<div id="">
+<div>
 (define (sqrt-improve guess x)
   (average guess (/ x guess)))
 </div>
@@ -810,7 +813,7 @@ C.prompt();
 
 In our original <code>sqrt</code> procedure, we made these guesses be the successive values of a state variable. Instead we can generate the infinite stream of guesses, starting with an initial guess of 1:@footnote{We can't use <code>let</code> to bind the local variable <code>guesses</code>, because the value of <code>guesses</code> depends on <code>guesses</code> itself. Exercise 3-63 addresses why we want a local variable here.}
 
-<div id="">
+<div>
 (define (sqrt-stream x)
   (define guesses
     (cons-stream 1.0
@@ -843,7 +846,7 @@ Another iteration that we can treat in the same way is to generate an approximat
 
 We first generate the stream of summands of the series (the reciprocals of the odd integers, with alternating signs). Then we take the stream of sums of more and more terms (using the <code>partial-sums</code> procedure of Exercise 3-55) and scale the result by 4:
 
-<div id="">
+<div>
 (define (pi-summands n)
   (cons-stream (/ 1.0 n)
                (stream-map - (pi-summands (+ n 2)))))
@@ -880,7 +883,7 @@ S_(n+1) - ------------------------
 
 Thus, if the original sequence is represented as a stream of values, the transformed sequence is given by
 
-<div id="">
+<div>
 (define (euler-transform s)
   (let ((s0 (stream-ref s 0))           ; S_(n-1)
         (s1 (stream-ref s 1))           ; S_n
@@ -895,7 +898,7 @@ C.prompt();
 
 We can demonstrate Euler acceleration with our sequence of approximations to [pi]:
 
-<div id="">
+<div>
 (display-stream (euler-transform pi-stream))
 3.166666666666667
 3.1333333333333337
@@ -913,7 +916,7 @@ C.prompt();
 
 Even better, we can accelerate the accelerated sequence, and recursively accelerate that, and so on. Namely, we create a stream of streams (a structure we'll call a <code>tableau</code> ) in which each stream is the transform of the preceding one:
 
-<div id="">
+<div>
 (define (make-tableau transform s)
   (cons-stream s
                (make-tableau transform
@@ -934,7 +937,7 @@ s_00   s_01   s_02   s_03   s_04   ...
 
 Finally, we form a sequence by taking the first term in each row of the tableau:
 
-<div id="">
+<div>
 (define (accelerated-sequence transform s)
   (stream-map stream-car
               (make-tableau transform s)))
@@ -945,7 +948,7 @@ C.prompt();
 
 We can demonstrate this kind of ``super-acceleration'' of the [pi] sequence:
 
-<div id="">
+<div>
 (display-stream (accelerated-sequence euler-transform
                                       pi-stream))
 4.
@@ -969,7 +972,7 @@ We could have implemented these acceleration techniques without using streams. B
 <div class="exercise">
 <b>Exercise 3.63:</b> Louis Reasoner asks why the <code>sqrt-stream</code> procedure was not written in the following more straightforward way, without the local variable <code>guesses</code>:
 
-<div id="">
+<div>
 (define (sqrt-stream x)
   (cons-stream 1.0
                (stream-map (lambda (guess)
@@ -980,13 +983,13 @@ We could have implemented these acceleration techniques without using streams. B
 C.prompt();
 </script>
 
-Alyssa P. Hacker replies that this version of the procedure is considerably less efficient because it performs redundant computation. Explain Alyssa's answer. Would the two versions still differ in efficiency if our implementation of <code>delay</code> used only <code>(lambda () <exp</code>>) without using the optimization provided by <code>memo-proc</code> (section <a href="3-5-streams.html">3.5.1</a>)?
+Alyssa P. Hacker replies that this version of the procedure is considerably less efficient because it performs redundant computation. Explain Alyssa's answer. Would the two versions still differ in efficiency if our implementation of <code>delay</code> used only <code>(lambda () &lt;exp&gt;)</code> without using the optimization provided by <code>memo-proc</code> (section <a href="3-5-streams.html">3.5.1</a>)?
 </div>
 
 <div class="exercise">
 <b>Exercise 3.64:</b> Write a procedure <code>stream-limit</code> that takes as arguments a stream and a number (the tolerance). It should examine the stream until it finds two successive elements that differ in absolute value by less than the tolerance, and return the second of the two elements. Using this, we could compute square roots up to a given tolerance by
 
-<div id="">
+<div>
 (define (sqrt x tolerance)
   (stream-limit (sqrt-stream x) tolerance))
 </div>
@@ -1013,7 +1016,7 @@ In section <a href="2-2-closure.html">2.2.3</a>, we saw how the sequence paradig
 
 For example, suppose we want to generalize the <code>prime-sum-pairs</code> procedure of section <a href="2-2-closure.html">2.2.3</a> to produce the stream of pairs of <em>all</em> integers (i,j) with i &lt;= j such that i + j is prime. If <code>int-pairs</code> is the sequence of all pairs of integers (i,j) with i &lt;= j, then our required stream is simply@footnote{As in section <a href="2-2-closure.html">2.2.3</a>, we represent a pair of integers as a list rather than a Lisp pair.}
 
-<div id="">
+<div>
 (stream-filter (lambda (pair)
                  (prime? (+ (car pair) (cadr pair))))
                int-pairs)
@@ -1054,7 +1057,7 @@ Call the general stream of pairs <code>(pairs S T)</code>, and consider it to be
 
 Observe that the third piece in this decomposition (pairs that are not in the first row) is (recursively) the pairs formed from <code>(stream-cdr S)</code> and <code>(stream-cdr T)</code>. Also note that the second piece (the rest of the first row) is
 
-<div id="">
+<div>
 (stream-map (lambda (x) (list (stream-car s) x))
             (stream-cdr t))
 </div>
@@ -1064,11 +1067,11 @@ C.prompt();
 
 Thus we can form our stream of pairs as follows:
 
-<div id="">
+<div>
 (define (pairs s t)
   (cons-stream
    (list (stream-car s) (stream-car t))
-   (<combine-in-some-way>
+   (&lt;combine-in-some-way&gt;
        (stream-map (lambda (x) (list (stream-car s) x))
                    (stream-cdr t))
        (pairs (stream-cdr s) (stream-cdr t)))))
@@ -1079,7 +1082,7 @@ C.prompt();
 
 In order to complete the procedure, we must choose some way to combine the two inner streams. One idea is to use the stream analog of the <code>append</code> procedure from section <a href="2-2-closure.html">2.2.1</a>:
 
-<div id="">
+<div>
 (define (stream-append s1 s2)
   (if (stream-null? s1)
       s2
@@ -1092,7 +1095,7 @@ C.prompt();
 
 This is unsuitable for infinite streams, however, because it takes all the elements from the first stream before incorporating the second stream. In particular, if we try to generate all pairs of positive integers using
 
-<div id="">
+<div>
 (pairs integers integers)
 </div>
 <script>
@@ -1103,7 +1106,7 @@ our stream of results will first try to run through all pairs with the first int
 
 To handle infinite streams, we need to devise an order of combination that ensures that every element will eventually be reached if we let our program run long enough. An elegant way to accomplish this is with the following <code>interleave</code> procedure:@footnote{The precise statement of the required property on the order of combination is as follows: There should be a function f of two arguments such that the pair corresponding to element i of the first stream and element j of the second stream will appear as element number f(i,j) of the output stream. The trick of using <code>interleave</code> to accomplish this was shown to us by David Turner, who employed it in the language KRC (Turner 1981).}
 
-<div id="">
+<div>
 (define (interleave s1 s2)
   (if (stream-null? s1)
       s2
@@ -1118,7 +1121,7 @@ Since <code>interleave</code> takes elements alternately from the two streams, e
 
 We can thus generate the required stream of pairs as
 
-<div id="">
+<div>
 (define (pairs s t)
   (cons-stream
    (list (stream-car s) (stream-car t))
@@ -1136,13 +1139,13 @@ C.prompt();
 </div>
 
 <div class="exercise">
-<b>Exercise 3.67:</b> Modify the <code>pairs</code> procedure so that <code>(pairs integers integers)</code> will produce the stream of <em>all</em> pairs of integers (i,j) (without the condition i <= j). Hint: You will need to mix in an additional stream.
+<b>Exercise 3.67:</b> Modify the <code>pairs</code> procedure so that <code>(pairs integers integers)</code> will produce the stream of <em>all</em> pairs of integers (i,j) (without the condition i &lt;= j). Hint: You will need to mix in an additional stream.
 </div>
 
 <div class="exercise">
 <b>Exercise 3.68:</b> Louis Reasoner thinks that building a stream of pairs from three parts is unnecessarily complicated. Instead of separating the pair (S_0,T_0) from the rest of the pairs in the first row, he proposes to work with the whole first row, as follows:
 
-<div id="">
+<div>
 (define (pairs s t)
   (interleave
    (stream-map (lambda (x) (list (stream-car s) x))
@@ -1157,22 +1160,24 @@ Does this work?  Consider what happens if we evaluate <code>(pairs integers inte
 </div>
 
 <div class="exercise">
-<b>Exercise 3.69:</b> Write a procedure <code>triples</code> that takes three infinite streams, S, T, and U, and produces the stream of triples (S_i,T_j,U_k) such that i <= j <= k. Use <code>triples</code> to generate the stream of all Pythagorean triples of positive integers, i.e., the triples (i,j,k) such that i <= j and i^2 + j^2 = k^2.
+<b>Exercise 3.69:</b> Write a procedure <code>triples</code> that takes three infinite streams, S, T, and U, and produces the stream of triples (S_i,T_j,U_k) such that i &lt;= j &lt;= k. Use <code>triples</code> to generate the stream of all Pythagorean triples of positive integers, i.e., the triples (i,j,k) such that i &lt;= j and i^2 + j^2 = k^2.
 </div>
 
 <div class="exercise">
-<b>Exercise 3.70:</b> It would be nice to be able to generate streams in which the pairs appear in some useful order, rather than in the order that results from an <em>ad hoc</em> interleaving process. We can use a technique similar to the <code>merge</code> procedure of Exercise 3-56, if we define a way to say that one pair of integers is ``less than'' another. One way to do this is to define a ``weighting function'' W(i,j) and stipulate that (i_1,j_1) is less than (i_2,j_2) if W(i_1,j_1) < W(i_2,j_2). Write a procedure <code>merge-weighted</code> that is like <code>merge</code>, except that <code>merge-weighted</code> takes an additional argument <code>weight</code>, which is a procedure that computes the weight of a pair, and is used to determine the order in which elements should appear in the resulting merged stream.@footnote{We will require that the weighting function be such that the weight of a pair increases as we move out along a row or down along a column of the array of pairs.}  Using this, generalize <code>pairs</code> to a procedure <code>weighted-pairs</code> that takes two streams, together with a procedure that computes a weighting function, and generates the stream of pairs, ordered according to weight. Use your procedure to generate
+<b>Exercise 3.70:</b> It would be nice to be able to generate streams in which the pairs appear in some useful order, rather than in the order that results from an <em>ad hoc</em> interleaving process. We can use a technique similar to the <code>merge</code> procedure of Exercise 3-56, if we define a way to say that one pair of integers is ``less than'' another. One way to do this is to define a ``weighting function'' W(i,j) and stipulate that (i_1,j_1) is less than (i_2,j_2) if W(i_1,j_1) &lt; W(i_2,j_2). Write a procedure <code>merge-weighted</code> that is like <code>merge</code>, except that <code>merge-weighted</code> takes an additional argument <code>weight</code>, which is a procedure that computes the weight of a pair, and is used to determine the order in which elements should appear in the resulting merged stream.@footnote{We will require that the weighting function be such that the weight of a pair increases as we move out along a row or down along a column of the array of pairs.}  Using this, generalize <code>pairs</code> to a procedure <code>weighted-pairs</code> that takes two streams, together with a procedure that computes a weighting function, and generates the stream of pairs, ordered according to weight. Use your procedure to generate
 
 <ul>
-@item
-the stream of all pairs of positive integers (i,j) with i <= j
+<li>
+<!-- @item -->
+the stream of all pairs of positive integers (i,j) with i &lt;= j
 ordered according to the sum i + j
-
-@item
-the stream of all pairs of positive integers (i,j) with i <= j,
+</li>
+<li>
+<!-- @item -->
+the stream of all pairs of positive integers (i,j) with i &lt;= j,
 where neither i nor j is divisible by 2, 3, or 5, and the pairs are
 ordered according to the sum 2 i + 3 j + 5 i j.
-
+</li>
 </ul>
 </div>
 
@@ -1198,7 +1203,7 @@ S_i = C + >   x_j dt
 
 and returns the stream of values S = (S_i). The following <code>integral</code> procedure is reminiscent of the ``implicit style'' definition of the stream of integers (section <a href="3-5-streams.html">3.5.2</a>):
 
-<div id="">
+<div>
 (define (integral integrand initial-value dt)
   (define int
     (cons-stream initial-value
@@ -1267,7 +1272,7 @@ signal-flow diagram.
 
 of the input signal. That is, the resulting signal should be + 1 whenever the input signal changes from negative to positive, - 1 whenever the input signal changes from positive to negative, and 0 otherwise. (Assume that the sign of a 0 input is positive.)  For example, a typical input signal with its associated zero-crossing signal would be
 
-<div id="">
+<div>
 ... 1  2  1.5  1  0.5  -0.1  -2  -3  -2  -0.5  0.2  3  4 ...
 ... 0  0    0  0    0     -1  0   0   0     0    1  0  0 ...
 </div>
@@ -1277,7 +1282,7 @@ C.prompt();
 
 In Alyssa's system, the signal from the sensor is represented as a stream <code>sense-data</code> and the stream <code>zero-crossings</code> is the corresponding stream of zero crossings. Alyssa first writes a procedure <code>sign-change-detector</code> that takes two values as arguments and compares the signs of the values to produce an appropriate 0, 1, or - 1. She then constructs her zero-crossing stream as follows:
 
-<div id="">
+<div>
 (define (make-zero-crossings input-stream last-value)
   (cons-stream
    (sign-change-detector (stream-car input-stream) last-value)
@@ -1292,21 +1297,21 @@ C.prompt();
 
 Alyssa's boss, Eva Lu Ator, walks by and suggests that this program is approximately equivalent to the following one, which uses the generalized version of <code>stream-map</code> from Exercise 3-50:
 
-<div id="">
+<div>
 (define zero-crossings
-  (stream-map sign-change-detector sense-data <expression>))
+  (stream-map sign-change-detector sense-data &lt;expression&gt;))
 </div>
 <script>
 C.prompt();
 </script>
 
-Complete the program by supplying the indicated <expression>.
+Complete the program by supplying the indicated &lt;expression&gt;.
 </div>
 
 <div class="exercise">
 <b>Exercise 3.75:</b> Unfortunately, Alyssa's zero-crossing detector in Exercise 3-74 proves to be insufficient, because the noisy signal from the sensor leads to spurious zero crossings. Lem E. Tweakit, a hardware specialist, suggests that Alyssa smooth the signal to filter out the noise before extracting the zero crossings. Alyssa takes his advice and decides to extract the zero crossings from the signal constructed by averaging each value of the sense data with the previous value. She explains the problem to her assistant, Louis Reasoner, who attempts to implement the idea, altering Alyssa's program as follows:
 
-<div id="">
+<div>
 (define (make-zero-crossings input-stream last-value)
   (let ((avpt (/ (+ (stream-car input-stream) last-value) 2)))
     (cons-stream (sign-change-detector avpt last-value)
@@ -1328,7 +1333,7 @@ This does not correctly implement Alyssa's plan. Find the bug that Louis has ins
 
 The <code>integral</code> procedure at the end of the preceding section shows how we can use streams to model signal-processing systems that contain feedback loops. The feedback loop for the adder shown in Figure 3-32 is modeled by the fact that <code>integral</code>'s internal stream <code>int</code> is defined in terms of itself:
 
-<div id="">
+<div>
 (define int
   (cons-stream initial-value
                (add-streams (scale-stream integrand dt)
@@ -1360,7 +1365,7 @@ solves the equation dy/dt = f(y).
 
 Assuming we are given an initial value y_0 for y, we could try to model this system using the procedure
 
-<div id="">
+<div>
 (define (solve f y0 dt)
   (define y (integral dy y0 dt))
   (define dy (stream-map f y))
@@ -1376,7 +1381,7 @@ On the other hand, the intent of our definition does make sense, because we can,
 
 To take advantage of this idea, we will redefine <code>integral</code> to expect the integrand stream to be a <code>delayed argument</code> . <code>Integral</code> will <code>force</code> the integrand to be evaluated only when it is required to generate more than the first element of the output stream:
 
-<div id="">
+<div>
 (define (integral delayed-integrand initial-value dt)
   (define int
     (cons-stream initial-value
@@ -1391,7 +1396,7 @@ C.prompt();
 
 Now we can implement our <code>solve</code> procedure by delaying the evaluation of <code>dy</code> in the definition of <code>y</code>:@footnote{This procedure is not guaranteed to work in all Scheme implementations, although for any implementation there is a simple variation that will work. The problem has to do with subtle differences in the ways that Scheme implementations handle internal definitions. (See section <a href="4-1-metacircular.html">4.1.6</a>.)}
 
-<div id="">
+<div>
 (define (solve f y0 dt)
   (define y (integral (delay dy) y0 dt))
   (define dy (stream-map f y))
@@ -1403,7 +1408,7 @@ C.prompt();
 
 In general, every caller of <code>integral</code> must now <code>delay</code> the integrand argument. We can demonstrate that the <code>solve</code> procedure works by approximating eapprox 2.718 by computing the value at y = 1 of the solution to the differential equation dy/dt = y with initial condition y(0) = 1:
 
-<div id="">
+<div>
 (stream-ref (solve (lambda (y) y) 1 0.001) 1000)
 2.716924
 </div>
@@ -1414,7 +1419,7 @@ C.prompt();
 <div class="exercise">
 <b>Exercise 3.77:</b> The <code>integral</code> procedure used above was analogous to the ``implicit'' definition of the infinite stream of integers in section <a href="3-5-streams.html">3.5.2</a>. Alternatively, we can give a definition of <code>integral</code> that is more like <code>integers-starting-from</code> (also in section <a href="3-5-streams.html">3.5.2</a>):
 
-<div id="">
+<div>
 (define (integral integrand initial-value dt)
   (cons-stream initial-value
                (if (stream-null? integrand)
@@ -1444,11 +1449,11 @@ to a second-order linear differential equation.
 |          +----------+     |  +----------+  |
 |                           |                |
 |            +----------+   |                |
-|     __/|<--+ scale: a |<--+                |
+|     __/|&lt;--+ scale: a |&lt;--+                |
 |   _/   |   +----------+                    |
-+--<_add |                                   |
++--&lt;_add |                                   |
      \__ |   +----------+                    |
-        \|<--+ scale: b |<-------------------+
+        \|&lt;--+ scale: b |&lt;-------------------+
              +----------+
 </pre>
 </div>
@@ -1533,7 +1538,7 @@ solution to a series RLC circuit.
 
 <pre>
                  +-------------+
-+----------------+  scale: l/L |<--+
++----------------+  scale: l/L |&lt;--+
 |                +-------------+   |
 |                                  |
 |                +-------------+   |  v_C
@@ -1543,7 +1548,7 @@ solution to a series RLC circuit.
 |            |        | v_(C_0)
 |            |
 |            |   +-------------+
-|            +---+ scale: -l/C |<--+
+|            +---+ scale: -l/C |&lt;--+
 |                +-------------+   |
 |  |\__                            |
 +->|   \_  di_L  +-------------+   |  i_L
@@ -1553,7 +1558,7 @@ solution to a series RLC circuit.
 |                     | i_(L_0)    |
 |                                  |
 |                +-------------+   |
-+----------------+ scale: -R/L |<--+
++----------------+ scale: -R/L |&lt;--+
                  +-------------+
 </pre>
 </div>
@@ -1572,7 +1577,7 @@ As we saw in section <a href="3-1-assignment.html">3.1.2</a>, one of the major b
 
 The key modularity issue was that we wished to hide the internal state of a random-number generator from programs that used random numbers. We began with a procedure <code>rand-update</code>, whose successive values furnished our supply of random numbers, and used this to produce a random-number generator:
 
-<div id="">
+<div>
 (define rand
   (let ((x random-init))
     (lambda ()
@@ -1585,7 +1590,7 @@ C.prompt();
 
 In the stream formulation there is no random-number generator <em>per se</em>, just a stream of random numbers produced by successive calls to <code>rand-update</code>:
 
-<div id="">
+<div>
 (define random-numbers
   (cons-stream random-init
                (stream-map rand-update random-numbers)))
@@ -1596,7 +1601,7 @@ C.prompt();
 
 We use this to construct the stream of outcomes of the Ces@`aro experiment performed on consecutive pairs in the <code>random-numbers</code> stream:
 
-<div id="">
+<div>
 (define cesaro-stream
   (map-successive-pairs (lambda (r1 r2) (= (gcd r1 r2) 1))
                         random-numbers))
@@ -1612,7 +1617,7 @@ C.prompt();
 
 The <code>cesaro-stream</code> is now fed to a <code>monte-carlo</code> procedure, which produces a stream of estimates of probabilities. The results are then converted into a stream of estimates of [pi]. This version of the program doesn't need a parameter telling how many trials to perform. Better estimates of [pi] (from performing more experiments) are obtained by looking farther into the <code>pi</code> stream:
 
-<div id="">
+<div>
 (define (monte-carlo experiment-stream passed failed)
   (define (next passed failed)
     (cons-stream
@@ -1649,7 +1654,7 @@ Now we have seen that streams provide an alternative way to model objects with l
 
 In order to contrast these two approaches to modeling, let us reconsider the implementation of a ``withdrawal processor'' that monitors the balance in a bank account. In section <a href="3-1-assignment.html">3.1.3</a> we implemented a simplified version of such a processor:
 
-<div id="">
+<div>
 (define (make-simplified-withdraw balance)
   (lambda (amount)
     (set! balance (- balance amount))
@@ -1663,7 +1668,7 @@ Calls to <code>make-simplified-withdraw</code> produce computational objects, ea
 
 Alternatively, we can model a withdrawal processor as a procedure that takes as input a balance and a stream of amounts to withdraw and produces the stream of successive balances in the account:
 
-<div id="">
+<div>
 (define (stream-withdraw balance amount-stream)
   (cons-stream
    balance

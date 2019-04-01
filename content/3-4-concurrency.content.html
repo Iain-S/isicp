@@ -16,7 +16,7 @@
 
 <p> The central issue lurking beneath the complexity of state, sameness, and change is that by introducing assignment we are forced to admit <code>time</code> into our computational models. Before we introduced assignment, all our programs were timeless, in the sense that any expression that has a value always has the same value. In contrast, recall the example of modeling withdrawals from a bank account and returning the resulting balance, introduced at the beginning of section <a href="3-1-assignment.html">3.1.1</a>:
 
-<div id="">
+<div>
 (withdraw 25)
 75
 
@@ -37,13 +37,13 @@ C.prompt();
 
 <h3 id="sec_3.4.1"> 3.4.1 The Nature of Time in Concurrent Systems </h3>
 
-<span class="tex2jax_ignore"><p> On the surface, time seems straightforward. It is an ordering imposed on events.@footnote{To quote some graffiti seen on a Cambridge building wall: ``Time is a device that was invented to keep everything from happening at once.''}  For any events A and B, either A occurs before B, A and B are simultaneous, or A occurs after B. For instance, returning to the bank account example, suppose that Peter withdraws $10 and Paul withdraws $25 from a joint account that initially contains $100, leaving $65 in the account. Depending on the order of the two withdrawals, the sequence of balances in the account is either $100 -> $90 -> $65 or $100 -> $75 -> $65. In a computer implementation of the banking system, this changing sequence of balances could be modeled by successive assignments to a variable <code>balance</code>.</span>
+<div class="tex2jax_ignore"><p> On the surface, time seems straightforward. It is an ordering imposed on events.@footnote{To quote some graffiti seen on a Cambridge building wall: ``Time is a device that was invented to keep everything from happening at once.''}  For any events A and B, either A occurs before B, A and B are simultaneous, or A occurs after B. For instance, returning to the bank account example, suppose that Peter withdraws $10 and Paul withdraws $25 from a joint account that initially contains $100, leaving $65 in the account. Depending on the order of the two withdrawals, the sequence of balances in the account is either $100 -> $90 -> $65 or $100 -> $75 -> $65. In a computer implementation of the banking system, this changing sequence of balances could be modeled by successive assignments to a variable <code>balance</code>.</div>
 
 <p> In complex situations, however, such a view can be problematic. Suppose that Peter and Paul, and other people besides, are accessing the same bank account through a network of banking machines distributed all over the world. The actual sequence of balances in the account will depend critically on the detailed timing of the accesses and the details of the communication among the machines.
 
 <p> This indeterminacy in the order of events can pose serious problems in the design of concurrent systems. For instance, suppose that the withdrawals made by Peter and Paul are implemented as two separate processes sharing a common variable <code>balance</code>, each process specified by the procedure given in section <a href="3-1-assignment.html">3.1.1</a>:
 
-<div id="">
+<div>
 (define (withdraw amount)
   (if (>= balance amount)
       (begin (set! balance (- balance amount))
@@ -58,7 +58,7 @@ C.prompt();
 
 <p> Things can be worse still. Consider the expression
 
-<div id="">
+<div>
 (set! balance (- balance amount))
 </div>
 <script>
@@ -67,7 +67,7 @@ C.prompt();
 
 <p> executed as part of each withdrawal process. This consists of three steps: (1) accessing the value of the <code>balance</code> variable; (2) computing the new balance; (3) setting <code>balance</code> to this new value. If Peter and Paul's withdrawals execute this statement concurrently, then the two withdrawals might interleave the order in which they access <code>balance</code> and set it to the new value.
 
-<span class="tex2jax_ignore"><p> The timing diagram in Figure 3-29 depicts an order of events where <code>balance</code> starts at 100, Peter withdraws 10, Paul withdraws 25, and yet the final value of <code>balance</code> is 75. As shown in the diagram, the reason for this anomaly is that Paul's assignment of 75 to <code>balance</code> is made under the assumption that the value of <code>balance</code> to be decremented is 100. That assumption, however, became invalid when Peter changed <code>balance</code> to 90. This is a catastrophic failure for the banking system, because the total amount of money in the system is not conserved. Before the transactions, the total amount of money was $100. Afterwards, Peter has $10, Paul has $25, and the bank has $75.@footnote{An even worse failure for this system could occur if the two <code>set!</code> operations attempt to change the balance simultaneously, in which case the actual data appearing in memory might end up being a random combination of the information being written by the two processes. Most computers have interlocks on the primitive memory-write operations, which protect against such simultaneous access. Even this seemingly simple kind of protection, however, raises implementation challenges in the design of multiprocessing computers, where elaborate <code>cache-coherence</code> protocols are required to ensure that the various processors will maintain a consistent view of memory contents, despite the fact that data may be replicated (``cached'') among the different processors to increase the speed of memory access.}</span>
+<div class="tex2jax_ignore"><p> The timing diagram in Figure 3-29 depicts an order of events where <code>balance</code> starts at 100, Peter withdraws 10, Paul withdraws 25, and yet the final value of <code>balance</code> is 75. As shown in the diagram, the reason for this anomaly is that Paul's assignment of 75 to <code>balance</code> is made under the assumption that the value of <code>balance</code> to be decremented is 100. That assumption, however, became invalid when Peter changed <code>balance</code> to 90. This is a catastrophic failure for the banking system, because the total amount of money in the system is not conserved. Before the transactions, the total amount of money was $100. Afterwards, Peter has $10, Paul has $25, and the bank has $75.@footnote{An even worse failure for this system could occur if the two <code>set!</code> operations attempt to change the balance simultaneously, in which case the actual data appearing in memory might end up being a random combination of the information being written by the two processes. Most computers have interlocks on the primitive memory-write operations, which protect against such simultaneous access. Even this seemingly simple kind of protection, however, raises implementation challenges in the design of multiprocessing computers, where elaborate <code>cache-coherence</code> protocols are required to ensure that the various processors will maintain a consistent view of memory contents, despite the fact that data may be replicated (``cached'') among the different processors to increase the speed of memory access.}</div>
 
 <p> The general phenomenon illustrated here is that several processes may share a common state variable. What makes this complicated is that more than one process may be trying to manipulate the shared state at the same time. For the bank account example, during each transaction, each customer should be able to act as if the other customers did not exist. When a customer changes the balance in a way that depends on the balance, he must be able to assume that, just before the moment of change, the balance is still what he thought it was.
 
@@ -102,13 +102,13 @@ C.prompt();
  |                                      | new value: 100-25=75 |
  |                              ____    `----------+-----------'
  |                             /    \              |
- |                            | $ 90 |<------------'
+ |                            | $ 90 |&lt;------------'
  V                             \____/
 time
 </pre>
 </div>
 
-<span class="tex2jax_ignore"><p> One possible restriction on concurrency would stipulate that no two operations that change any shared state variables can occur at the same time. This is an extremely stringent requirement. For distributed banking, it would require the system designer to ensure that only one transaction could proceed at a time. This would be both inefficient and overly conservative. Figure 3-30 shows Peter and Paul sharing a bank account, where Paul has a private account as well. The diagram illustrates two withdrawals from the shared account (one by Peter and one by Paul) and a deposit to Paul's private account.@footnote{The columns show the contents of Peter's wallet, the joint account (in Bank1), Paul's wallet, and Paul's private account (in Bank2), before and after each withdrawal (W) and deposit (D). Peter withdraws $10 from Bank1; Paul deposits $5 in Bank2, then withdraws $25 from Bank1.}  The two withdrawals from the shared account must not be concurrent (since both access and update the same account), and Paul's deposit and withdrawal must not be concurrent (since both access and update the amount in Paul's wallet). But there should be no problem permitting Paul's deposit to his private account to proceed concurrently with Peter's withdrawal from the shared account.</span>
+<div class="tex2jax_ignore"><p> One possible restriction on concurrency would stipulate that no two operations that change any shared state variables can occur at the same time. This is an extremely stringent requirement. For distributed banking, it would require the system designer to ensure that only one transaction could proceed at a time. This would be both inefficient and overly conservative. Figure 3-30 shows Peter and Paul sharing a bank account, where Paul has a private account as well. The diagram illustrates two withdrawals from the shared account (one by Peter and one by Paul) and a deposit to Paul's private account.@footnote{The columns show the contents of Peter's wallet, the joint account (in Bank1), Paul's wallet, and Paul's private account (in Bank2), before and after each withdrawal (W) and deposit (D). Peter withdraws $10 from Bank1; Paul deposits $5 in Bank2, then withdraws $25 from Bank1.}  The two withdrawals from the shared account must not be concurrent (since both access and update the same account), and Paul's deposit and withdrawal must not be concurrent (since both access and update the amount in Paul's wallet). But there should be no problem permitting Paul's deposit to his private account to proceed concurrently with Peter's withdrawal from the shared account.</div>
 
 <div class="exercise">
 <b>Figure 3.30:</b> Concurrent deposits and withdrawals from a joint account in Bank1 and a private account in Bank2.
@@ -123,25 +123,25 @@ time
  |           | W |                         | D |
  |    ____   ++-++   ____           ____   ++-++   ____
  |   /    \   | |   /    \         /    \   | |   /    \
- |  | $17  |<-' `->| $90  |--. .--|  $0  |<-' `->| $305 |
+ |  | $17  |&lt;-' `->| $90  |--. .--|  $0  |&lt;-' `->| $305 |
  |   \____/         \____/   V V   \____/         \____/
  |                          +---+
  |                          | W |
  |    ____           ____   ++-++   ____           ____
  |   /    \         /    \   | |   /    \         /    \
- |  | $17  |       | $65  |<-' `->| $25  |       | $305 |
+ |  | $17  |       | $65  |&lt;-' `->| $25  |       | $305 |
  |   \____/         \____/         \____/         \____/
  V
 time
 </pre>
 </div>
 
-<span class="tex2jax_ignore"><p> A less stringent restriction on concurrency would ensure that a concurrent system produces the same result as if the processes had run sequentially in some order. There are two important aspects to this requirement. First, it does not require the processes to actually run sequentially, but only to produce results that are the same <em>as if</em> they had run sequentially. For the example in Figure 3-30, the designer of the bank account system can safely allow Paul's deposit and Peter's withdrawal to happen concurrently, because the net result will be the same as if the two operations had happened sequentially. Second, there may be more than one possible ``correct'' result produced by a concurrent program, because we require only that the result be the same as for <em>some</em> sequential order. For example, suppose that Peter and Paul's joint account starts out with $100, and Peter deposits $40 while Paul concurrently withdraws half the money in the account. Then sequential execution could result in the account balance being either $70 or $90 (see Exercise 3-38).@footnote{[Footnote 39] A more formal way to express this idea is to say that concurrent programs are inherently <code>nondeterministic</code> . That is, they are described not by single-valued functions, but by functions whose results are sets of possible values. In section <a href="4-3-nondeterministic.html">4.3</a> we will study a language for expressing nondeterministic computations.}</span>
+<div class="tex2jax_ignore"><p> A less stringent restriction on concurrency would ensure that a concurrent system produces the same result as if the processes had run sequentially in some order. There are two important aspects to this requirement. First, it does not require the processes to actually run sequentially, but only to produce results that are the same <em>as if</em> they had run sequentially. For the example in Figure 3-30, the designer of the bank account system can safely allow Paul's deposit and Peter's withdrawal to happen concurrently, because the net result will be the same as if the two operations had happened sequentially. Second, there may be more than one possible ``correct'' result produced by a concurrent program, because we require only that the result be the same as for <em>some</em> sequential order. For example, suppose that Peter and Paul's joint account starts out with $100, and Peter deposits $40 while Paul concurrently withdraws half the money in the account. Then sequential execution could result in the account balance being either $70 or $90 (see Exercise 3-38).@footnote{[Footnote 39] A more formal way to express this idea is to say that concurrent programs are inherently <code>nondeterministic</code> . That is, they are described not by single-valued functions, but by functions whose results are sets of possible values. In section <a href="4-3-nondeterministic.html">4.3</a> we will study a language for expressing nondeterministic computations.}</div>
 
 <p> There are still weaker requirements for correct execution of concurrent programs. A program for simulating diffusion (say, the flow of heat in an object) might consist of a large number of processes, each one representing a small volume of space, that update their values concurrently. Each process repeatedly changes its value to the average of its own value and its neighbors'values. This algorithm converges to the right answer independent of the order in which the operations are done; there is no need for any restrictions on concurrent use of the shared values.
 
 <div class="exercise">
-<span class="tex2jax_ignore"><p> <b>Exercise 3.38:</b> Suppose that Peter, Paul, and Mary share a joint bank account that initially contains $100. Concurrently, Peter deposits $10, Paul withdraws $20, and Mary withdraws half the money in the account, by executing the following commands:</span>
+<div class="tex2jax_ignore"><p> <b>Exercise 3.38:</b> Suppose that Peter, Paul, and Mary share a joint bank account that initially contains $100. Concurrently, Peter deposits $10, Paul withdraws $20, and Mary withdraws half the money in the account, by executing the following commands:</div>
 
 <pre>
 Peter: (set! balance (+ balance 10))
@@ -188,8 +188,8 @@ What are some other values that could be produced if the system allows the proce
 
 <p> To make the above mechanism more concrete, suppose that we have extended Scheme to include a procedure called <code>parallel-execute</code>:
 
-<div id="">
-(parallel-execute <p_1> <p_2> ... <p_k>)
+<div>
+(parallel-execute &lt;p_1&gt; &lt;p_2&gt; ... &lt;p_k&gt;)
 </div>
 <script>
 C.prompt();
@@ -199,7 +199,7 @@ C.prompt();
 
 <p> As an example of how this is used, consider
 
-<div id="">
+<div>
 (define x 10)
 
 (parallel-execute (lambda () (set! x (* x x)))
@@ -229,7 +229,7 @@ C.prompt();
 
 <p> Thus, in contrast to the example above, executing
 
-<div id="">
+<div>
 (define x 10)
 
 (define s (make-serializer))
@@ -245,7 +245,7 @@ C.prompt();
 
 <p> Here is a version of the <code>make-account</code> procedure from section <a href="3-1-assignment.html">3.1.1</a>, where the deposits and withdrawals have been serialized:
 
-<div id="">
+<div>
 (define (make-account balance)
   (define (withdraw amount)
     (if (>= balance amount)
@@ -273,7 +273,7 @@ C.prompt();
 <div class="exercise" id="thm_3.39">
 <p> <b>Exercise 3.39:</b> Which of the five possibilities in the parallel execution shown above remain if we instead serialize execution as follows:
 
-<div id="">
+<div>
 (define x 10)
 
 (define s (make-serializer))
@@ -290,7 +290,7 @@ C.prompt();
 <b>Exercise 3.40:</b> Give all possible values of
 <code>x</code> that can result from executing
 
-<div id="">
+<div>
 (define x 10)
 
 (parallel-execute (lambda () (set! x (* x x)))
@@ -302,7 +302,7 @@ C.prompt();
 
 <p> Which of these possibilities remain if we instead use serialized procedures:
 
-<div id="">
+<div>
 (define x 10)
 
 (define s (make-serializer))
@@ -318,7 +318,7 @@ C.prompt();
 <div class="exercise" id="thm_3.41">
 <p> <b>Exercise 3.41:</b> Ben Bitdiddle worries that it would be better to implement the bank account as follows (where the commented line has been changed):
 
-<div id="">
+<div>
 (define (make-account balance)
   (define (withdraw amount)
     (if (>= balance amount)
@@ -351,7 +351,7 @@ C.prompt();
 <div class="exercise" id="thm_3.42">
 <p> <b>Exercise 3.42:</b> Ben Bitdiddle suggests that it's a waste of time to create a new serialized procedure in response to every <code>withdraw</code> and <code>deposit</code> message. He says that <code>make-account</code> could be changed so that the calls to <code>protected</code> are done outside the <code>dispatch</code> procedure. That is, an account would return the same serialized procedure (which was created at the same time as the account) each time it is asked for a withdrawal procedure.
 
-<div id="">
+<div>
 (define (make-account balance)
   (define (withdraw amount)
     (if (>= balance amount)
@@ -385,7 +385,7 @@ C.prompt();
 
 <p> To illustrate one of the difficulties that can arise, suppose we wish to swap the balances in two bank accounts. We access each account to find the balance, compute the difference between the balances, withdraw this difference from one account, and deposit it in the other account. We could implement this as follows:@footnote{We have simplified <code>exchange</code> by exploiting the fact that our <code>deposit</code> message accepts negative amounts. (This is a serious bug in our banking system!)}
 
-<div id="">
+<div>
 (define (exchange account1 account2)
   (let ((difference (- (account1 'balance)
                        (account2 'balance))))
@@ -396,11 +396,11 @@ C.prompt();
 C.prompt();
 </script>
 
-<span class="tex2jax_ignore"><p> This procedure works well when only a single process is trying to do the exchange. Suppose, however, that Peter and Paul both have access to accounts a1, a2, and a3, and that Peter exchanges a1 and a2 while Paul concurrently exchanges a1 and a3. Even with account deposits and withdrawals serialized for individual accounts (as in the <code>make-account</code> procedure shown above in this section), <code>exchange</code> can still produce incorrect results. For example, Peter might compute the difference in the balances for a1 and a2, but then Paul might change the balance in a1 before Peter is able to complete the exchange.@footnote{If the account balances start out as $10, $20, and $30, then after any number of concurrent exchanges, the balances should still be $10, $20, and $30 in some order. Serializing the deposits to individual accounts is not sufficient to guarantee this. See Exercise 3-43.}  For correct behavior, we must arrange for the <code>exchange</code> procedure to lock out any other concurrent accesses to the accounts during the entire time of the exchange.</span>
+<div class="tex2jax_ignore"><p> This procedure works well when only a single process is trying to do the exchange. Suppose, however, that Peter and Paul both have access to accounts a1, a2, and a3, and that Peter exchanges a1 and a2 while Paul concurrently exchanges a1 and a3. Even with account deposits and withdrawals serialized for individual accounts (as in the <code>make-account</code> procedure shown above in this section), <code>exchange</code> can still produce incorrect results. For example, Peter might compute the difference in the balances for a1 and a2, but then Paul might change the balance in a1 before Peter is able to complete the exchange.@footnote{If the account balances start out as $10, $20, and $30, then after any number of concurrent exchanges, the balances should still be $10, $20, and $30 in some order. Serializing the deposits to individual accounts is not sufficient to guarantee this. See Exercise 3-43.}  For correct behavior, we must arrange for the <code>exchange</code> procedure to lock out any other concurrent accesses to the accounts during the entire time of the exchange.</div>
 
 <p> One way we can accomplish this is by using both accounts' serializers to serialize the entire <code>exchange</code> procedure. To do this, we will arrange for access to an account's serializer. Note that we are deliberately breaking the modularity of the bank-account object by exposing the serializer. The following version of <code>make-account</code> is identical to the original version given in section <a href="3-1-assignment.html">3.1.1</a>, except that a serializer is provided to protect the balance variable, and the serializer is exported via message passing:
 
-<div id="">
+<div>
 (define (make-account-and-serializer balance)
   (define (withdraw amount)
     (if (>= balance amount)
@@ -426,7 +426,7 @@ C.prompt();
 
 <p> We can use this to do serialized deposits and withdrawals. However, unlike our earlier serialized account, it is now the responsibility of each user of bank-account objects to explicitly manage the serialization, for example as follows:@footnote{Exercise 3-45 investigates why deposits and withdrawals are no longer automatically serialized by the account.}
 
-<div id="">
+<div>
 (define (deposit account amount)
   (let ((s (account 'serializer))
         (d (account 'deposit)))
@@ -438,7 +438,7 @@ C.prompt();
 
 <p> Exporting the serializer in this way gives us enough flexibility to implement a serialized exchange program. We simply serialize the original <code>exchange</code> procedure with the serializers for both accounts:
 
-<div id="">
+<div>
 (define (serialized-exchange account1 account2)
   (let ((serializer1 (account1 'serializer))
         (serializer2 (account2 'serializer)))
@@ -450,14 +450,14 @@ C.prompt();
 C.prompt();
 </script>
 
-<div class="exercise"><span class="tex2jax_ignore">
+<div class="exercise"><div class="tex2jax_ignore">
 <p> <b>Exercise 3.43:</b> Suppose that the balances in three accounts start out as $10, $20, and $30, and that multiple processes run, exchanging the balances in the accounts. Argue that if the processes are run sequentially, after any number of concurrent exchanges, the account balances should be $10, $20, and $30 in some order. Draw a timing diagram like the one in Figure 3-29 to show how this condition can be violated if the exchanges are implemented using the first version of the account-exchange program in this section. On the other hand, argue that even with this <code>exchange</code> program, the sum of the balances in the accounts will be preserved. Draw a timing diagram to show how even this condition would be violated if we did not serialize the transactions on individual accounts.
-</span></div>
+</div></div>
 
 <div class="exercise" id="thm_3.44">
 <p> <b>Exercise 3.44:</b> Consider the problem of transferring an amount from one account to another. Ben Bitdiddle claims that this can be accomplished with the following procedure, even if there are multiple people concurrently transferring money among multiple accounts, using any account mechanism that serializes deposit and withdrawal transactions, for example, the version of <code>make-account</code> in the text above.
 
-<div id="">
+<div>
 (define (transfer from-account to-account amount)
   ((from-account 'withdraw) amount)
   ((to-account 'deposit) amount))
@@ -472,7 +472,7 @@ C.prompt();
 <div class="exercise" id="thm_3.45">
 <p> <b>Exercise 3.45:</b> Louis Reasoner thinks our bank-account system is unnecessarily complex and error-prone now that deposits and withdrawals aren't automatically serialized. He suggests that <code>make-account-and-serializer</code> should have exported the serializer (for use by such procedures as <code>serialized-exchange</code>) in addition to (rather than instead of) using it to serialize accounts and deposits as <code>make-account</code> did. He proposes to redefine accounts as follows:
 
-<div id="">
+<div>
 (define (make-account-and-serializer balance)
   (define (withdraw amount)
     (if (>= balance amount)
@@ -498,7 +498,7 @@ C.prompt();
 
 <p> Then deposits are handled as with the original <code>make-account</code>:
 
-<div id="">
+<div>
 (define (deposit account amount)
  ((account 'deposit) amount))
 </div>
@@ -513,7 +513,7 @@ C.prompt();
 
 <p> We implement serializers in terms of a more primitive synchronization mechanism called a <code>mutex</code> . A mutex is an object that supports two operations---the mutex can be <code>acquired</code> , and the mutex can be <code>released</code> . Once a mutex has been acquired, no other acquire operations on that mutex may proceed until the mutex is released.@footnote{The term ``mutex'' is an abbreviation for <code>mutual exclusion</code> . The general problem of arranging a mechanism that permits concurrent processes to safely share resources is called the mutual exclusion problem. Our mutex is a simple variant of the <code>semaphore</code> mechanism (see Exercise 3-47), which was introduced in the ``THE'' Multiprogramming System developed at the Technological University of Eindhoven and named for the university's initials in Dutch (Dijkstra 1968a). The acquire and release operations were originally called P and V, from the Dutch words <em>passeren</em> (to pass) and <em>vrijgeven</em> (to release), in reference to the semaphores used on railroad systems. Dijkstra's classic exposition (1968b) was one of the first to clearly present the issues of concurrency control, and showed how to use semaphores to handle a variety of concurrency problems.} In our implementation, each serializer has an associated mutex. Given a procedure <code>p</code>, the serializer returns a procedure that acquires the mutex, runs <code>p</code>, and then releases the mutex. This ensures that only one of the procedures produced by the serializer can be running at once, which is precisely the serialization property that we need to guarantee.
 
-<div id="">
+<div>
 (define (make-serializer)
   (let ((mutex (make-mutex)))
     (lambda (p)
@@ -532,7 +532,7 @@ C.prompt();
 
 <p> Our mutex constructor <code>make-mutex</code> begins by initializing the cell contents to false. To acquire the mutex, we test the cell. If the mutex is available, we set the cell contents to true and proceed. Otherwise, we wait in a loop, attempting to acquire over and over again, until we find that the mutex is available.@footnote{In most time-shared operating systems, processes that are blocked by a mutex do not waste time ``busy-waiting'' as above. Instead, the system schedules another process to run while the first is waiting, and the blocked process is awakened when the mutex becomes available.}  To release the mutex, we set the cell contents to false.
 
-<div id="">
+<div>
 (define (make-mutex)
   (let ((cell (list false)))
     (define (the-mutex m)
@@ -551,7 +551,7 @@ C.prompt();
 
 <p> <code>Test-and-set!</code> tests the cell and returns the result of the test. In addition, if the test was false, <code>test-and-set!</code> sets the cell contents to true before returning false. We can express this behavior as the following procedure:
 
-<div id="">
+<div>
 (define (test-and-set! cell)
   (if (car cell)
       true
@@ -566,7 +566,7 @@ C.prompt();
 
 <p> The actual implementation of <code>test-and-set!</code> depends on the details of how our system runs concurrent processes. For example, we might be executing concurrent processes on a sequential processor using a time-slicing mechanism that cycles through the processes, permitting each process to run for a short time before interrupting it and moving on to the next process. In that case, <code>test-and-set!</code>  can work by disabling time slicing during the testing and setting.@footnote{In @acronym{MIT} Scheme for a single processor, which uses a time-slicing model, <code>test-and-set!</code> can be implemented as follows:
 
-<div id="">
+<div>
 (define (test-and-set! cell)
   (without-interrupts
    (lambda ()

@@ -993,7 +993,7 @@ C.prompt("scheme-define-inverter");
 
 <p> An and-gate is a little more complex. The action procedure must be run if either of the inputs to the gate changes. It computes the <code>logical-and</code> (using a procedure analogous to <code>logical-not</code>) of the values of the signals on the input wires and sets up a change to the new value to occur on the output wire after one <code>and-gate-delay</code>.
 
-<div id="">
+<div>
 (define (and-gate a1 a2 output)
   (define (and-action-procedure)
     (let ((new-value
@@ -1169,7 +1169,7 @@ C.prompt("scheme-define-propagate");
 
 <p> The following procedure, which places a ``probe'' on a wire, shows the simulator in action. The probe tells the wire that, whenever its signal changes value, it should print the new signal value, together with the current time and a name that identifies the wire:
 
-<div id="scheme-define-probe">
+<div id="scheme-define-probe-1">
 (define (probe name wire)
   (add-action! wire
                (lambda ()
@@ -1251,7 +1251,7 @@ C.prompt("scheme-set-signal");
 <div class="exercise" id="thm_3.31">
 <p> <b>Exercise 3.31:</b> The internal procedure <code>accept-action-procedure!</code> defined in <code>make-wire</code> specifies that when a new action procedure is added to a wire, the procedure is immediately run. Explain why this initialization is necessary. In particular, trace through the half-adder example in the paragraphs above and say how the system's response would differ if we had defined <code>accept-action-procedure!</code> as
 
-<div id="">
+<div>
 (define (accept-action-procedure! proc)
   (set! action-procedures (cons proc action-procedures)))
 </div>
@@ -1351,7 +1351,7 @@ C.prompt("scheme-define-add-to-agenda");
 
 <p> The procedure that removes the first item from the agenda deletes the item at the front of the queue in the first time segment. If this deletion makes the time segment empty, we remove it from the list of segments:<a name="footnote_link_3-29" class="footnote_link" href="#footnote_3-29">29</a>
 
-<div id="">
+<div>
 (define (remove-first-agenda-item! agenda)
   (let ((q (segment-queue (first-segment agenda))))
     (delete-queue! q)
@@ -1363,7 +1363,7 @@ C.prompt();
 </script>
 
 <p> The first agenda item is found at the head of the queue in the first time segment. Whenever we extract an item, we also update the current time:<a name="footnote_link_3-30" class="footnote_link" href="#footnote_3-30">30</a>
-<div id="">
+<div>
 (define (first-agenda-item agenda)
   (if (empty-agenda? agenda)
       (error "Agenda is empty -- FIRST-AGENDA-ITEM")
@@ -1654,7 +1654,7 @@ C.prompt("scheme-define-constant");
 
 <p> Finally, a probe prints a message about the setting or unsetting of the designated connector:
 
-<div id="scheme-define-probe">
+<div id="scheme-define-probe-2">
 (define (probe name connector)
   (define (print-probe value)
     (newline)
@@ -1796,11 +1796,11 @@ C.prompt("scheme-define-squarer");
     (if (has-value? b)
         (if (&lt; (get-value b) 0)
             (error "square less than 0 -- SQUARER" (get-value b))
-            <alternative1>)
-        <alternative2>))
-  (define (process-forget-value) <body1>)
-  (define (me request) <body2>)
-  ; <rest of definition>
+            &lt;alternative1&gt;)
+        &lt;alternative2&gt;))
+  (define (process-forget-value) &lt;body1&gt;)
+  (define (me request) &lt;body2&gt;)
+  ; &lt;rest of definition&gt;
   me)
 </div>
 <script>
@@ -1922,7 +1922,7 @@ C.prompt("scheme-define-cp");
 </div>
 
 <div id="footnote_3-29" class="footnote">
-<p><a href="#footnote_link_3-29" class="footnote_backlink">29</a> Observe that the if expression in this procedure has no <alternative> expression. Such a ``one-armed if statement'' is used to decide whether to do something, rather than to select between two expressions. An if expression returns an unspecified value if the predicate is false and there is no <alternative>.
+<p><a href="#footnote_link_3-29" class="footnote_backlink">29</a> Observe that the if expression in this procedure has no &lt;alternative&gt; expression. Such a ``one-armed if statement'' is used to decide whether to do something, rather than to select between two expressions. An if expression returns an unspecified value if the predicate is false and there is no &lt;alternative&gt;.
 </div>
 
 <div id="footnote_3-30" class="footnote">
