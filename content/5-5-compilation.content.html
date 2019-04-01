@@ -216,7 +216,7 @@ C.prompt();
 
 <p> The procedures for combining instruction sequences are shown in section <a href="5-5-compilation.html">5.5.4</a>.
 
-<div class="exercise">
+<div class="exercise" id="thm_5.31">
 <p> <b>Exercise 5.31:</b> In evaluating a procedure application, the explicit-control evaluator always saves and restores the <code>env</code> register around the evaluation of the operator, saves and restores <code>env</code> around the evaluation of each operand (except the final one), saves and restores <code>argl</code> around the evaluation of each operand, and saves and restores <code>proc</code> around the evaluation of the operand sequence. For each of the following combinations, say which of these <code>save</code> and <code>restore</code> operations are superfluous and thus could be eliminated by the compiler's <code>preserving</code> mechanism:
 
 <div id="">
@@ -233,7 +233,7 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.32">
 <p> <b>Exercise 5.32:</b> Using the <code>preserving</code> mechanism, the compiler will avoid saving and restoring <code>env</code> around the evaluation of the operator of a combination in the case where the operator is a symbol. We could also build such optimizations into the evaluator. Indeed, the explicit-control evaluator of section <a href="5-4-explicit-control.html">5.4</a> already performs a similar optimization, by treating combinations with no operands as a special case.
 
 <ul>
@@ -1009,7 +1009,7 @@ C.prompt();
 
 <p> The code for the false branch is another a procedure call, where the procedure is the value of the symbol <code>*</code>, and the arguments are <code>n</code> and the result of another procedure call (a call to <code>factorial</code>). Each of these calls sets up <code>proc</code> and <code>argl</code> and its own primitive and compound branches. Figure 5-17 shows the complete compilation of the definition of the <code>factorial</code> procedure. Notice that the possible <code>save</code> and <code>restore</code> of <code>continue</code> and <code>env</code> around the predicate, shown above, are in fact generated, because these registers are modified by the procedure call in the predicate and needed for the procedure call and the <code>return</code> linkage in the branches.
 
-<div class="exercise">
+<div class="exercise" id="thm_5.33">
 <p> <b>Exercise 5.33:</b> Consider the following definition of a factorial procedure, which is slightly different from the one given above:
 
 <div id="">
@@ -1025,7 +1025,7 @@ C.prompt();
 <p> Compile this procedure and compare the resulting code with that produced for <code>factorial</code>. Explain any differences you find. Does either program execute more efficiently than the other?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.34">
 <p> <b>Exercise 5.34:</b> Compile the iterative factorial procedure
 
 <div id="">
@@ -1156,7 +1156,7 @@ after-lambda1
 
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.35">
 <p> <b>Exercise 5.35:</b> What expression was compiled to produce the code shown in Figure 5-18?
 </div>
 
@@ -1227,15 +1227,15 @@ after-lambda15
 
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.36">
 <p> <b>Exercise 5.36:</b> What order of evaluation does our compiler produce for operands of a combination?  Is it left-to-right, right-to-left, or some other order?  Where in the compiler is this order determined?  Modify the compiler so that it produces some other order of evaluation. (See the discussion of order of evaluation for the explicit-control evaluator in section <a href="5-4-explicit-control.html">5.4.1</a>.)  How does changing the order of operand evaluation affect the efficiency of the code that constructs the argument list?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.37">
 <p> <b>Exercise 5.37:</b> One way to understand the compiler's <code>preserving</code> mechanism for optimizing stack usage is to see what extra operations would be generated if we did not use this idea. Modify <code>preserving</code> so that it always generates the <code>save</code> and <code>restore</code> operations. Compile some simple expressions and identify the unnecessary stack operations that are generated. Compare the code to that generated with the <code>preserving</code> mechanism intact.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.38">
 <p> <b>Exercise 5.38:</b> Our compiler is clever about avoiding unnecessary stack operations, but it is not clever at all when it comes to compiling calls to the primitive procedures of the language in terms of the primitive operations supplied by the machine. For example, consider how much code is compiled to compute <code>(+ a 1)</code>: The code sets up an argument list in <code>argl</code>, puts the primitive addition procedure (which it finds by looking up the symbol <code>+</code> in the environment) into <code>proc</code>, and tests whether the procedure is primitive or compound. The compiler always generates code to perform the test, as well as code for primitive and compound branches (only one of which will be executed). We have not shown the part of the controller that implements primitives, but we presume that these instructions make use of primitive arithmetic operations in the machine's data paths. Consider how much less code would be generated if the compiler could <code>open-code</code> primitives---that is, if it could generate code to directly use these primitive machine operations. The expression <code>(+ a 1)</code> might be compiled into something as simple as @footnote{We have used the same symbol <code>+</code> here to denote both the source-language procedure and the machine operation. In general there will not be a one-to-one correspondence between primitives of the source language and primitives of the machine.}
 
 <div id="">
@@ -1322,15 +1322,15 @@ C.prompt();
 
 <p> Exercise 5-39 through Exercise 5-43 describe how to complete this sketch of the lexical-addressing strategy in order to incorporate lexical lookup into the compiler. Exercise 5-44 describes another use for the compile-time environment.
 
-<div class="exercise">
+<div class="exercise" id="thm_5.39">
 <p> <b>Exercise 5.39:</b> Write a procedure <code>lexical-address-lookup</code> that implements the new lookup operation. It should take two arguments---a lexical address and a run-time environment---and return the value of the variable stored at the specified lexical address. <code>Lexical-address-lookup</code> should signal an error if the value of the variable is the symbol <code>*unassigned*</code>.@footnote{This is the modification to variable lookup required if we implement the scanning method to eliminate internal definitions (Exercise 5-43). We will need to eliminate these definitions in order for lexical addressing to work.} Also write a procedure <code>lexical-address-set!</code> that implements the operation that changes the value of the variable at a specified lexical address.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.40">
 <p> <b>Exercise 5.40:</b> Modify the compiler to maintain the compile-time environment as described above. That is, add a compile-time-environment argument to <code>compile</code> and the various code generators, and extend it in <code>compile-lambda-body</code>.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.41">
 <p> <b>Exercise 5.41:</b> Write a procedure <code>find-variable</code> that takes as arguments a variable and a compile-time environment and returns the lexical address of the variable with respect to that environment. For example, in the program fragment that is shown above, the compile-time environment during the compilation of expression <e1> is <code>((y z) (a b c d e) (x y))</code>. <code>Find-variable</code> should produce
 
 <div id="">
@@ -1348,15 +1348,15 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.42">
 <p> <b>Exercise 5.42:</b> Using <code>find-variable</code> from Exercise 5-41, rewrite <code>compile-variable</code> and <code>compile-assignment</code> to output lexical-address instructions. In cases where <code>find-variable</code> returns <code>not-found</code> (that is, where the variable is not in the compile-time environment), you should have the code generators use the evaluator operations, as before, to search for the binding. (The only place a variable that is not found at compile time can be is in the global environment, which is part of the run-time environment but is not part of the compile-time environment.@footnote{Lexical addresses cannot be used to access variables in the global environment, because these names can be defined and redefined interactively at any time. With internal definitions scanned out, as in Exercise 5-43, the only definitions the compiler sees are those at top level, which act on the global environment. Compilation of a definition does not cause the defined name to be entered in the compile-time environment.}  Thus, if you wish, you may have the evaluator operations look directly in the global environment, which can be obtained with the operation <code>(op get-global-environment)</code>, instead of having them search the whole run-time environment found in <code>env</code>.)  Test the modified compiler on a few simple cases, such as the nested <code>lambda</code> combination at the beginning of this section.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.43">
 <p> <b>Exercise 5.43:</b> We argued in section <a href="4-1-metacircular.html">4.1.6</a> that internal definitions for block structure should not be considered ``real''<code>define</code>s. Rather, a procedure body should be interpreted as if the internal variables being defined were installed as ordinary <code>lambda</code> variables initialized to their correct values using <code>set!</code>. Section <a href="4-1-metacircular.html">4.1.6</a> and Exercise 4-16 showed how to modify the metacircular interpreter to accomplish this by scanning out internal definitions. Modify the compiler to perform the same transformation before it compiles a procedure body.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.44">
 <p> <b>Exercise 5.44:</b> In this section we have focused on the use of the compile-time environment to produce lexical addresses. But there are other uses for compile-time environments. For instance, in Exercise 5-38 we increased the efficiency of compiled code by open-coding primitive procedures. Our implementation treated the names of open-coded procedures as reserved words. If a program were to rebind such a name, the mechanism described in Exercise 5-38 would still open-code it as a primitive, ignoring the new binding. For example, consider the procedure
 
 <div id="">
@@ -1518,7 +1518,7 @@ C.prompt();
 
 <p> The alternatives of interpretation and compilation also lead to different strategies for porting languages to new computers. Suppose that we wish to implement Lisp for a new machine. One strategy is to begin with the explicit-control evaluator of section <a href="5-4-explicit-control.html">5.4</a> and translate its instructions to instructions for the new machine. A different strategy is to begin with the compiler and change the code generators so that they generate code for the new machine. The second strategy allows us to run any Lisp program on the new machine by first compiling it with the compiler running on our original Lisp system, and linking it with a compiled version of the run-time library.@footnote{Of course, with either the interpretation or the compilation strategy we must also implement for the new machine storage allocation, input and output, and all the various operations that we took as ``primitive'' in our discussion of the evaluator and compiler. One strategy for minimizing work here is to write as many of these operations as possible in Lisp and then compile them for the new machine. Ultimately, everything reduces to a small kernel (such as garbage collection and the mechanism for applying actual machine primitives) that is hand-coded for the new machine.} Better yet, we can compile the compiler itself, and run this on the new machine to compile other Lisp programs.@footnote{This strategy leads to amusing tests of correctness of the compiler, such as checking whether the compilation of a program on the new machine, using the compiled compiler, is identical with the compilation of the program on the original Lisp system. Tracking down the source of differences is fun but often frustrating, because the results are extremely sensitive to minuscule details.}  Or we can compile one of the interpreters of section <a href="4-1-metacircular.html">4.1</a> to produce an interpreter that runs on the new machine.
 
-<div class="exercise">
+<div class="exercise" id="thm_5.45">
 <p> <b>Exercise 5.45:</b> By comparing the stack operations used by compiled code to the stack operations used by the evaluator for the same computation, we can determine the extent to which the compiler optimizes use of the stack, both in speed (reducing the total number of stack operations) and in space (reducing the maximum stack depth). Comparing this optimized stack use to the performance of a special-purpose machine for the same computation gives some indication of the quality of the compiler.
 
 <ul>
@@ -1537,7 +1537,7 @@ that would come closer in performance to the hand-tailored version?
 </ul>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.46">
 <p> <b>Exercise 5.46:</b> Carry out an analysis like the one in Exercise 5-45 to determine the effectiveness of compiling the tree-recursive Fibonacci procedure
 
 <div id="">
@@ -1554,7 +1554,7 @@ C.prompt();
 <p> compared to the effectiveness of using the special-purpose Fibonacci machine of Figure 5-12. (For measurement of the interpreted performance, see Exercise 5-29.)  For Fibonacci, the time resource used is not linear in n; hence the ratios of stack operations will not approach a limiting value that is independent of n.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.47">
 <p> <b>Exercise 5.47:</b> This section described how to modify the explicit-control evaluator so that interpreted code can call compiled procedures. Show how to modify the compiler so that compiled procedures can call not only primitive procedures and compiled procedures, but interpreted procedures as well. This requires modifying <code>compile-procedure-call</code> to handle the case of compound (interpreted) procedures. Be sure to handle all the same <code>target</code> and <code>linkage</code> combinations as in <code>compile-proc-appl</code>. To do the actual procedure application, the code needs to jump to the evaluator's <code>compound-apply</code> entry point. This label cannot be directly referenced in object code (since the assembler requires that all labels referenced by the code it is assembling be defined there), so we will add a register called <code>compapp</code> to the evaluator machine to hold this entry point, and add an instruction to initialize it:
 
 <div id="">
@@ -1569,7 +1569,7 @@ C.prompt();
 
 <p> To test your code, start by defining a procedure <code>f</code> that calls a procedure <code>g</code>. Use <code>compile-and-go</code> to compile the definition of <code>f</code> and start the evaluator. Now, typing at the evaluator, define <code>g</code> and try to call <code>f</code>. </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.48">
 <p> <b>Exercise 5.48:</b> The <code>compile-and-go</code> interface implemented in this section is awkward, since the compiler can be called only once (when the evaluator machine is started). Augment the compiler-interpreter interface by providing a <code>compile-and-run</code> primitive that can be called from within the explicit-control evaluator as follows:
 
 <div id="">
@@ -1592,19 +1592,19 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.49">
 <p> <b>Exercise 5.49:</b> As an alternative to using the explicit-control evaluator's read-eval-print loop, design a register machine that performs a read-compile-execute-print loop. That is, the machine should run a loop that reads an expression, compiles it, assembles and executes the resulting code, and prints the result. This is easy to run in our simulated setup, since we can arrange to call the procedures <code>compile</code> and <code>assemble</code> as ``register-machine operations.''
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.50">
 <p> <b>Exercise 5.50:</b> Use the compiler to compile the metacircular evaluator of section <a href="4-1-metacircular.html">4.1</a> and run this program using the register-machine simulator. (To compile more than one definition at a time, you can package the definitions in a <code>begin</code>.)  The resulting interpreter will run very slowly because of the multiple levels of interpretation, but getting all the details to work is an instructive exercise.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.51">
 <p> <b>Exercise 5.51:</b> Develop a rudimentary implementation of Scheme in C (or some other low-level language of your choice) by translating the explicit-control evaluator of section <a href="5-4-explicit-control.html">5.4</a> into C. In order to run this code you will need to also provide appropriate storage-allocation routines and other run-time support.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.52">
 <p> <b>Exercise 5.52:</b> As a counterpoint to exercise Exercise 5-51, modify the compiler so that it compiles Scheme procedures into sequences of C instructions. Compile the metacircular evaluator of section <a href="4-1-metacircular.html">4.1</a> to produce a Scheme interpreter written in C.
 </div>
 

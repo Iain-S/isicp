@@ -96,7 +96,7 @@ C.prompt();
 
 <p> This computation will run much more slowly than a <code>gcd</code> procedure written in Scheme, because we will simulate low-level machine instructions, such as <code>assign</code>, by much more complex operations.
 
-<div class="exercise">
+<div class="exercise" id="thm_5.7">
 <p> <b>Exercise 5.7:</b> Use the simulator to test the machines you designed in Exercise 5-4.
 </div>
 
@@ -427,7 +427,7 @@ C.prompt();
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.8">
 <p> <b>Exercise 5.8:</b> The following register-machine code is ambiguous, because the label <code>here</code> is defined more than once:
 
 <div id="">
@@ -733,15 +733,15 @@ C.prompt();
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.9">
 <p> <b>Exercise 5.9:</b> The treatment of machine operations above permits them to operate on labels as well as on constants and the contents of registers. Modify the expression-processing procedures to enforce the condition that operations can be used only with registers and constants.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.10">
 <p> <b>Exercise 5.10:</b> Design a new syntax for register-machine instructions and modify the simulator to use your new syntax. Can you implement your new syntax without changing any part of the simulator except the syntax procedures in this section?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.11">
 <p> <b>Exercise 5.11:</b> When we introduced <code>save</code> and <code>restore</code> in section <a href="5-1-register.html">5.1.4</a>, we didn't specify what would happen if you tried to restore a register that was not the last one saved, as in the sequence
 
 <div id="">
@@ -770,7 +770,7 @@ C.prompt();
 </ul>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.12">
 <p> <b>Exercise 5.12:</b> The simulator can be used to help determine the data paths required for implementing a machine with a given controller. Extend the assembler to store the following information in the machine model:
 
 <ul>
@@ -794,7 +794,7 @@ for each register, a list (without duplicates) of the sources from which it is a
 <p> Extend the message-passing interface to the machine to provide access to this new information. To test your analyzer, define the Fibonacci machine from Figure 5-12 and examine the lists you constructed.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.13">
 <p> <b>Exercise 5.13:</b> Modify the simulator so that it uses the controller sequence to determine what registers the machine has rather than requiring a list of registers as an argument to <code>make-machine</code>. Instead of pre-allocating the registers in <code>make-machine</code>, you can allocate them one at a time when they are first seen during assembly of the instructions.
 </div>
 
@@ -858,27 +858,27 @@ C.prompt();
 
 <p> Exercise 5-15 through Exercise 5-19 describe other useful monitoring and debugging features that can be added to the register-machine simulator.
 
-<div class="exercise">
+<div class="exercise" id="thm_5.14">
 <p> <b>Exercise 5.14:</b> Measure the number of pushes and the maximum stack depth required to compute n! for various small values of n using the factorial machine shown in Figure 5-11. From your data determine formulas in terms of n for the total number of push operations and the maximum stack depth used in computing n! for any n > 1. Note that each of these is a linear function of n and is thus determined by two constants. In order to get the statistics printed, you will have to augment the factorial machine with instructions to initialize the stack and print the statistics. You may want to also modify the machine so that it repeatedly reads a value for n, computes the factorial, and prints the result (as we did for the GCD machine in Figure 5-4), so that you will not have to repeatedly invoke <code>get-register-contents</code>, <code>set-register-contents!</code>, and <code>start</code>.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.15">
 <p> <b>Exercise 5.15:</b> Add <code>instruction counting</code> to the register machine simulation. That is, have the machine model keep track of the number of instructions executed. Extend the machine model's interface to accept a new message that prints the value of the instruction count and resets the count to zero.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.16">
 <p> <b>Exercise 5.16:</b> Augment the simulator to provide for <code>instruction tracing</code> . That is, before each instruction is executed, the simulator should print the text of the instruction. Make the machine model accept <code>trace-on</code> and <code>trace-off</code> messages to turn tracing on and off.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.17">
 <p> <b>Exercise 5.17:</b> Extend the instruction tracing of Exercise 5-16 so that before printing an instruction, the simulator prints any labels that immediately precede that instruction in the controller sequence. Be careful to do this in a way that does not interfere with instruction counting (Exercise 5-15). You will have to make the simulator retain the necessary label information.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.18">
 <p> <b>Exercise 5.18:</b> Modify the <code>make-register</code> procedure of section <a href="5-2-simulator.html">5.2.1</a> so that registers can be traced. Registers should accept messages that turn tracing on and off. When a register is traced, assigning a value to the register should print the name of the register, the old contents of the register, and the new contents being assigned. Extend the interface to the machine model to permit you to turn tracing on and off for designated machine registers.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.19">
 <p> <b>Exercise 5.19:</b> Alyssa P. Hacker wants a <code>breakpoint</code> feature in the simulator to help her debug her machine designs. You have been hired to install this feature for her. She wants to be able to specify a place in the controller sequence where the simulator will stop and allow her to examine the state of the machine. You are to implement a procedure
 
 <div id="">

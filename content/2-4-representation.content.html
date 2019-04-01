@@ -471,7 +471,7 @@ C.prompt("scheme-define-generic-constructors");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.73">
 <p> <b>Exercise 2.73:</b> Section <a href="2-3-symbolic.html">2.3.2</a> described a program that performs symbolic differentiation:
 
 <div id="scheme-define-deriv">
@@ -487,7 +487,7 @@ C.prompt("scheme-define-generic-constructors");
                          (deriv (multiplicand exp) var))
            (make-product (deriv (multiplier exp) var)
                          (multiplicand exp))))
-        <more rules can be added here>
+        &lt;more rules can be added here>
         (else (error "unknown expression type -- DERIV" exp))))
 </div>
 <script>
@@ -542,7 +542,7 @@ What corresponding changes to the derivative system are required?
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.74">
 <p> <b>Exercise 2.74:</b> Insatiable Enterprises, Inc., is a highly decentralized conglomerate company consisting of a large number of independent divisions located all over the world. The company's computer facilities have just been interconnected by means of a clever network-interfacing scheme that makes the entire network appear to any user to be a single computer. Insatiable's president, in her first attempt to exploit the ability of the network to extract administrative information from division files, is dismayed to discover that, although all the division files have been implemented as data structures in Scheme, the particular data structure used varies from division to division. A meeting of division managers is hastily called to search for a strategy to integrate the files that will satisfy headquarters' needs while preserving the existing autonomy of the divisions.
 
 <p> Show how such a strategy can be implemented with data-directed programming. As an example, suppose that each division's personnel records consist of a single file, which contains a set of records keyed on employees' names. The structure of the set varies from division to division. Furthermore, each employee's record is itself a set (structured differently from division to division) that contains information keyed under identifiers such as <code>address</code> and <code>salary</code>. In particular:
@@ -601,13 +601,13 @@ C.prompt("scheme-define-message-passing-apply-generic");
 
 <p> This style of programming is called <code>message passing</code> . The name comes from the image that a data object is an entity that receives the requested operation name as a ``message.''  We have already seen an example of message passing in section <a href="2-1-data.html">2.1.3</a>, where we saw how <code>cons</code>, <code>car</code>, and <code>cdr</code> could be defined with no data objects but only procedures. Here we see that message passing is not a mathematical trick but a useful technique for organizing systems with generic operations. In the remainder of this chapter we will continue to use data-directed programming, rather than message passing, to discuss generic arithmetic operations. In Chapter 3 we will return to message passing, and we will see that it can be a powerful tool for structuring simulation programs.
 
-<div class="exercise">
+<div class="exercise" id="thm_2.75">
 <p> <b>Exercise 2.75:</b> Implement the constructor <code>make-from-mag-ang</code> in message-passing style. This procedure should be analogous to the <code>make-from-real-imag</code> procedure given above.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.76">
 <p> <b>Exercise 2.76:</b> As a large system with generic operations evolves, new types of data objects or new operations may be needed. For each of the three strategies---generic operations with explicit dispatch, data-directed style, and message-passing-style---describe the changes that must be made to a system in order to add new types or new operations. Which organization would be most appropriate for a system in which new types must often be added?  Which would be most appropriate for a system in which new operations must often be added?
 </div>
 @@

@@ -270,7 +270,7 @@ C.prompt();
 
 <p> With this implementation, two processes cannot be withdrawing from or depositing into a single account concurrently. This eliminates the source of the error illustrated in Figure 3-29, where Peter changes the account balance between the times when Paul accesses the balance to compute the new value and when Paul actually performs the assignment. On the other hand, each account has its own serializer, so that deposits and withdrawals for different accounts can proceed concurrently.
 
-<div class="exercise">
+<div class="exercise" id="thm_3.39">
 <p> <b>Exercise 3.39:</b> Which of the five possibilities in the parallel execution shown above remain if we instead serialize execution as follows:
 
 <div id="">
@@ -315,7 +315,7 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.41">
 <p> <b>Exercise 3.41:</b> Ben Bitdiddle worries that it would be better to implement the bank account as follows (where the commented line has been changed):
 
 <div id="">
@@ -348,7 +348,7 @@ C.prompt();
 <p> because allowing unserialized access to the bank balance can result in anomalous behavior. Do you agree?  Is there any scenario that demonstrates Ben's concern?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.42">
 <p> <b>Exercise 3.42:</b> Ben Bitdiddle suggests that it's a waste of time to create a new serialized procedure in response to every <code>withdraw</code> and <code>deposit</code> message. He says that <code>make-account</code> could be changed so that the calls to <code>protected</code> are done outside the <code>dispatch</code> procedure. That is, an account would return the same serialized procedure (which was created at the same time as the account) each time it is asked for a withdrawal procedure.
 
 <div id="">
@@ -454,7 +454,7 @@ C.prompt();
 <p> <b>Exercise 3.43:</b> Suppose that the balances in three accounts start out as $10, $20, and $30, and that multiple processes run, exchanging the balances in the accounts. Argue that if the processes are run sequentially, after any number of concurrent exchanges, the account balances should be $10, $20, and $30 in some order. Draw a timing diagram like the one in Figure 3-29 to show how this condition can be violated if the exchanges are implemented using the first version of the account-exchange program in this section. On the other hand, argue that even with this <code>exchange</code> program, the sum of the balances in the accounts will be preserved. Draw a timing diagram to show how even this condition would be violated if we did not serialize the transactions on individual accounts.
 </span></div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.44">
 <p> <b>Exercise 3.44:</b> Consider the problem of transferring an amount from one account to another. Ben Bitdiddle claims that this can be accomplished with the following procedure, even if there are multiple people concurrently transferring money among multiple accounts, using any account mechanism that serializes deposit and withdrawal transactions, for example, the version of <code>make-account</code> in the text above.
 
 <div id="">
@@ -469,7 +469,7 @@ C.prompt();
 <p> Louis Reasoner claims that there is a problem here, and that we need to use a more sophisticated method, such as the one required for dealing with the exchange problem. Is Louis right?  If not, what is the essential difference between the transfer problem and the exchange problem?  (You should assume that the balance in <code>from-account</code> is at least <code>amount</code>.)
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.45">
 <p> <b>Exercise 3.45:</b> Louis Reasoner thinks our bank-account system is unnecessarily complex and error-prone now that deposits and withdrawals aren't automatically serialized. He suggests that <code>make-account-and-serializer</code> should have exported the serializer (for use by such procedures as <code>serialized-exchange</code>) in addition to (rather than instead of) using it to serialize accounts and deposits as <code>make-account</code> did. He proposes to redefine accounts as follows:
 
 <div id="">
@@ -581,11 +581,11 @@ C.prompt();
 
 <p> <code>Without-interrupts</code> disables time-slicing interrupts while its procedure argument is being executed.}  Alternatively, multiprocessing computers provide instructions that support atomic operations directly in hardware.@footnote{There are many variants of such instructions---including test-and-set, test-and-clear, swap, compare-and-exchange, load-reserve, and store-conditional---whose design must be carefully matched to the machine's processor-memory interface. One issue that arises here is to determine what happens if two processes attempt to acquire the same resource at exactly the same time by using such an instruction. This requires some mechanism for making a decision about which process gets control. Such a mechanism is called an <code>arbiter</code> . Arbiters usually boil down to some sort of hardware device. Unfortunately, it is possible to prove that one cannot physically construct a fair arbiter that works 100% of the time unless one allows the arbiter an arbitrarily long time to make its decision. The fundamental phenomenon here was originally observed by the fourteenth-century French philosopher Jean Buridan in his commentary on Aristotle's De caelo. Buridan argued that a perfectly rational dog placed between two equally attractive sources of food will starve to death, because it is incapable of deciding which to go to first.}
 
-<div class="exercise">
+<div class="exercise" id="thm_3.46">
 <p> <b>Exercise 3.46:</b> Suppose that we implement <code>test-and-set!</code>  using an ordinary procedure as shown in the text, without attempting to make the operation atomic. Draw a timing diagram like the one in Figure 3-29 to demonstrate how the mutex implementation can fail by allowing two processes to acquire the mutex at the same time.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.47">
 <p> <b>Exercise 3.47:</b> A semaphore (of size n) is a generalization of a mutex. Like a mutex, a semaphore supports acquire and release operations, but it is more general in that up to n processes can acquire it concurrently. Additional processes that attempt to acquire the semaphore must wait for release operations. Give implementations of semaphores
 
 <ul>
@@ -605,7 +605,7 @@ in terms of atomic <code>test-and-set!</code> operations.
 
 <p> One way to avoid the deadlock in this situation is to give each account a unique identification number and rewrite <code>serialized-exchange</code> so that a process will always attempt to enter a procedure protecting the lowest-numbered account first. Although this method works well for the exchange problem, there are other situations that require more sophisticated deadlock-avoidance techniques, or where deadlock cannot be avoided at all. (See Exercise 3-48 and Exercise 3-49.)@footnote{The general technique for avoiding deadlock by numbering the shared resources and acquiring them in order is due to Havender (1968). Situations where deadlock cannot be avoided require <code>deadlock-recovery</code> methods, which entail having processes ``back out''of the deadlocked state and try again. Deadlock-recovery mechanisms are widely used in database management systems, a topic that is treated in detail in Gray and Reuter 1993.}
 
-<div class="exercise">
+<div class="exercise" id="thm_3.48">
 <p> <b>Exercise 3.48:</b> Explain in detail why the deadlock-avoidance method described above, (i.e., the accounts are numbered, and each process attempts to acquire the smaller-numbered account first) avoids deadlock in the exchange problem. Rewrite <code>serialized-exchange</code> to incorporate this idea. (You will also need to modify <code>make-account</code> so that each account is created with a number, which can be accessed by sending an appropriate message.)
 </div>
 

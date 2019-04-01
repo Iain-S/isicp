@@ -320,7 +320,7 @@ C.prompt();
 
 <p> and <code>force</code> is as defined previously.@footnote{There are many possible implementations of streams other than the one described in this section. Delayed evaluation, which is the key to making streams practical, was inherent in Algol 60's <code>call-by-name</code> parameter-passing method. The use of this mechanism to implement streams was first described by Landin (1965). Delayed evaluation for streams was introduced into Lisp by Friedman and Wise (1976). In their implementation, <code>cons</code> always delays evaluating its arguments, so that lists automatically behave as streams. The memoizing optimization is also known as <code>call-by-need</code> . The Algol community would refer to our original delayed objects as <code>call-by-name thunks</code> and to the optimized versions as <code>call-by-need thunks</code> .}
 
-<div class="exercise">
+<div class="exercise" id="thm_3.50">
 <p> <b>Exercise 3.50:</b> Complete the following definition, which generalizes <code>stream-map</code> to allow procedures that take multiple arguments, analogous to <code>map</code> in section <a href="2-2-closure.html">2.2.3</a>, footnote Footnote 12.
 
 <div id="">
@@ -337,7 +337,7 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.51">
 <p> <b>Exercise 3.51:</b> In order to take a closer look at delayed evaluation, we will use the following procedure, which simply returns its argument after printing it:
 
 <div id="">

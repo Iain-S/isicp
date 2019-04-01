@@ -441,15 +441,15 @@ ev-definition-1
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.23">
 <p> <b>Exercise 5.23:</b> Extend the evaluator to handle derived expressions such as <code>cond</code>, <code>let</code>, and so on (section <a href="4-1-metacircular.html">4.1.2</a>). You may ``cheat'' and assume that the syntax transformers such as <code>cond->if</code> are available as machine operations.@footnote{This isn't really cheating. In an actual implementation built from scratch, we would use our explicit-control evaluator to interpret a Scheme program that performs source-level transformations like <code>cond->if</code> in a syntax phase that runs before execution.}
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.24">
 <p> <b>Exercise 5.24:</b> Implement <code>cond</code> as a new basic special form without reducing it to <code>if</code>. You will have to construct a loop that tests the predicates of successive <code>cond</code> clauses until you find one that is true, and then use <code>ev-sequence</code> to evaluate the actions of the clause.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.25">
 <p> <b>Exercise 5.25:</b> Modify the evaluator so that it uses normal-order evaluation, based on the lazy evaluator of section <a href="4-2-lazy.html">4.2</a>. </div>
 
 <h3 id="sec_5.4.4"> 5.4.4 Running the Evaluator </h3>
@@ -637,7 +637,7 @@ Determine from your data a formula in terms of n for the total number of push op
 </ul>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.27">
 <p> <b>Exercise 5.27:</b> For comparison with Exercise 5-26, explore the behavior of the following procedure for computing factorials recursively:
 
 <div id="">
@@ -665,11 +665,11 @@ factorial
 <p> The maximum depth is a measure of the amount of space used by the evaluator in carrying out the computation, and the number of pushes correlates well with the time required.
  </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.28">
 <p> <b>Exercise 5.28:</b> Modify the definition of the evaluator by changing <code>eval-sequence</code> as described in section <a href="5-4-explicit-control.html">5.4.2</a> so that the evaluator is no longer tail-recursive. Rerun your experiments from Exercise 5-26 and Exercise 5-27 to demonstrate that both versions of the <code>factorial</code> procedure now require space that grows linearly with their input.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.29">
 <p> <b>Exercise 5.29:</b> Monitor the stack operations in the tree-recursive Fibonacci computation:
 
 <div id="">
@@ -693,7 +693,7 @@ Give a formula for the total number of pushes used to compute <em>Fib</em>(n) fo
 </ul>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_5.30">
 <p> <b>Exercise 5.30:</b> Our evaluator currently catches and signals only two kinds of errors---unknown expression types and unknown procedure types. Other errors will take us out of the evaluator read-eval-print loop. When we run the evaluator using the register-machine simulator, these errors are caught by the underlying Scheme system. This is analogous to the computer crashing when a user program makes an error.@footnote{Regrettably, this is the normal state of affairs in conventional compiler-based language systems such as C. In @acronym{UNIX}(tm) the system ``dumps core,'' and in @acronym{DOS}/Windows(tm) it becomes catatonic. The Macintosh(tm) displays a picture of an exploding bomb and offers you the opportunity to reboot the computer---if you're lucky.}  It is a large project to make a real error system work, but it is well worth the effort to understand what is involved here.
 
 <ul>

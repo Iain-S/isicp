@@ -293,7 +293,7 @@ C.prompt("scheme-define-append");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.17">
 <p> <b>Exercise 2.17:</b> Define a procedure <code>last-pair</code> that returns the list that contains only the last element of a given (nonempty) list:
 
 <div id="scheme-ex-define-last-pair">
@@ -329,7 +329,7 @@ C.editor_of["scheme-ex-define-last-pair"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.18">
 <p> <b>Exercise 2.18:</b> Define a procedure <code>reverse</code> that takes a list as argument and returns a list of the same elements in reverse order:
 
 <div id="scheme-ex-define-reverse">
@@ -372,7 +372,7 @@ C.editor_of["scheme-ex-define-reverse"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.19">
 <p> <b>Exercise 2.19:</b> Consider the change-counting program of section <a href="1-2-procedures.html">1.2.2</a>. It would be nice to be able to easily change the currency used by the program, so that we could compute the number of ways to change a British pound, for example. As the program is written, the knowledge of the currency is distributed partly into the procedure <code>first-denomination</code> and partly into the procedure <code>count-change</code> (which knows that there are five kinds of U.S. coins). It would be nicer to be able to supply a list of coins to be used for making change.
 
 <p> We want to rewrite the procedure <code>cc</code> so that its second argument is a list of the values of the coins to use rather than an integer specifying which coins to use. We could then have lists that defined each kind of currency:
@@ -451,7 +451,7 @@ C.editor_of["scheme-ex-define-cc"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.20">
 <p> <b>Exercise 2.20:</b> The procedures <code>+</code>, <code>*</code>, and <code>list</code> take arbitrary numbers of arguments. One way to define such procedures is to use <code>define</code> with <em>dotted-tail notation</em>  . In a procedure definition, a parameter list that has a dot before the last parameter name indicates that, when the procedure is called, the initial parameters (if any) will have as values the initial arguments, as usual, but the final parameter's value will be a <code>list</code>  of any remaining arguments. For instance, given the definition
 
 <div id="scheme-dotted-tail-syntax">
@@ -592,7 +592,7 @@ C.prompt("scheme-define-scale-list-with-map");
 
 <p> <code>map</code> is an important construct, not only because it captures a common pattern, but because it establishes a higher level of abstraction in dealing with lists. In the original definition of <code>scale-list</code>, the recursive structure of the program draws attention to the element-by-element processing of the list. Defining <code>scale-list</code> in terms of <code>map</code> suppresses that level of detail and emphasizes that scaling transforms a list of elements to a list of results. The difference between the two definitions is not that the computer is performing a different process (it isn't) but that we think about the process differently. In effect, <code>map</code> helps establish an abstraction barrier that isolates the implementation of procedures that transform lists from the details of how the elements of the list are extracted and combined. Like the barriers shown in Figure 2-1, this abstraction gives us the flexibility to change the low-level details of how sequences are implemented, while preserving the conceptual framework of operations that transform sequences to sequences. Section <a href="2-2-closure.html">2.2.3</a> expands on this use of sequences as a framework for organizing programs.
 
-<div class="exercise">
+<div class="exercise" id="thm_2.21">
 <p> <b>Exercise 2.21:</b> The procedure <code>square-list</code> takes a list of numbers as argument and returns a list of the squares of those numbers.
 
 <div id="scheme-hidden-define-square-list">
@@ -656,7 +656,7 @@ C.editor_of["scheme-ex-define-square-list"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.22">
 <p> <b>Exercise 2.22:</b> Louis Reasoner tries to rewrite the first <code>square-list</code> procedure of Exercise 2-21 so that it evolves an iterative process:
 
 <div id="scheme-define-louise-square-list">
@@ -696,7 +696,7 @@ C.prompt("scheme-define-louise-square-list-2", ["scheme-define-square"]);
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.23">
 <p> <b>Exercise 2.23:</b> The procedure <code>for-each</code> is similar to <code>map</code>. It takes as arguments a procedure and a list of elements. However, rather than forming a list of the results, <code>for-each</code> just applies the procedure to each of the elements in turn, from left to right. The values returned by applying the procedure to the elements are not used at all &ndash; <code>for-each</code> is used with procedures that perform an action, such as printing. For example,
 
 <div id="scheme-test-for-each">
@@ -881,13 +881,13 @@ C.prompt("scheme-define-count-leaves");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.24">
 <p> <b>Exercise 2.24:</b> Suppose we evaluate the expression <code>(list 1 (list 2 (list 3 4)))</code>. Give the result printed by the interpreter, the corresponding box-and-pointer structure, and the interpretation of this as a tree (as in Figure 2-6).
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.25">
 <p> <b>Exercise 2.25:</b> Give combinations of <code>car</code>s and <code>cdr</code>s that will pick 7 from each of the following lists. Represent the list as <code>l</code>.
 
 <div id="scheme-ex-pick-7-medium">
@@ -915,7 +915,7 @@ C.equalp_answer("scheme-ex-pick-7-hard", "(car (cdr (car (cdr (car (cdr (car (cd
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.26">
 <p> <b>Exercise 2.26:</b> Suppose we define <code>x</code> and <code>y</code> to be two lists:
 
 <div id="scheme-ex-append-cons-list">
@@ -953,7 +953,7 @@ C.answer("scheme-ex-list", "((1 2 3) (4 5 6))");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.27">
 <p> <b>Exercise 2.27:</b> Modify your <code>reverse</code> procedure of Exercise 2-18 to produce a <code>deep-reverse</code> procedure that takes a list as argument and returns as its value the list with its elements reversed and with all sublists deep-reversed as well. For example,
 
 <div id="scheme-hidden-answer-define-deep-reverse">
@@ -1043,7 +1043,7 @@ C.editor_of["scheme-ex-define-deep-reverse"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.28">
 <p> <b>Exercise 2.28:</b> Write a procedure <code>fringe</code> that takes as argument a tree (represented as a list) and returns a list whose elements are all the leaves of the tree arranged in left-to-right order. For example,
 
 
@@ -1120,7 +1120,7 @@ C.editor_of["scheme-ex-define-fringe"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.29">
 <p> <b>Exercise 2.29:</b> A binary mobile consists of two branches, a left branch and a right branch. Each branch is a rod of a certain length, from which hangs either a weight or another binary mobile. We can represent a binary mobile using compound data by constructing it from two branches (for example, using <code>list</code>):
 
 <div id="scheme-define-make-mobile">
@@ -1286,7 +1286,7 @@ C.editor_of["scheme-ex-define-balancedp"].setOption("onBlur", function(){
 
 <li>
 <p> Suppose we change the representation of mobiles so that the constructors are
-</li>
+
 
 <div id="scheme-define-make-mobile-branch-cons">
 (define (make-mobile left right)
@@ -1300,7 +1300,7 @@ C.prompt("scheme-define-make-mobile-branch-cons");
 </script>
 
 <p> How much do you need to change your programs to convert to the new representation?
-
+</li>
 </ul>
 </div>
 
@@ -1345,7 +1345,7 @@ C.prompt("scheme-define-scale-tree-map", ["scheme-define-map"]);
 
 <p> Many tree operations can be implemented by similar combinations of sequence operations and recursion.
 
-<div class="exercise">
+<div class="exercise" id="thm_2.30">
 <p> <b>Exercise 2.30:</b> Define a procedure <code>square-tree</code> analogous to the <code>square-list</code> procedure of Exercise 2-21. That is, <code>square-list</code> should behave as follows:
 
 <div id="scheme-test-square-tree">
@@ -1401,7 +1401,7 @@ C.editor_of["scheme-ex-define-square-tree"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.31">
 <p> <b>Exercise 2.31:</b> Abstract your answer to Exercise 2-30 to produce a procedure <code>tree-map</code> with the property that <code>square-tree</code> could be defined as
 
 <div id="scheme-demonstrate-tree-map-square-tree">
@@ -1452,7 +1452,7 @@ C.editor_of["scheme-ex-define-tree-map"].setOption("onBlur", function(){
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.32">
 <p> <b>Exercise 2.32:</b> We can represent a set as a list of distinct elements, and we can represent the set of all subsets of the set as a list of lists. For example, if the set is <code>(1 2 3)</code>, then the set of all subsets is <code>(() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))</code>. Complete the following definition of a procedure that generates the set of subsets of a set and give a clear explanation of why it works:
 
 <div id="scheme-ex-define-subset">
@@ -1805,7 +1805,7 @@ C.prompt("scheme-define-salary-of-highest-paid-programmer");
 
 <p> Sequences, implemented here as lists, serve as a conventional interface that permits us to combine processing modules. Additionally, when we uniformly represent structures as sequences, we have localized the data-structure dependencies in our programs to a small number of sequence operations. By changing these, we can experiment with alternative representations of sequences, while leaving the overall design of our programs intact. We will exploit this capability in section <a href="3-5-streams.html">3.5</a>, when we generalize the sequence-processing paradigm to admit infinite sequences.
 
-<div class="exercise">
+<div class="exercise" id="thm_2.33">
 <p> <b>Exercise 2.33:</b> Fill in the missing expressions to complete the following definitions of some basic list-manipulation operations as accumulations:
 
 <div id="scheme-ex-define-map-as-accumulate">
@@ -1911,7 +1911,7 @@ C.editor_of["scheme-ex-define-length-as-accumulate"].setOption("onBlur", functio
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.34">
 <p> <b>Exercise 2.34:</b> Evaluating a polynomial in x at a given value of x can be formulated as an accumulation. We evaluate the polynomial
 
 $$
@@ -1932,7 +1932,7 @@ $$
 
 <div id="scheme-ex-define-horner-eval">
 (define (horner-eval x coefficient-sequence)
-  (accumulate (lambda (this-coeff higher-terms) <??>)
+  (accumulate (lambda (this-coeff higher-terms) &lt;??>)
               0
               coefficient-sequence))
 </div>
@@ -1979,7 +1979,7 @@ C.no_output_frozen_prompt("scheme-horner-eval-poly-at-2");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.35">
 <p> <b>Exercise 2.35:</b> Redefine <code>count-leaves</code> from
 section <a href="2-2-closure.html">2.2.2</a> as an accumulation:
 
@@ -2022,7 +2022,7 @@ C.editor_of["scheme-ex-define-count-leaves-with-accumulate"].setOption("onBlur",
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.36">
 <p> <b>Exercise 2.36:</b> The procedure <code>accumulate-n</code> is similar to <code>accumulate</code> except that it takes as its third argument a sequence of sequences, which are all assumed to have the same number of elements. It applies the designated accumulation procedure to combine all the first elements of the sequences, all the second elements of the sequences, and so on, and returns a sequence of the results. For instance, if <code>s</code> is a sequence containing four sequences, <code>((1 2 3) (4 5 6) (7 8 9) (10 11 12)),</code> then the value of <code>(accumulate-n + 0 s)</code> should be the sequence <code>(22 26 30)</code>. Fill in the missing expressions in the following definition of <code>accumulate-n</code>:
 
 <div id="scheme-ex-define-accumulate-n">
@@ -2126,7 +2126,7 @@ C.prompt("scheme-ex-define-matrix-operations");
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.38">
 <p> <b>Exercise 2.38:</b> The <code>accumulate</code> procedure is also known as <code>fold-right</code>, because it combines the first element of the sequence with the result of combining all the elements to the right. There is also a <code>fold-left</code>, which is similar to <code>fold-right</code>, except that it combines elements working in the opposite direction:
 
 <div id="scheme-define-fold-left">
@@ -2177,15 +2177,15 @@ C.answer("scheme-ex-foldl-list", "(((() 1) 2) 3)");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.39">
 <p> <b>Exercise 2.39:</b> Complete the following definitions of <code>reverse</code> (Exercise 2-18) in terms of <code>fold-right</code> and <code>fold-left</code> from Exercise 2-38:
 
 <div id="scheme-ex-define-reverse-with-foldr">
 (define (reverse sequence)
-  (fold-right (lambda (x y) <??>) nil sequence))
+  (fold-right (lambda (x y) &lt;??>) nil sequence))
 
 (define (reverse sequence)
-  (fold-left (lambda (x y) <??>) nil sequence))
+  (fold-left (lambda (x y) &lt;??>) nil sequence))
 </div>
 <script>
 C.prompt("scheme-ex-define-reverse-with-foldr");
@@ -2315,19 +2315,19 @@ C.prompt("scheme-define-remove", ["scheme-define-filter"]);
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.40">
 <p> <b>Exercise 2.40:</b> Define a procedure <code>unique-pairs</code> that, given an integer $n$, generates the sequence of pairs $(i,j)$ with $1 &le; j&lt; i &le; n$. Use <code>unique-pairs</code> to simplify the definition of <code>prime-sum-pairs</code> given above.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.41">
 <p> <b>Exercise 2.41:</b> Write a procedure to find all ordered triples of distinct positive integers $i$, $j$, and $k$ less than or equal to a given integer $n$ that sum to a given integer $s$.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.42">
 <p> <b>Exercise 2.42:</b> The "eight-queens puzzle" asks how to place eight queens on a chessboard so that no queen is in check from any other (i.e., no two queens are in the same row, column, or diagonal).
 
 <p> <img class='center' src='images/ch2-Z-G-23.gif'>
@@ -2362,7 +2362,7 @@ C.prompt("scheme-define-queens", ["scheme-define-filter", "scheme-define-map", "
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.43">
 <p> <b>Exercise 2.43:</b> Louis Reasoner is having a terrible time doing Exercise 2-42. His <code>queens</code> procedure seems to work, but it runs extremely slowly. (Louis never does manage to wait long enough for it to solve even the $6 \times 6$ case.)  When Louis asks Eva Lu Ator for help, she points out that he has interchanged the order of the nested mappings in the <code>flatmap</code>, writing it as
 
 <div id="scheme-louise-queens-flatmap">
@@ -2540,7 +2540,7 @@ C.prompt("scheme-define-square-limit");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.44">
 <p> <b>Exercise 2.44:</b> Define the procedure <code>up-split</code> used by <code>corner-split</code>. It is similar to <code>right-split</code>, except that it switches the roles of <code>below</code> and <code>beside</code>.
  </div>
 
@@ -2586,7 +2586,7 @@ C.prompt("scheme-define-flipped-pairs-with-square-of-four");
 C.prompt("scheme-define-square-limit-with-square-of-four");
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.45">
 <p> <b>Exercise 2.45:</b> <code>right-split</code> and <code>up-split</code> can be expressed as instances of a general splitting operation. Define a procedure <code>split</code> with the property that evaluating
 
 <div id="scheme-define-right-up-split-with-split">
@@ -2652,7 +2652,7 @@ C.no_output_frozen_prompt("scheme-frame-coord-map-a-frame-0-0");
 C.prompt("scheme-origin-frame-a-frame");
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.46">
 <p> <b>Exercise 2.46:</b> A two-dimensional vector v running from the origin to a point can be represented as a pair consisting of an x-coordinate and a y-coordinate. Implement a data abstraction for vectors by giving a constructor <code>make-vect</code> and corresponding selectors <code>xcor-vect</code> and <code>ycor-vect</code>. In terms of your selectors and constructor, implement procedures <code>add-vect</code>, <code>sub-vect</code>, and <code>scale-vect</code> that perform the operations vector addition, vector subtraction, and multiplying a vector by a scalar:
 
 \begin{align}
@@ -2664,7 +2664,7 @@ C.prompt("scheme-origin-frame-a-frame");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.47">
 <p> <b>Exercise 2.47:</b> Here are two possible constructors for frames:
 
 <div id="scheme-ex-define-make-frame">
@@ -2705,13 +2705,13 @@ C.prompt("scheme-ex-define-segments-to-painter");
 
 <p> Representing painters as procedures erects a powerful abstraction barrier in the picture language. We can create and intermix all sorts of primitive painters, based on a variety of graphics capabilities. The details of their implementation do not matter. Any procedure can serve as a painter, provided that it takes a frame as argument and draws something scaled to fit the frame.<a name="footnote_link_2-28" class="footnote_link" href="#footnote_2-28">28</a>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.48">
 <p> <b>Exercise 2.48:</b> A directed line segment in the plane can be represented as a pair of vectors---the vector running from the origin to the start-point of the segment, and the vector running from the origin to the end-point of the segment. Use your vector representation from Exercise 2-46 to define a representation for segments with a constructor <code>make-segment</code> and selectors <code>start-segment</code> and <code>end-segment</code>.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.49">
 <p> <b>Exercise 2.49:</b> Use <code>segments->painter</code> to define the following primitive painters:
 
 <ul>
@@ -2831,13 +2831,13 @@ C.prompt("scheme-define-beside");
 
 <p> Observe how the painter data abstraction, and in particular the representation of painters as procedures, makes <code>beside</code> easy to implement. The <code>beside</code> procedure need not know anything about the details of the component painters other than that each painter will draw something in its designated frame.
 
-<div class="exercise">
+<div class="exercise" id="thm_2.50">
 <p> <b>Exercise 2.50:</b> Define the transformation <code>flip-horiz</code>, which flips painters horizontally, and transformations that rotate painters counterclockwise by 180 degrees and 270 degrees.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_2.51">
 <p> <b>Exercise 2.51:</b> Define the <code>below</code> operation for painters. <code>Below</code> takes two painters as arguments. The resulting painter, given a frame, draws with the first painter in the bottom of the frame and with the second painter in the top. Define <code>below</code> in two different ways---first by writing a procedure that is analogous to the <code>beside</code> procedure given above, and again in terms of <code>beside</code> and suitable rotation operations (from Exercise 2-50).
 </div>
 
@@ -2853,7 +2853,7 @@ C.prompt("scheme-define-beside");
 
 <p> Stratified design helps make programs <code>robust</code> , that is, it makes it likely that small changes in a specification will require correspondingly small changes in the program. For instance, suppose we wanted to change the image based on <code>wave</code> shown in Figure 2-9. We could work at the lowest level to change the detailed appearance of the <code>wave</code> element; we could work at the middle level to change the way <code>corner-split</code> replicates the <code>wave</code>; we could work at the highest level to change how <code>square-limit</code> arranges the four copies of the corner. In general, each level of a stratified design provides a different vocabulary for expressing the characteristics of the system, and a different kind of ability to change it.
 
-<div class="exercise">
+<div class="exercise" id="thm_2.52">
 <p> <b>Exercise 2.52:</b> Make changes to the square limit of <code>wave</code> shown in Figure 2-9 by working at each of the levels described above. In particular:
 
 <ul>

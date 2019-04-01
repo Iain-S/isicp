@@ -75,7 +75,7 @@ C.prompt("scheme-define-cons-with-set");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.12">
 <p> <b>Exercise 3.12:</b> The following procedure for appending lists was introduced in section <a href="2-2-closure.html">2.2.1</a>:
 
 <div id="scheme-define-append">
@@ -143,7 +143,7 @@ C.no_output_frozen_prompt("scheme-define-test-append-inplace");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.13">
 <p> <b>Exercise 3.13:</b> Consider the following <code>make-cycle</code> procedure, which uses the <code>last-pair</code> procedure defined in Exercise 3-12:
 
 <div id="scheme-define-make-cycle">
@@ -169,7 +169,7 @@ C.prompt("scheme-define-z-cycle", ["scheme-define-make-cycle"]);
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.14">
 <p> <b>Exercise 3.14:</b> The following procedure is quite useful, although obscure:
 
 <div id="scheme-define-mystery">
@@ -281,13 +281,13 @@ C.prompt("scheme-test-set-to-wow-z2", ["scheme-define-z2", "scheme-define-set-to
 
 <p> As will be seen in the following sections, we can exploit sharing to greatly extend the repertoire of data structures that can be represented by pairs. On the other hand, sharing can also be dangerous, since modifications made to structures will also affect other structures that happen to share the modified parts. The mutation operations <code>set-car!</code> and <code>set-cdr!</code> should be used with care; unless we have a good understanding of how our data objects are shared, mutation can have unanticipated results.<a name="footnote_link_3-20" class="footnote_link" href="#footnote_3-20">20</a>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.15">
 <p> <b>Exercise 3.15:</b> Draw box-and-pointer diagrams to explain the effect of <code>set-to-wow!</code> on the structures <code>z1</code> and <code>z2</code> above.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.16">
 <p> <b>Exercise 3.16:</b> Ben Bitdiddle decides to write a procedure to count the number of pairs in any list structure. "It's easy," he reasons. "The number of pairs in any structure is the number in the <code>car</code> plus the number in the <code>cdr</code> plus one more to count the current pair."  So Ben writes the following procedure:
 
 <div id="scheme-define-count-pairs">
@@ -307,19 +307,19 @@ C.prompt("scheme-define-count-pairs");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.17">
 <p> <b>Exercise 3.17:</b> Devise a correct version of the <code>count-pairs</code> procedure of Exercise 3-16 that returns the number of distinct pairs in any structure. (Hint: Traverse the structure, maintaining an auxiliary data structure that is used to keep track of which pairs have already been counted.)
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.18">
 <p> <b>Exercise 3.18:</b> Write a procedure that examines a list and determines whether it contains a cycle, that is, whether a program that tried to find the end of the list by taking successive <code>cdr</code>s would go into an infinite loop. Exercise 3-13 constructed such lists.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.19">
 <p> <b>Exercise 3.19:</b> Redo Exercise 3-18 using an algorithm that takes only a constant amount of space. (This requires a very clever idea.)
 </div>
 
@@ -375,7 +375,7 @@ C.prompt("scheme-define-cons-set-car-cdr");
 
 <p> Assignment is all that is needed, theoretically, to account for the behavior of mutable data. As soon as we admit <code>set!</code> to our language, we raise all the issues, not only of assignment, but of mutable data in general.<a name="footnote_link_3-21" class="footnote_link" href="#footnote_3-21">21</a>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.20">
 <p> <b>Exercise 3.20:</b> Draw environment diagrams to illustrate the evaluation of the sequence of expressions
 
 <div id="scheme-test-procedural-set-car-cdr">
@@ -539,7 +539,7 @@ C.prompt("scheme-define-queue", ["scheme-define-insert-queue"]);
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.21">
 <p> <b>Exercise 3.21:</b> Ben Bitdiddle decides to test the queue implementation described above. He types in the procedures to the Lisp interpreter and proceeds to try them out:
 
 <div id="scheme-test-queue">
@@ -562,7 +562,7 @@ C.prompt("scheme-test-queue", ["scheme-define-queue"]);
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.22">
 <p> <b>Exercise 3.22:</b> Instead of representing a queue as a pair of pointers, we can build a queue as a procedure with local state. The local state will consist of pointers to the beginning and the end of an ordinary list. Thus, the <code>make-queue</code> procedure will have the form
 
 <div id="scheme-define-make-queue-dispatch">
@@ -582,7 +582,7 @@ C.prompt("scheme-define-make-queue-dispatch");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.23">
 <p> <b>Exercise 3.23:</b> A <em>deque</em> ("double-ended queue") is a sequence in which items can be inserted and deleted at either the front or the rear. Operations on deques are the constructor <code>make-deque</code>, the predicate <code>empty-deque?</code>, selectors <code>front-deque</code> and <code>rear-deque</code>, and mutators <code>front-insert-deque!</code>, <code>rear-insert-deque!</code>, <code>front-delete-deque!</code>, and <code>rear-delete-deque!</code>. Show how to represent deques using pairs, and give implementations of the operations.<a name="footnote_link_3-23" class="footnote_link" href="#footnote_3-23">23</a>  All operations should be accomplished in $\Theta(1)$ steps.
 </div>
 
@@ -762,19 +762,19 @@ C.prompt("scheme-define-get-put", ["scheme-define-make-2table"]);
 
 <p> <code>Get</code> takes as arguments two keys, and <code>put</code> takes as arguments two keys and a value. Both operations access the same local table, which is encapsulated within the object created by the call to <code>make-table</code>.
 
-<div class="exercise">
+<div class="exercise" id="thm_3.24">
 <p> <b>Exercise 3.24:</b> In the table implementations above, the keys are tested for equality using <code>equal?</code> (called by <code>assoc</code>). This is not always the appropriate test. For instance, we might have a table with numeric keys in which we don't need an exact match to the number we're looking up, but only a number within some tolerance of it. Design a table constructor <code>make-table</code> that takes as an argument a <code>same-key?</code> procedure that will be used to test ``equality'' of keys. <code>Make-table</code> should return a <code>dispatch</code> procedure that can be used to access appropriate <code>lookup</code> and <code>insert!</code> procedures for a local table.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.25">
 <p> <b>Exercise 3.25:</b> Generalizing one- and two-dimensional tables, show how to implement a table in which values are stored under an arbitrary number of keys and different values may be stored under different numbers of keys. The <code>lookup</code> and <code>insert!</code> procedures should take as input a list of keys used to access the table.
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.26">
 <p> <b>Exercise 3.26:</b> To search a table as implemented above, one needs to scan through the list of records. This is basically the unordered list representation of section <a href="2-3-symbolic.html">2.3.3</a>. For large tables, it may be more efficient to structure the table in a different manner. Describe a table implementation where the (key, value) records are organized using a binary tree, assuming that keys can be ordered in some way (e.g., numerically or alphabetically). (Compare Exercise 2-66 of Chapter 2.)
 </div>
 
@@ -1009,15 +1009,15 @@ C.prompt("scheme-define-inverter");
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.28">
 <p> <b>Exercise 3.28:</b> Define an or-gate as a primitive function box. Your <code>or-gate</code> constructor should be similar to <code>and-gate</code>.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.29">
 <p> <b>Exercise 3.29:</b> Another way to construct an or-gate is as a compound digital logic device, built from and-gates and inverters. Define a procedure <code>or-gate</code> that accomplishes this. What is the delay time of the or-gate in terms of <code>and-gate-delay</code> and <code>inverter-delay</code>?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.30">
 <p> <b>Exercise 3.30:</b> Figure 3-27 shows a <code>ripple-carry adder</code> formed by stringing together n full-adders. This is the simplest form of parallel adder for adding two n-bit binary numbers. The inputs A_1, A_2, A_3, ..., A_n and B_1, B_2, B_3, ..., B_n are the two binary numbers to be added (each A_k and B_k is a 0 or a 1). The circuit generates S_1, S_2, S_3, ..., S_n, the n bits of the sum, and C, the carry from the addition. Write a procedure <code>ripple-carry-adder</code> that generates this circuit. The procedure should take as arguments three lists of n wires each---the A_k, the B_k, and the S_k---and also another wire C. The major drawback of the ripple-carry adder is the need to wait for the carry signals to propagate. What is the delay needed to obtain the complete output from an n-bit ripple-carry adder, expressed in terms of the delays for and-gates, or-gates, and inverters?
 </div>
 
@@ -1248,7 +1248,7 @@ C.prompt("scheme-set-signal");
 
 <p> The <code>carry</code> changes to 1 at time 11 and the <code>sum</code> changes to 0 at time 16.
 
-<div class="exercise">
+<div class="exercise" id="thm_3.31">
 <p> <b>Exercise 3.31:</b> The internal procedure <code>accept-action-procedure!</code> defined in <code>make-wire</code> specifies that when a new action procedure is added to a wire, the procedure is immediately run. Explain why this initialization is necessary. In particular, trace through the half-adder example in the paragraphs above and say how the system's response would differ if we had defined <code>accept-action-procedure!</code> as
 
 <div id="">
@@ -1375,7 +1375,7 @@ C.prompt();
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.32">
 <p> <b>Exercise 3.32:</b> The procedures to be run during each time segment of the agenda are kept in a queue. Thus, the procedures for each segment are called in the order in which they were added to the agenda (first in, first out). Explain why this order must be used. In particular, trace the behavior of an and-gate whose inputs change from 0,1 to 1,0 in the same segment and say how the behavior would differ if we stored a segment's procedures in an ordinary list, adding and removing procedures only at the front (last in, first out).
 </div>
 
@@ -1767,11 +1767,11 @@ C.prompt("scheme-define-for-each-except");
 C.prompt("scheme-define-connector-helpers");
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.33">
 <p> <b>Exercise 3.33:</b> Using primitive multiplier, adder, and constant constraints, define a procedure <code>averager</code> that takes three connectors <code>a</code>, <code>b</code>, and <code>c</code> as inputs and establishes the constraint that the value of <code>c</code> is the average of the values of <code>a</code> and <code>b</code>.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.34">
 <p> <b>Exercise 3.34:</b> Louis Reasoner wants to build a squarer, a constraint device with two terminals such that the value of connector <code>b</code> on the second terminal will always be the square of the value <code>a</code> on the first terminal. He proposes the following simple device made from a multiplier:
 
 <div id="scheme-define-squarer">
@@ -1787,7 +1787,7 @@ C.prompt("scheme-define-squarer");
 
 <p> 
 
-<div class="exercise">
+<div class="exercise" id="thm_3.35">
 <p> <b>Exercise 3.35:</b> Ben Bitdiddle tells Louis that one way to avoid the trouble in Exercise 3-34 is to define a squarer as a new primitive constraint. Fill in the missing portions in Ben's outline for a procedure to implement such a constraint:
 
 <div id="scheme-define-squarer-bb">
@@ -1810,7 +1810,7 @@ C.prompt("scheme-define-squarer-bb");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.36">
 <p> <b>Exercise 3.36:</b> Suppose we evaluate the following sequence of expressions in the global environment:
 
 <div id="scheme-define-ab">
@@ -1836,7 +1836,7 @@ C.prompt("scheme-use-for-each-except");
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_3.37">
 <p> <b>Exercise 3.37:</b> The <code>celsius-fahrenheit-converter</code> procedure is cumbersome when compared with a more expression-oriented style of definition, such as
 
 <div id="scheme-define-cfc-op">

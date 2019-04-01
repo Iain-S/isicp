@@ -161,7 +161,7 @@ try-again
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.35">
 <p> <b>Exercise 4.35:</b> Write a procedure <code>an-integer-between</code> that returns an integer between two given bounds. This can be used to implement a procedure that finds Pythagorean triples, i.e., triples of integers (i,j,k) between the given bounds such that i <= j and i^2 + j^2 = k^2, as follows:
 
 <div id="">
@@ -177,11 +177,11 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.36">
 <p> <b>Exercise 4.36:</b> Exercise 3-69 discussed how to generate the stream of <em>all</em> Pythagorean triples, with no upper bound on the size of the integers to be searched. Explain why simply replacing <code>an-integer-between</code> by <code>an-integer-starting-from</code> in the procedure in Exercise 4-35 is not an adequate way to generate arbitrary Pythagorean triples. Write a procedure that actually will accomplish this. (That is, write a procedure for which repeatedly typing <code>try-again</code> would in principle eventually generate all Pythagorean triples.)
  </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.37">
 <p> <b>Exercise 4.37:</b> Ben Bitdiddle claims that the following method for generating Pythagorean triples is more efficient than the one in Exercise 4-35. Is he correct?  (Hint: Consider the number of possibilities that must be explored.)
 
 <div id="">
@@ -264,23 +264,23 @@ C.prompt();
 
 <p> Although this simple procedure works, it is very slow. Exercise 4-39 and Exercise 4-40 discuss some possible improvements.
 
-<div class="exercise">
+<div class="exercise" id="thm_4.38">
 <p> <b>Exercise 4.38:</b> Modify the multiple-dwelling procedure to omit the requirement that Smith and Fletcher do not live on adjacent floors. How many solutions are there to this modified puzzle?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.39">
 <p> <b>Exercise 4.39:</b> Does the order of the restrictions in the multiple-dwelling procedure affect the answer? Does it affect the time to find an answer?  If you think it matters, demonstrate a faster program obtained from the given one by reordering the restrictions. If you think it does not matter, argue your case.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.40">
 <p> <b>Exercise 4.40:</b> In the multiple dwelling problem, how many sets of assignments are there of people to floors, both before and after the requirement that floor assignments be distinct?  It is very inefficient to generate all possible assignments of people to floors and then leave it to backtracking to eliminate them. For example, most of the restrictions depend on only one or two of the person-floor variables, and can thus be imposed before floors have been selected for all the people. Write and demonstrate a much more efficient nondeterministic procedure that solves this problem based upon generating only those possibilities that are not already ruled out by previous restrictions. (Hint: This will require a nest of <code>let</code> expressions.)
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.41">
 <p> <b>Exercise 4.41:</b> Write an ordinary Scheme program to solve the multiple dwelling puzzle.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.42">
 <p> <b>Exercise 4.42:</b> Solve the following ``Liars''puzzle (from Phillips 1934):
 
 <p> Five schoolgirls sat for an examination. Their parents---so they thought---showed an undue degree of interest in the result. They therefore agreed that, in writing home about the examination, each girl should make one true statement and one untrue one. The following are the relevant passages from their letters:
@@ -307,7 +307,7 @@ Mary: ``I was fourth. Top place was taken by Betty.''
 <p> What in fact was the order in which the five girls were placed?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.43">
 <p> <b>Exercise 4.43:</b> Use the <code>amb</code> evaluator to solve the following puzzle:@footnote{This is taken from a booklet called ``Problematical Recreations,'' published in the 1960s by Litton Industries, where it is attributed to the @cite{Kansas State Engineer}.}
 
 <div class="exercise">
@@ -316,7 +316,7 @@ Mary: ``I was fourth. Top place was taken by Betty.''
 <p> Try to write the program so that it runs efficiently (see Exercise 4-40). Also determine how many solutions there are if we are not told that Mary Ann's last name is Moore.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.44">
 <p> <b>Exercise 4.44:</b> Exercise 2-42 described the ``eight-queens puzzle'' of placing queens on a chessboard so that no two attack each other. Write a nondeterministic program to solve this puzzle.
 </div>
 
@@ -550,15 +550,15 @@ C.prompt();
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.45">
 <p> <b>Exercise 4.45:</b> With the grammar given above, the following sentence can be parsed in five different ways: ``The professor lectures to the student in the class with the cat.''  Give the five parses and explain the differences in shades of meaning among them.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.46">
 <p> <b>Exercise 4.46:</b> The evaluators in sections 4-1 and 4-2 do not determine what order operands are evaluated in. We will see that the <code>amb</code> evaluator evaluates them from left to right. Explain why our parsing program wouldn't work if the operands were evaluated in some other order.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.47">
 <p> <b>Exercise 4.47:</b> Louis Reasoner suggests that, since a verb phrase is either a verb or a verb phrase followed by a prepositional phrase, it would be much more straightforward to define the procedure <code>parse-verb-phrase</code> as follows (and similarly for noun phrases):
 
 <div id="">
@@ -575,11 +575,11 @@ C.prompt();
 <p> Does this work?  Does the program's behavior change if we interchange the order of expressions in the <code>amb</code>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.48">
 <p> <b>Exercise 4.48:</b> Extend the grammar given above to handle more complex sentences. For example, you could extend noun phrases and verb phrases to include adjectives and adverbs, or you could handle compound sentences.@footnote{This kind of grammar can become arbitrarily complex, but it is only a toy as far as real language understanding is concerned. Real natural-language understanding by computer requires an elaborate mixture of syntactic analysis and interpretation of meaning. On the other hand, even toy parsers can be useful in supporting flexible command languages for programs such as information-retrieval systems. Winston 1992 discusses computational approaches to real language understanding and also the applications of simple grammars to command languages.}
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.49">
 <p> <b>Exercise 4.49:</b> Alyssa P. Hacker is more interested in generating interesting sentences than in parsing them. She reasons that by simply changing the procedure <code>parse-word</code> so that it ignores the ``input sentence'' and instead always succeeds and generates an appropriate word, we can use the programs we had built for parsing to do generation instead. Implement Alyssa's idea, and show the first half-dozen or so sentences generated.@footnote{Although Alyssa's idea works just fine (and is surprisingly simple), the sentences that it generates are a bit boring---they don't sample the possible sentences of this language in a very interesting way. In fact, the grammar is highly recursive in many places, and Alyssa's technique ``falls into'' one of these recursions and gets stuck. See Exercise 4-50 for a way to deal with this.}
 </div>
 
@@ -972,11 +972,11 @@ C.prompt();
 
 <p> The initial call to <code>internal-loop</code> uses a <code>try-again</code> procedure that complains that there is no current problem and restarts the driver loop. This is the behavior that will happen if the user types <code>try-again</code> when there is no evaluation in progress.
 
-<div class="exercise">
+<div class="exercise" id="thm_4.50">
 <p> <b>Exercise 4.50:</b> Implement a new special form <code>ramb</code> that is like <code>amb</code> except that it searches alternatives in a random order, rather than from left to right. Show how this can help with Alyssa's problem in Exercise 4-49.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.51">
 <p> <b>Exercise 4.51:</b> Implement a new kind of assignment called <code>permanent-set!</code> that is not undone upon failure. For example, we can choose two distinct elements from a list and count the number of trials required to make a successful choice as follows:
 
 <div id="">
@@ -1003,7 +1003,7 @@ C.prompt();
 <p> What values would have been displayed if we had used <code>set!</code> here rather than <code>permanent-set!</code> ?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.52">
 <p> <b>Exercise 4.52:</b> Implement a new construct called <code>if-fail</code> that permits the user to catch the failure of an expression. <code>If-fail</code> takes two expressions. It evaluates the first expression as usual and returns as usual if the evaluation succeeds. If the evaluation fails, however, the value of the second expression is returned, as in the following example:
 
 <div id="">
@@ -1030,7 +1030,7 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.53">
 <p> <b>Exercise 4.53:</b> With <code>permanent-set!</code> as described in Exercise 4-51 and <code>if-fail</code> as in Exercise 4-52, what will be the result of evaluating
 
 <div id="">
@@ -1045,7 +1045,7 @@ C.prompt();
 </script>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.54">
 <p> <b>Exercise 4.54:</b> If we had not realized that <code>require</code> could be implemented as an ordinary procedure that uses <code>amb</code>, to be defined by the user as part of a nondeterministic program, we would have had to implement it as a special form. This would require syntax procedures
 
 <div id="">

@@ -48,7 +48,7 @@ def validate(filename, verbose=False):
 
 # all_messages = []
 for file_name in os.listdir("."):
-    if file_name.endswith(".html") and file_name[0] in ["1", "2", "3", "4", "5"]:
+    if file_name.endswith(".html") and file_name[0] in ["3", "4", "5"]:
         print("Processing " + file_name)
         messages = validate(file_name)["messages"]
         for m in messages:

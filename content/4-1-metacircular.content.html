@@ -226,7 +226,7 @@ C.prompt("scheme-eval-definition");
 <p> We have chosen here to return the symbol <code>ok</code> as the value of an
 assignment or a definition.<a name="footnote_link_1-8" class="footnote_link" href="#footnote_1-8">8</a>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.1">
 <p> <b>Exercise 4.1:</b> Notice that we cannot tell whether the metacircular evaluator evaluates operands from left to right or from right to left. Its evaluation order is inherited from the underlying Lisp: If the arguments to <code>cons</code> in <code>list-of-values</code> are evaluated from left to right, then <code>list-of-values</code> will evaluate operands from left to right; and if the arguments to <code>cons</code> are evaluated from right to left, then <code>list-of-values</code> will evaluate operands from right to left.
 
 Write a version of <code>list-of-values</code> that evaluates operands from left to right regardless of the order of evaluation in the underlying Lisp. Also write a version of <code>list-of-values</code> that evaluates operands from right to left.
@@ -528,7 +528,7 @@ C.prompt("scheme-define-cond-p");
 
 <p> Expressions (such as <code>cond</code>) that we choose to implement as syntactic transformations are called <code>derived expressions</code>. <code>Let</code> expressions are also derived expressions (see Exercise 4-6).<a name="footnote_link_1-13" class="footnote_link" href="#footnote_1-13">4</a>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.2">
 <p> <b>Exercise 4.2:</b> Louis Reasoner plans to reorder the <code>cond</code> clauses in <code>eval</code> so that the clause for procedure applications appears before the clause for assignments. He argues that this will make the interpreter more efficient: Since programs usually contain more applications than assignments, definitions, and so on, his modified <code>eval</code> will usually check fewer clauses than the original <code>eval</code> before identifying the type of an expression.
 
 <ul>
@@ -541,11 +541,11 @@ C.prompt("scheme-define-cond-p");
 </ul>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.3">
 <p> <b>Exercise 4.3:</b> Rewrite <code>eval</code> so that the dispatch is done in data-directed style. Compare this with the data-directed differentiation procedure of Exercise 2-73. (You may use the <code>car</code> of a compound expression as the type of the expression, as is appropriate for the syntax implemented in this section.)
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.4">
 <p> <b>Exercise 4.4:</b> Recall the definitions of the special forms <code>and</code> and <code>or</code> from Chapter 1:
 
 <ul>
@@ -560,7 +560,7 @@ C.prompt("scheme-define-cond-p");
 <p> Install <code>and</code> and <code>or</code> as new special forms for the evaluator by defining appropriate syntax procedures and evaluation procedures <code>eval-and</code> and <code>eval-or</code>. Alternatively, show how to implement <code>and</code> and <code>or</code> as derived expressions.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.5">
 <p> <b>Exercise 4.5:</b> Scheme allows an additional syntax for <code>cond</code> clauses, (test => recipient)}. If <test> evaluates to a true value, then <recipient> is evaluated. Its value must be a procedure of one argument; this procedure is then invoked on the value of the <test>, and the result is returned as the value of
 the <code>cond</code> expression. For example
 
@@ -575,7 +575,7 @@ C.prompt();
 <p> returns 2. Modify the handling of <code>cond</code> so that it supports this extended syntax.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.6">
 <p> <b>Exercise 4.6:</b> <code>Let</code> expressions are derived expressions, because
 
 <div id="">
@@ -603,7 +603,7 @@ C.prompt();
 <p> Implement a syntactic transformation <code>let->combination</code> that reduces evaluating <code>let</code> expressions to evaluating combinations of the type shown above, and add the appropriate clause to <code>eval</code> to handle <code>let</code> expressions.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.7">
 <p> <b>Exercise 4.7:</b> <code>Let*</code> is similar to <code>let</code>, except that the bindings of the <code>let</code> variables are performed sequentially from left to right, and each binding is made in an environment in which all of the preceding bindings are visible. For example
 
 <div id="">
@@ -630,7 +630,7 @@ C.prompt();
 <p> or must we explicitly expand <code>let*</code> in terms of non-derived expressions?
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.8">
 <p> <b>Exercise 4.8:</b> ``Named <code>let</code>'' is a variant
 of <code>let</code> that has the form
 
@@ -660,7 +660,7 @@ C.prompt();
 <code>let</code>.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.9">
 <p> <b>Exercise 4.9:</b> Many languages support a variety of iteration constructs, such as <code>do</code>, <code>for</code>, <code>while</code>, and <code>until</code>. In Scheme, iterative processes can be expressed in terms of ordinary procedure calls, so special iteration constructs provide no essential gain in computational power. On the other hand, such constructs are often convenient. Design some iteration constructs, give examples of their use, and
 show how to implement them as derived expressions.
 </div>
@@ -894,14 +894,14 @@ C.prompt();
 
 <p> The method described here is only one of many plausible ways to represent environments. Since we used data abstraction to isolate the rest of the evaluator from the detailed choice of representation, we could change the environment representation if we wanted to. (See Exercise 4-11.)  In a production-quality Lisp system, the speed of the evaluator's environment operations---especially that of variable lookup---has a major impact on the performance of the system. The representation described here, although conceptually simple, is not efficient and would not ordinarily be used in a production system.<a name="footnote_link_1-15" class="footnote_link" href="#footnote_1-15">15</a>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.11">
 <p> <b>Exercise 4.11:</b> Instead of representing a frame
 as a pair of lists, we can represent a frame as a list of bindings, where each
 binding is a name-value pair. Rewrite the environment operations to use this
 alternative representation.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.12">
 <p> <b>Exercise 4.12:</b> The procedures
 <code>set-variable-value!</code>, <code>define-variable!</code>, and
 <code>lookup-variable-value</code> can be expressed in terms of more abstract
@@ -910,7 +910,7 @@ capture the common patterns and redefine the three procedures in terms of these
 abstractions.
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.13">
 <p> <b>Exercise 4.13:</b> Scheme allows us to create new
 bindings for variables by means of <code>define</code>, but provides no way to get
 rid of bindings. Implement for the evaluator a special form
@@ -1088,7 +1088,7 @@ ok
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.14">
 <p> <b>Exercise 4.14:</b> Eva Lu Ator and Louis Reasoner
 are each experimenting with the metacircular evaluator. Eva types in the
 definition of <code>map</code>, and runs some test programs that use it. They work
@@ -1257,7 +1257,7 @@ includes <code>eval</code>, as well as a symbol <code>user-initial-environment</
 is bound to the initial environment in which the user's input expressions are
 evaluated.}
 
-<div class="exercise">
+<div class="exercise" id="thm_4.15">
 <p> <b>Exercise 4.15:</b> Given a one-argument procedure
 <code>p</code> and an object <code>a</code>, <code>p</code> is said to ``halt'' on <code>a</code> if
 evaluating the expression <code>(p a)</code> returns a value (as opposed to
@@ -1403,7 +1403,7 @@ enforce it. Some Scheme implementations, including @acronym{MIT} Scheme, use
 the transformation shown above. Thus, some programs that don't obey this
 restriction will in fact run in such implementations.}
 
-<div class="exercise">
+<div class="exercise" id="thm_4.16">
 <p> <b>Exercise 4.16:</b> In this exercise we implement the
 method just described for interpreting internal definitions. We assume that
 the evaluator supports <code>let</code> (see Exercise 4-6).
@@ -1428,7 +1428,7 @@ Which place is better?  Why?
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.17">
 <p> <b>Exercise 4.17:</b> Draw diagrams of the environment
 in effect when evaluating the expression <e3> in the procedure in the
 text, comparing how this will be structured when definitions are interpreted
@@ -1442,7 +1442,7 @@ the extra frame.
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.18">
 <p> <b>Exercise 4.18:</b> Consider an alternative strategy
 for scanning out definitions that translates the example in the text to
 
@@ -1480,7 +1480,7 @@ this exercise?  What if they are scanned out as shown in the text?  Explain.
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.19">
 <p> <b>Exercise 4.19:</b> Ben Bitdiddle, Alyssa P. Hacker,
 and Eva Lu Ator are arguing about the desired result of evaluating the
 expression
@@ -1521,7 +1521,7 @@ to produce an incorrect answer (as Ben would have it).}
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.20">
 <p> <b>Exercise 4.20:</b> Because internal definitions look
 sequential but are actually simultaneous, some people prefer to avoid them
 entirely, and use the special form <code>letrec</code> instead. <code>Letrec</code> looks
@@ -1601,7 +1601,7 @@ environment diagram for the same evaluation, but with <code>let</code> in place 
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.21">
 <p> <b>Exercise 4.21:</b> Amazingly, Louis's intuition in
 Exercise 4-20 is correct. It is indeed possible to specify recursive
 procedures without using <code>letrec</code> (or even <code>define</code>), although the
@@ -1914,14 +1914,14 @@ C.prompt();
 run-time support procedures as in sections 4-1-2, 4-1-3, and
 4-1-4.
 
-<div class="exercise">
+<div class="exercise" id="thm_4.22">
 <p> <b>Exercise 4.22:</b> Extend the evaluator in this
 section to support the special form <code>let</code>. (See Exercise 4-6.)
 </div>
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.23">
 <p> <b>Exercise 4.23:</b> Alyssa P. Hacker doesn't
 understand why <code>analyze-sequence</code> needs to be so complicated. All the
 other analysis procedures are straightforward transformations of the
@@ -1960,7 +1960,7 @@ expressions?
 
 <p>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.24">
 <p> <b>Exercise 4.24:</b> Design and carry out some
 experiments to compare the speed of the original metacircular evaluator with
 the version in this section. Use your results to estimate the fraction of time
