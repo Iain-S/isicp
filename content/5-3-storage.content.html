@@ -83,7 +83,7 @@ the-cdrs |    | p2 | p4 |    | e0 | p7 |    | e0 |    | ...
 
 <p> For example, we can make a register machine support the instructions
 
-<div id="">
+<div>
 (assign <reg_1> (op car) (reg <reg_2>))
 
 (assign <reg_1> (op cdr) (reg <reg_2>))
@@ -94,7 +94,7 @@ C.prompt();
 
 <p> if we implement these, respectively, as
 
-<div id="">
+<div>
 (assign <reg_1> (op vector-ref) (reg the-cars) (reg <reg_2>))
 
 (assign <reg_1> (op vector-ref) (reg the-cdrs) (reg <reg_2>))
@@ -105,7 +105,7 @@ C.prompt();
 
 <p> The instructions
 
-<div id="">
+<div>
 (perform (op set-car!) (reg <reg_1>) (reg <reg_2>))
 
 (perform (op set-cdr!) (reg <reg_1>) (reg <reg_2>))
@@ -116,7 +116,7 @@ C.prompt();
 
 <p> are implemented as
 
-<div id="">
+<div>
 (perform
  (op vector-set!) (reg the-cars) (reg <reg_1>) (reg <reg_2>))
 
@@ -129,7 +129,7 @@ C.prompt();
 
 <p> <code>Cons</code> is performed by allocating an unused index and storing the arguments to <code>cons</code> in <code>the-cars</code> and <code>the-cdrs</code> at that indexed vector position. We presume that there is a special register, <code>free</code>, that always holds a pair pointer containing the next available index, and that we can increment the index part of that pointer to find the next free location.@footnote{There are other ways of finding free storage. For example, we could link together all the unused pairs into a <code>free list</code> . Our free locations are consecutive (and hence can be accessed by incrementing a pointer) because we are using a compacting garbage collector, as we will see in section <a href="5-3-storage.html">5.3.2</a>.}  For example, the instruction
 
-<div id="">
+<div>
 (assign <reg_1> (op cons) (reg <reg_2>) (reg <reg_3>))
 </div>
 <script>
@@ -138,7 +138,7 @@ C.prompt();
 
 <p> is implemented as the following sequence of vector operations:@footnote{This is essentially the implementation of <code>cons</code> in terms of <code>set-car!</code> and <code>set-cdr!</code>, as described in section <a href="3-3-modeling.html">3.3.1</a>. The operation <code>get-new-pair</code> used in that implementation is realized here by the <code>free</code> pointer.}
 
-<div id="">
+<div>
 (perform
  (op vector-set!) (reg the-cars) (reg free) (reg <reg_2>))
 (perform
@@ -152,7 +152,7 @@ C.prompt();
 
 <p> The <code>eq?</code> operation
 
-<div id="">
+<div>
 (op eq?) (reg <reg_1>) (reg <reg_2>)
 </div>
 <script>
@@ -165,7 +165,7 @@ C.prompt();
 
 <p> Although our register machines use stacks, we need do nothing special here, since stacks can be modeled in terms of lists. The stack can be a list of the saved values, pointed to by a special register <code>the-stack</code>. Thus, <code>(save <reg</code>>) can be implemented as
 
-<div id="">
+<div>
 (assign the-stack (op cons) (reg <reg>) (reg the-stack))
 </div>
 <script>
@@ -174,7 +174,7 @@ C.prompt();
 
 <p> Similarly, <code>(restore <reg</code>>) can be implemented as
 
-<div id="">
+<div>
 (assign <reg> (op car) (reg the-stack))
 (assign the-stack (op cdr) (reg the-stack))
 </div>
@@ -184,7 +184,7 @@ C.prompt();
 
 <p> and <code>(perform (op initialize-stack))</code> can be implemented as
 
-<div id="">
+<div>
 (assign the-stack (const ()))
 </div>
 <script>
@@ -196,7 +196,7 @@ C.prompt();
 <div class="exercise" id="thm_5.20">
 <p> <b>Exercise 5.20:</b> Draw the box-and-pointer representation and the memory-vector representation (as in Figure 5-14) of the list structure produced by
 
-<div id="">
+<div>
 (define x (cons 1 2))
 (define y (list x x))
 </div>
@@ -215,7 +215,7 @@ C.prompt();
 <li>
 Recursive <code>count-leaves</code>:
 
-<div id="">
+<div>
 (define (count-leaves tree)
   (cond ((null? tree) 0)
         ((not (pair? tree)) 1)
@@ -230,7 +230,7 @@ C.prompt();
 <li>
 Recursive <code>count-leaves</code> with explicit counter:
 
-<div id="">
+<div>
 (define (count-leaves tree)
   (define (count-iter tree n)
     (cond ((null? tree) n)
@@ -254,7 +254,7 @@ C.prompt();
 
 <p> The representation method outlined in section <a href="5-3-storage.html">5.3.1</a> solves the problem of implementing list structure, provided that we have an infinite amount of memory. With a real computer we will eventually run out of free space in which to construct new pairs.@footnote{This may not be true eventually, because memories may get large enough so that it would be impossible to run out of free memory in the lifetime of the computer. For example, there are about 3*(10^13), microseconds in a year, so if we were to <code>cons</code> once per microsecond we would need about 10^15 cells of memory to build a machine that could operate for 30 years without running out of memory. That much memory seems absurdly large by today's standards, but it is not physically impossible. On the other hand, processors are getting faster and a future computer may have large numbers of processors operating in parallel on a single memory, so it may be possible to use up memory much faster than we have postulated.}  However, most of the pairs generated in a typical computation are used only to hold intermediate results. After these results are accessed, the pairs are no longer needed---they are <code>garbage</code> . For instance, the computation
 
-<div id="">
+<div>
 (accumulate + 0 (filter odd? (enumerate-interval 0 n)))
 </div>
 <script>
@@ -322,7 +322,7 @@ the-cdrs |                  |                 | memory
 
 <p> We can specify the stop-and-copy algorithm as a sequence of instructions for a register machine. The basic step of relocating an object is accomplished by a subroutine called <code>relocate-old-result-in-new</code>. This subroutine gets its argument, a pointer to the object to be relocated, from a register named <code>old</code>. It relocates the designated object (incrementing <code>free</code> in the process), puts a pointer to the relocated object into a register called <code>new</code>, and returns by branching to the entry point stored in the register <code>relocate-continue</code>. To begin garbage collection, we invoke this subroutine to relocate the <code>root</code> pointer, after initializing <code>free</code> and <code>scan</code>. When the relocation of <code>root</code> has been accomplished, we install the new pointer as the new <code>root</code> and enter the main loop of the garbage collector.
 
-<div id="">
+<div>
 begin-garbage-collection
   (assign free (const 0))
   (assign scan (const 0))
@@ -339,7 +339,7 @@ C.prompt();
 
 <p> In the main loop of the garbage collector we must determine whether there are any more objects to be scanned. We do this by testing whether the <code>scan</code> pointer is coincident with the <code>free</code> pointer. If the pointers are equal, then all accessible objects have been relocated, and we branch to <code>gc-flip</code>, which cleans things up so that we can continue the interrupted computation. If there are still pairs to be scanned, we call the relocate subroutine to relocate the <code>car</code> of the next pair (by placing the <code>car</code> pointer in <code>old</code>). The <code>relocate-continue</code> register is set up so that the subroutine will return to update the <code>car</code> pointer.
 
-<div id="">
+<div>
 gc-loop
   (test (op =) (reg scan) (reg free))
   (branch (label gc-flip))
@@ -353,7 +353,7 @@ C.prompt();
 
 <p> At <code>update-car</code>, we modify the <code>car</code> pointer of the pair being scanned, then proceed to relocate the <code>cdr</code> of the pair. We return to <code>update-cdr</code> when that relocation has been accomplished. After relocating and updating the <code>cdr</code>, we are finished scanning that pair, so we continue with the main loop.
 
-<div id="">
+<div>
 update-car
   (perform
    (op vector-set!) (reg new-cars) (reg scan) (reg new))
@@ -373,7 +373,7 @@ C.prompt();
 
 <p> The subroutine <code>relocate-old-result-in-new</code> relocates objects as follows: If the object to be relocated (pointed at by <code>old</code>) is not a pair, then we return the same pointer to the object unchanged (in <code>new</code>). (For example, we may be scanning a pair whose <code>car</code> is the number 4. If we represent the <code>car</code> by <code>n4</code>, as described in section <a href="5-3-storage.html">5.3.1</a>, then we want the ``relocated'' <code>car</code> pointer to still be <code>n4</code>.)  Otherwise, we must perform the relocation. If the <code>car</code> position of the pair to be relocated contains a broken-heart tag, then the pair has in fact already been moved, so we retrieve the forwarding address (from the <code>cdr</code> position of the broken heart) and return this in <code>new</code>. If the pointer in <code>old</code> points at a yet-unmoved pair, then we move the pair to the first free cell in new memory (pointed at by <code>free</code>) and set up the broken heart by storing a broken-heart tag and forwarding address at the old location. <code>Relocate-old-result-in-new</code> uses a register <code>oldcr</code> to hold the <code>car</code> or the <code>cdr</code> of the object pointed at by <code>old</code>.@footnote{The garbage collector uses the low-level predicate <code>pointer-to-pair?</code> instead of the list-structure <code>pair?</code>  operation because in a real system there might be various things that are treated as pairs for garbage-collection purposes. For example, in a Scheme system that conforms to the @acronym{IEEE} standard a procedure object may be implemented as a special kind of ``pair'' that doesn't satisfy the <code>pair?</code> predicate. For simulation purposes, <code>pointer-to-pair?</code> can be implemented as <code>pair?</code>.}
 
-<div id="">
+<div>
 relocate-old-result-in-new
   (test (op pointer-to-pair?) (reg old))
   (branch (label pair))
@@ -408,7 +408,7 @@ C.prompt();
 
 <p> At the very end of the garbage-collection process, we interchange the role of old and new memories by interchanging pointers: interchanging <code>the-cars</code> with <code>new-cars</code>, and <code>the-cdrs</code> with <code>new-cdrs</code>. We will then be ready to perform another garbage collection the next time memory runs out.
 
-<div id="">
+<div>
 gc-flip
   (assign temp (reg the-cdrs))
   (assign the-cdrs (reg new-cdrs))

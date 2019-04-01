@@ -36,7 +36,7 @@
 
 <p> As a case in point, consider the combination <code>(f 84 96)</code>. Before the interpreter evaluates the operator of the combination, it prepares for this evaluation by saving the registers containing the operands and the environment, whose values will be needed later. The interpreter then evaluates the operator to obtain the result in <code>val</code>, restores the saved registers, and finally moves the result from <code>val</code> to <code>proc</code>. However, in the particular expression we are dealing with, the operator is the symbol <code>f</code>, whose evaluation is accomplished by the machine operation <code>lookup-variable-value</code>, which does not alter any registers. The compiler that we implement in this section will take advantage of this fact and generate code that evaluates the operator using the instruction
 
-<div id="">
+<div>
 (assign proc (op lookup-variable-value) (const f) (reg env))
 </div>
 <script>
@@ -53,7 +53,7 @@ C.prompt();
 
 <p> The procedure <code>compile</code> is the top-level dispatch in the compiler. It corresponds to the <code>eval</code> procedure of section <a href="4-1-metacircular.html">4.1.1</a>, the <code>analyze</code> procedure of section <a href="4-1-metacircular.html">4.1.7</a>, and the <code>eval-dispatch</code> entry point of the explicit-control-evaluator in section <a href="5-4-explicit-control.html">5.4.1</a>. The compiler, like the interpreters, uses the expression-syntax procedures defined in section <a href="4-1-metacircular.html">4.1.2</a>.@footnote{Notice, however, that our compiler is a Scheme program, and the syntax procedures that it uses to manipulate expressions are the actual Scheme procedures used with the metacircular evaluator. For the explicit-control evaluator, in contrast, we assumed that equivalent syntax operations were available as operations for the register machine. (Of course, when we simulated the register machine in Scheme, we used the actual Scheme procedures in our register machine simulation.)}  <code>Compile</code> performs a case analysis on the syntactic type of the expression to be compiled. For each type of expression, it dispatches to a specialized <code>code generator</code> :
 
-<div id="">
+<div>
 (define (compile exp target linkage)
   (cond ((self-evaluating? exp)
          (compile-self-evaluating exp target linkage))
@@ -100,7 +100,7 @@ jump to a named entry point (this is specified by using the designated label as 
 
 <p> For example, compiling the expression <code>5</code> (which is self-evaluating) with a target of the <code>val</code> register and a linkage of <code>next</code> should produce the instruction
 
-<div id="">
+<div>
 (assign val (const 5))
 </div>
 <script>
@@ -109,7 +109,7 @@ C.prompt();
 
 <p> Compiling the same expression with a linkage of <code>return</code> should produce the instructions
 
-<div id="">
+<div>
 (assign val (const 5))
 (goto (reg continue))
 </div>
@@ -125,7 +125,7 @@ C.prompt();
 
 <p> The simplest method for combining instruction sequences is a procedure called <code>append-instruction-sequences</code>. It takes as arguments any number of instruction sequences that are to be executed sequentially; it appends them and returns the combined sequence. That is, if <seq_1> and <seq_2> are sequences of instructions, then evaluating
 
-<div id="">
+<div>
 (append-instruction-sequences <seq_1> <seq_2>)
 </div>
 <script>
@@ -134,7 +134,7 @@ C.prompt();
 
 <p> produces the sequence
 
-<div id="">
+<div>
 <seq_1>
 <seq_2>
 </div>
@@ -144,7 +144,7 @@ C.prompt();
 
 <p> Whenever registers might need to be saved, the compiler's code generators use <code>preserving</code>, which is a more subtle method for combining instruction sequences. <code>Preserving</code> takes three arguments: a set of registers and two instruction sequences that are to be executed sequentially. It appends the sequences in such a way that the contents of each register in the set is preserved over the execution of the first sequence, if this is needed for the execution of the second sequence. That is, if the first sequence modifies the register and the second sequence actually needs the register's original contents, then <code>preserving</code> wraps a <code>save</code> and a <code>restore</code> of the register around the first sequence before appending the sequences. Otherwise, <code>preserving</code> simply returns the appended instruction sequences. Thus, for example,
 
-<div id="">
+<div>
 (preserving (list &lt;reg_1&gt; &lt;reg_2&gt;) &lt;seq_1&gt; &lt;seq_2&gt;)
 </div>
 <script>
@@ -184,7 +184,7 @@ the actual instructions (also called <code>statements</code> ) in the sequence.
 
 <p> We will represent an instruction sequence as a list of its three parts. The constructor for instruction sequences is thus
 
-<div id="">
+<div>
 (define (make-instruction-sequence needs modifies statements)
   (list needs modifies statements))
 </div>
@@ -194,7 +194,7 @@ C.prompt();
 
 <p> For example, the two-instruction sequence that looks up the value of the variable <code>x</code> in the current environment, assigns the result to <code>val</code>, and then returns, requires registers <code>env</code> and <code>continue</code> to have been initialized, and modifies register <code>val</code>. This sequence would therefore be constructed as
 
-<div id="">
+<div>
 (make-instruction-sequence '(env continue) '(val)
  '((assign val
            (op lookup-variable-value) (const x) (reg env))
@@ -206,7 +206,7 @@ C.prompt();
 
 <p> We sometimes need to construct an instruction sequence with no statements:
 
-<div id="">
+<div>
 (define (empty-instruction-sequence)
   (make-instruction-sequence '() '() '()))
 </div>
@@ -219,7 +219,7 @@ C.prompt();
 <div class="exercise" id="thm_5.31">
 <p> <b>Exercise 5.31:</b> In evaluating a procedure application, the explicit-control evaluator always saves and restores the <code>env</code> register around the evaluation of the operator, saves and restores <code>env</code> around the evaluation of each operand (except the final one), saves and restores <code>argl</code> around the evaluation of each operand, and saves and restores <code>proc</code> around the evaluation of the operand sequence. For each of the following combinations, say which of these <code>save</code> and <code>restore</code> operations are superfluous and thus could be eliminated by the compiler's <code>preserving</code> mechanism:
 
-<div id="">
+<div>
 (f 'x 'y)
 
 ((f) 'x 'y)
@@ -257,7 +257,7 @@ Alyssa P. Hacker suggests that by extending the evaluator to recognize more and 
 
 <p> For example, if the value of <code>linkage</code> is the symbol@* <code>branch25</code>, then the expression@* <code>`((goto (label ,linkage)))</code>@* evaluates to the list@* <code>((goto (label branch25)))</code>.@* Similarly, if the value of <code>x</code> is the list <code>(a b c)</code>, then@* <code>`(1 2 ,(car x))</code>@* evaluates to the list@* <code>(1 2 a)</code>.}
 
-<div id="">
+<div>
 (define (compile-linkage linkage)
   (cond ((eq? linkage 'return)
          (make-instruction-sequence '(continue) '()
@@ -274,7 +274,7 @@ C.prompt();
 
 <p> The linkage code is appended to an instruction sequence by <code>preserving</code> the <code>continue</code> register, since a <code>return</code> linkage will require the <code>continue</code> register: If the given instruction sequence modifies <code>continue</code> and the linkage code needs it, <code>continue</code> will be saved and restored.
 
-<div id="">
+<div>
 (define (end-with-linkage linkage instruction-sequence)
   (preserving '(continue)
    instruction-sequence
@@ -288,7 +288,7 @@ C.prompt();
 
 <p> The code generators for self-evaluating expressions, quotations, and variables construct instruction sequences that assign the required value to the target register and then proceed as specified by the linkage descriptor.
 
-<div id="">
+<div>
 (define (compile-self-evaluating exp target linkage)
   (end-with-linkage linkage
    (make-instruction-sequence '() (list target)
@@ -315,7 +315,7 @@ C.prompt();
 
 <p> Assignments and definitions are handled much as they are in the interpreter. We recursively generate code that computes the value to be assigned to the variable, and append to it a two-instruction sequence that actually sets or defines the variable and assigns the value of the whole expression (the symbol <code>ok</code>) to the target register. The recursive compilation has target <code>val</code> and linkage <code>next</code> so that the code will put its result into <code>val</code> and continue with the code that is appended after it. The appending is done preserving <code>env</code>, since the environment is needed for setting or defining the variable and the code for the variable value could be the compilation of a complex expression that might modify the registers in arbitrary ways.
 
-<div id="">
+<div>
 (define (compile-assignment exp target linkage)
   (let ((var (assignment-variable exp))
         (get-value-code
@@ -354,7 +354,7 @@ C.prompt();
 
 <p> The code for an <code>if</code> expression compiled with a given target and linkage has the form
 
-<div id="">
+<div>
 <<em>compilation of predicate, target <code>val</code>, linkage <code>next</code></em>>
  (test (op false?) (reg val))
  (branch (label false-branch))
@@ -370,7 +370,7 @@ C.prompt();
 
 <p> To generate this code, we compile the predicate, consequent, and alternative, and combine the resulting code with instructions to test the predicate result and with newly generated labels to mark the true and false branches and the end of the conditional.@footnote{We can't just use the labels <code>true-branch</code>, <code>false-branch</code>, and <code>after-if</code> as shown above, because there might be more than one <code>if</code> in the program. The compiler uses the procedure <code>make-label</code> to generate labels. <code>Make-label</code> takes a symbol as argument and returns a new symbol that begins with the given symbol. For example, successive calls to <code>(make-label 'a)</code> would return <code>a1</code>, <code>a2</code>, and so on. <code>Make-label</code> can be implemented similarly to the generation of unique variable names in the query language, as follows:
 
-<div id="">
+<div>
 (define label-counter 0)
 
 (define (new-label-number)
@@ -387,7 +387,7 @@ C.prompt();
 </script>
 <p> } In this arrangement of code, we must branch around the true branch if the test is false. The only slight complication is in how the linkage for the true branch should be handled. If the linkage for the conditional is <code>return</code> or a label, then the true and false branches will both use this same linkage. If the linkage is <code>next</code>, the true branch ends with a jump around the code for the false branch to the label at the end of the conditional.
 
-<div id="">
+<div>
 (define (compile-if exp target linkage)
   (let ((t-branch (make-label 'true-branch))
         (f-branch (make-label 'false-branch))
@@ -423,7 +423,7 @@ C.prompt();
 
 <p> The compilation of sequences (from procedure bodies or explicit <code>begin</code> expressions) parallels their evaluation. Each expression of the sequence is compiled---the last expression with the linkage specified for the sequence, and the other expressions with linkage <code>next</code> (to execute the rest of the sequence). The instruction sequences for the individual expressions are appended to form a single instruction sequence, such that <code>env</code> (needed for the rest of the sequence) and <code>continue</code> (possibly needed for the linkage at the end of the sequence) are preserved.
 
-<div id="">
+<div>
 (define (compile-sequence seq target linkage)
   (if (last-exp? seq)
       (compile (first-exp seq) target linkage)
@@ -452,7 +452,7 @@ after-lambda
 
 <p> <code>Compile-lambda</code> generates the code for constructing the procedure object followed by the code for the procedure body. The procedure object will be constructed at run time by combining the current environment (the environment at the point of definition) with the entry point to the compiled procedure body (a newly generated label).@footnote{[Footnote 38] We need machine operations to implement a data structure for representing compiled procedures, analogous to the structure for compound procedures described in section <a href="4-1-metacircular.html">4.1.3</a>:
 
-<div id="">
+<div>
 (define (make-compiled-procedure entry env)
   (list 'compiled-procedure entry env))
 
@@ -468,7 +468,7 @@ C.prompt();
 </script>
 }
 
-<div id="">
+<div>
 (define (compile-lambda exp target linkage)
   (let ((proc-entry (make-label 'entry))
         (after-lambda (make-label 'after-lambda)))
@@ -493,7 +493,7 @@ C.prompt();
 
 <p> <code>Compile-lambda-body</code> constructs the code for the body of the procedure. This code begins with a label for the entry point. Next come instructions that will cause the run-time evaluation environment to switch to the correct environment for evaluating the procedure body---namely, the definition environment of the procedure, extended to include the bindings of the formal parameters to the arguments with which the procedure is called. After this comes the code for the sequence of expressions that makes up the procedure body. The sequence is compiled with linkage <code>return</code> and target <code>val</code> so that it will end by returning from the procedure with the procedure result in <code>val</code>.
 
-<div id="">
+<div>
 (define (compile-lambda-body exp proc-entry)
   (let ((formals (lambda-parameters exp)))
     (append-instruction-sequences
@@ -524,7 +524,7 @@ C.prompt();
 
 <p> The required code is generated by <code>compile-application</code>. This recursively compiles the operator, to produce code that puts the procedure to be applied into <code>proc</code>, and compiles the operands, to produce code that evaluates the individual operands of the application. The instruction sequences for the operands are combined (by <code>construct-arglist</code>) with code that constructs the list of arguments in <code>argl</code>, and the resulting argument-list code is combined with the procedure code and the code that performs the procedure call (produced by <code>compile-procedure-call</code>). In appending the code sequences, the <code>env</code> register must be preserved around the evaluation of the operator (since evaluating the operator might modify <code>env</code>, which will be needed to evaluate the operands), and the <code>proc</code> register must be preserved around the construction of the argument list (since evaluating the operands might modify <code>proc</code>, which will be needed for the actual procedure application). <code>Continue</code> must also be preserved throughout, since it is needed for the linkage in the procedure call.
 
-<div id="">
+<div>
 (define (compile-application exp target linkage)
   (let ((proc-code (compile (operator exp) 'proc 'next))
         (operand-codes
@@ -555,7 +555,7 @@ C.prompt();
 
 <p> Compiling this argument code is a bit tricky, because of the special treatment of the first operand to be evaluated and the need to preserve <code>argl</code> and <code>env</code> in different places. The <code>construct-arglist</code> procedure takes as arguments the code that evaluates the individual operands. If there are no operands at all, it simply emits the instruction
 
-<div id="">
+<div>
 (assign argl (const ()))
 </div>
 <script>
@@ -564,7 +564,7 @@ C.prompt();
 
 <p> Otherwise, <code>construct-arglist</code> creates code that initializes <code>argl</code> with the last argument, and appends code that evaluates the rest of the arguments and adjoins them to <code>argl</code> in succession. In order to process the arguments from last to first, we must reverse the list of operand code sequences from the order supplied by <code>compile-application</code>.
 
-<div id="">
+<div>
 (define (construct-arglist operand-codes)
   (let ((operand-codes (reverse operand-codes)))
     (if (null? operand-codes)
@@ -603,7 +603,7 @@ C.prompt();
 
 <p> After evaluating the elements of a combination, the compiled code must apply the procedure in <code>proc</code> to the arguments in <code>argl</code>. The code performs essentially the same dispatch as the <code>apply</code> procedure in the metacircular evaluator of section <a href="4-1-metacircular.html">4.1.1</a> or the <code>apply-dispatch</code> entry point in the explicit-control evaluator of section <a href="5-4-explicit-control.html">5.4.1</a>. It checks whether the procedure to be applied is a primitive procedure or a compiled procedure. For a primitive procedure, it uses <code>apply-primitive-procedure</code>; we will see shortly how it handles compiled procedures. The procedure-application code has the following form:
 
-<div id="">
+<div>
 (test (op primitive-procedure?) (reg proc))
  (branch (label primitive-branch))
 compiled-branch
@@ -622,7 +622,7 @@ C.prompt();
 
 <p> Observe that the compiled branch must skip around the primitive branch. Therefore, if the linkage for the original procedure call was <code>next</code>, the compound branch must use a linkage that jumps to a label that is inserted after the primitive branch. (This is similar to the linkage used for the true branch in <code>compile-if</code>.)
 
-<div id="">
+<div>
 (define (compile-procedure-call target linkage)
   (let ((primitive-branch (make-label 'primitive-branch))
         (compiled-branch (make-label 'compiled-branch))
@@ -658,7 +658,7 @@ C.prompt();
 
 <p> The code that handles procedure application is the most subtle part of the compiler, even though the instruction sequences it generates are very short. A compiled procedure (as constructed by <code>compile-lambda</code>) has an entry point, which is a label that designates where the code for the procedure starts. The code at this entry point computes a result in <code>val</code> and returns by executing the instruction <code>(goto (reg continue))</code>. Thus, we might expect the code for a compiled-procedure application (to be generated by <code>compile-proc-appl</code>) with a given target and linkage to look like this if the linkage is a label
 
-<div id="">
+<div>
 (assign continue (label proc-return))
  (assign val (op compiled-procedure-entry) (reg proc))
  (goto (reg val))
@@ -672,7 +672,7 @@ C.prompt();
 
 <p> or like this if the linkage is <code>return</code>.
 
-<div id="">
+<div>
 (save continue)
  (assign continue (label proc-return))
  (assign val (op compiled-procedure-entry) (reg proc))
@@ -696,7 +696,7 @@ C.prompt();
 
 <p> If the linkage is a label, we set up <code>continue</code> so that the procedure will return to that label. (That is, the <code>(goto (reg continue))</code> the procedure ends with becomes equivalent to the <code>(goto (label <linkage</code>>)) at <code>proc-return</code> above.)
 
-<div id="">
+<div>
 (assign continue (label <linkage>))
 (assign val (op compiled-procedure-entry) (reg proc))
 (goto (reg val))
@@ -707,7 +707,7 @@ C.prompt();
 
 <p> If the linkage is <code>return</code>, we don't need to set up <code>continue</code> at all: It already holds the desired location. (That is, the <code>(goto (reg continue))</code> the procedure ends with goes directly to the place where the <code>(goto (reg continue))</code> at <code>proc-return</code> would have gone.)
 
-<div id="">
+<div>
 (assign val (op compiled-procedure-entry) (reg proc))
 (goto (reg val))
 </div>
@@ -721,7 +721,7 @@ C.prompt();
 
 <p> <code>Compile-proc-appl</code> generates the above procedure-application code by considering four cases, depending on whether the target for the call is <code>val</code> and whether the linkage is <code>return</code>. Observe that the instruction sequences are declared to modify all the registers, since executing the procedure body can change the registers in arbitrary ways.@footnote{The variable <code>all-regs</code> is bound to the list of names of all the registers:
 
-<div id="">
+<div>
 (define all-regs '(env proc val argl continue))
 </div>
 <script>
@@ -731,7 +731,7 @@ C.prompt();
 
 <p> Also note that the code sequence for the case with target <code>val</code> and linkage <code>return</code> is declared to need <code>continue</code>: Even though <code>continue</code> is not explicitly used in the two-instruction sequence, we must be sure that <code>continue</code> will have the correct value when we enter the compiled procedure.
 
-<div id="">
+<div>
 (define (compile-proc-appl target linkage)
   (cond ((and (eq? target 'val) (not (eq? linkage 'return)))
          (make-instruction-sequence '(proc) all-regs
@@ -767,7 +767,7 @@ C.prompt();
 
 <p> This section describes the details on how instruction sequences are represented and combined. Recall from section <a href="5-5-compilation.html">5.5.1</a> that an instruction sequence is represented as a list of the registers needed, the registers modified, and the actual instructions. We will also consider a label (symbol) to be a degenerate case of an instruction sequence, which doesn't need or modify any registers. So to determine the registers needed and modified by instruction sequences we use the selectors
 
-<div id="">
+<div>
 (define (registers-needed s)
   (if (symbol? s) '() (car s)))
 
@@ -783,7 +783,7 @@ C.prompt();
 
 <p> and to determine whether a given sequence needs or modifies a given register we use the predicates
 
-<div id="">
+<div>
 (define (needs-register? seq reg)
   (memq reg (registers-needed seq)))
 
@@ -800,7 +800,7 @@ C.prompt();
 
 <p> The sequences are appended two at a time by <code>append-2-sequences</code>. This takes two instruction sequences <code>seq1</code> and <code>seq2</code> and returns the instruction sequence whose statements are the statements of <code>seq1</code> followed by the statements of <code>seq2</code>, whose modified registers are those registers that are modified by either <code>seq1</code> or <code>seq2</code>, and whose needed registers are the registers needed by <code>seq1</code> together with those registers needed by <code>seq2</code> that are not modified by <code>seq1</code>. (In terms of set operations, the new set of needed registers is the union of the set of registers needed by <code>seq1</code> with the set difference of the registers needed by <code>seq2</code> and the registers modified by <code>seq1</code>.)  Thus, <code>append-instruction-sequences</code> is implemented as follows:
 
-<div id="">
+<div>
 (define (append-instruction-sequences . seqs)
   (define (append-2-sequences seq1 seq2)
     (make-instruction-sequence
@@ -823,7 +823,7 @@ C.prompt();
 
 <p> This procedure uses some simple operations for manipulating sets represented as lists, similar to the (unordered) set representation described in section <a href="2-3-symbolic.html">2.3.3</a>:
 
-<div id="">
+<div>
 (define (list-union s1 s2)
   (cond ((null? s1) s2)
         ((memq (car s1) s2) (list-union (cdr s1) s2))
@@ -841,7 +841,7 @@ C.prompt();
 
 <p> <code>Preserving</code>, the second major instruction sequence combiner, takes a list of registers <code>regs</code> and two instruction sequences <code>seq1</code> and <code>seq2</code> that are to be executed sequentially. It returns an instruction sequence whose statements are the statements of <code>seq1</code> followed by the statements of <code>seq2</code>, with appropriate <code>save</code> and <code>restore</code> instructions around <code>seq1</code> to protect the registers in <code>regs</code> that are modified by <code>seq1</code> but needed by <code>seq2</code>. To accomplish this, <code>preserving</code> first creates a sequence that has the required <code>save</code>s followed by the statements of <code>seq1</code> followed by the required <code>restore</code>s. This sequence needs the registers being saved and restored in addition to the registers needed by <code>seq1</code>, and modifies the registers modified by <code>seq1</code> except for the ones being saved and restored. This augmented sequence and <code>seq2</code> are then appended in the usual way. The following procedure implements this strategy recursively, walking down the list of registers to be preserved:@footnote{Note that <code>preserving</code> calls <code>append</code> with three arguments. Though the definition of <code>append</code> shown in this book accepts only two arguments, Scheme standardly provides an <code>append</code> procedure that takes an arbitrary number of arguments.}
 
-<div id="">
+<div>
 (define (preserving regs seq1 seq2)
   (if (null? regs)
       (append-instruction-sequences seq1 seq2)
@@ -866,7 +866,7 @@ C.prompt();
 
 <p> Another sequence combiner, <code>tack-on-instruction-sequence</code>, is used by <code>compile-lambda</code> to append a procedure body to another sequence. Because the procedure body is not ``in line'' to be executed as part of the combined sequence, its register use has no impact on the register use of the sequence in which it is embedded. We thus ignore the procedure body's sets of needed and modified registers when we tack it onto the other sequence.
 
-<div id="">
+<div>
 (define (tack-on-instruction-sequence seq body-seq)
   (make-instruction-sequence
    (registers-needed seq)
@@ -879,7 +879,7 @@ C.prompt();
 
 <p> <code>Compile-if</code> and <code>compile-procedure-call</code> use a special combiner called <code>parallel-instruction-sequences</code> to append the two alternative branches that follow a test. The two branches will never be executed sequentially; for any particular evaluation of the test, one branch or the other will be entered. Because of this, the registers needed by the second branch are still needed by the combined sequence, even if these are modified by the first branch.
 
-<div id="">
+<div>
 (define (parallel-instruction-sequences seq1 seq2)
   (make-instruction-sequence
    (list-union (registers-needed seq1)
@@ -896,7 +896,7 @@ C.prompt();
 
 <p> Now that we have seen all the elements of the compiler, let us examine an example of compiled code to see how things fit together. We will compile the definition of a recursive <code>factorial</code> procedure by calling <code>compile</code>:
 
-<div id="">
+<div>
 (compile
  '(define (factorial n)
     (if (= n 1)
@@ -925,7 +925,7 @@ C.prompt();
 
 <p> The expression that is to be compiled to produce the value for the variable <code>factorial</code> is a <code>lambda</code> expression whose value is the procedure that computes factorials. <code>Compile</code> handles this by calling <code>compile-lambda</code>, which compiles the procedure body, labels it as a new entry point, and generates the instruction that will combine the procedure body at the new entry point with the run-time environment and assign the result to <code>val</code>. The sequence then skips around the compiled procedure code, which is inserted at this point. The procedure code itself begins by extending the procedure's definition environment by a frame that binds the formal parameter <code>n</code> to the procedure argument. Then comes the actual procedure body. Since this code for the value of the variable doesn't modify the <code>env</code> register, the optional <code>save</code> and <code>restore</code> shown above aren't generated. (The procedure code at <code>entry2</code> isn't executed at this point, so its use of <code>env</code> is irrelevant.)  Therefore, the skeleton for the compiled code becomes
 
-<div id="">
+<div>
 (assign val (op make-compiled-procedure)
               (label entry2)
               (reg env))
@@ -950,7 +950,7 @@ C.prompt();
 
 <p> A procedure body is always compiled (by <code>compile-lambda-body</code>) as a sequence with target <code>val</code> and linkage <code>return</code>. The sequence in this case consists of a single <code>if</code> expression:
 
-<div id="">
+<div>
 (if (= n 1)
     1
     (* (factorial (- n 1)) n))
@@ -974,7 +974,7 @@ after-if3
 
 <p> The predicate <code>(= n 1)</code> is a procedure call. This looks up the operator (the symbol <code>=</code>) and places this value in <code>proc</code>. It then assembles the arguments <code>1</code> and the value of <code>n</code> into <code>argl</code>. Then it tests whether <code>proc</code> contains a primitive or a compound procedure, and dispatches to a primitive branch or a compound branch accordingly. Both branches resume at the <code>after-call</code> label. The requirements to preserve registers around the evaluation of the operator and operands don't result in any saving of registers, because in this case those evaluations don't modify the registers in question.
 
-<div id="">
+<div>
 (assign proc
           (op lookup-variable-value) (const =) (reg env))
   (assign val (const 1))
@@ -999,7 +999,7 @@ C.prompt();
 
 <p> The true branch, which is the constant 1, compiles (with target <code>val</code> and linkage <code>return</code>) to
 
-<div id="">
+<div>
 (assign val (const 1))
   (goto (reg continue))
 </div>
@@ -1012,7 +1012,7 @@ C.prompt();
 <div class="exercise" id="thm_5.33">
 <p> <b>Exercise 5.33:</b> Consider the following definition of a factorial procedure, which is slightly different from the one given above:
 
-<div id="">
+<div>
 (define (factorial-alt n)
   (if (= n 1)
       1
@@ -1028,7 +1028,7 @@ C.prompt();
 <div class="exercise" id="thm_5.34">
 <p> <b>Exercise 5.34:</b> Compile the iterative factorial procedure
 
-<div id="">
+<div>
 (define (factorial n)
   (define (iter product counter)
     (if (> counter n)
@@ -1238,7 +1238,7 @@ after-lambda15
 <div class="exercise" id="thm_5.38">
 <p> <b>Exercise 5.38:</b> Our compiler is clever about avoiding unnecessary stack operations, but it is not clever at all when it comes to compiling calls to the primitive procedures of the language in terms of the primitive operations supplied by the machine. For example, consider how much code is compiled to compute <code>(+ a 1)</code>: The code sets up an argument list in <code>argl</code>, puts the primitive addition procedure (which it finds by looking up the symbol <code>+</code> in the environment) into <code>proc</code>, and tests whether the procedure is primitive or compound. The compiler always generates code to perform the test, as well as code for primitive and compound branches (only one of which will be executed). We have not shown the part of the controller that implements primitives, but we presume that these instructions make use of primitive arithmetic operations in the machine's data paths. Consider how much less code would be generated if the compiler could <code>open-code</code> primitives---that is, if it could generate code to directly use these primitive machine operations. The expression <code>(+ a 1)</code> might be compiled into something as simple as @footnote{We have used the same symbol <code>+</code> here to denote both the source-language procedure and the machine operation. In general there will not be a one-to-one correspondence between primitives of the source language and primitives of the machine.}
 
-<div id="">
+<div>
 (assign val (op lookup-variable-value) (const a) (reg env))
 (assign val (op +) (reg val) (const 1))
 </div>
@@ -1273,7 +1273,7 @@ Extend your code generators for <code>+</code> and <code>*</code> so that they c
 
 <p> One of the most common optimizations performed by compilers is the optimization of variable lookup. Our compiler, as we have implemented it so far, generates code that uses the <code>lookup-variable-value</code> operation of the evaluator machine. This searches for a variable by comparing it with each variable that is currently bound, working frame by frame outward through the run-time environment. This search can be expensive if the frames are deeply nested or if there are many variables. For example, consider the problem of looking up the value of <code>x</code> while evaluating the expression <code>(* x y z)</code> in an application of the procedure that is returned by
 
-<div id="">
+<div>
 (let ((x 3) (y 4))
   (lambda (a b c d e)
     (let ((y (* a b x))
@@ -1286,7 +1286,7 @@ C.prompt();
 
 <p> Since a <code>let</code> expression is just syntactic sugar for a <code>lambda</code> combination, this expression is equivalent to
 
-<div id="">
+<div>
 ((lambda (x y)
    (lambda (a b c d e)
      ((lambda (y z) (* x y z))
@@ -1305,7 +1305,7 @@ C.prompt();
 
 <p> In order to generate such code, the compiler must be able to determine the lexical address of a variable it is about to compile a reference to. The lexical address of a variable in a program depends on where one is in the code. For example, in the following program, the address of <code>x</code> in expression <e1> is (2,0)---two frames back and the first variable in the frame. At that point <code>y</code> is at address (0,0) and <code>c</code> is at address (1,2). In expression <e2>, <code>x</code> is at (1,0), <code>y</code> is at (1,1), and <code>c</code> is at (0,2).
 
-<div id="">
+<div>
 ((lambda (x y)
    (lambda (a b c d e)
      ((lambda (y z) <e1>)
@@ -1333,7 +1333,7 @@ C.prompt();
 <div class="exercise" id="thm_5.41">
 <p> <b>Exercise 5.41:</b> Write a procedure <code>find-variable</code> that takes as arguments a variable and a compile-time environment and returns the lexical address of the variable with respect to that environment. For example, in the program fragment that is shown above, the compile-time environment during the compilation of expression <e1> is <code>((y z) (a b c d e) (x y))</code>. <code>Find-variable</code> should produce
 
-<div id="">
+<div>
 (find-variable 'c '((y z) (a b c d e) (x y)))
 (1 2)
 
@@ -1359,7 +1359,7 @@ C.prompt();
 <div class="exercise" id="thm_5.44">
 <p> <b>Exercise 5.44:</b> In this section we have focused on the use of the compile-time environment to produce lexical addresses. But there are other uses for compile-time environments. For instance, in Exercise 5-38 we increased the efficiency of compiled code by open-coding primitive procedures. Our implementation treated the names of open-coded procedures as reserved words. If a program were to rebind such a name, the mechanism described in Exercise 5-38 would still open-code it as a primitive, ignoring the new binding. For example, consider the procedure
 
-<div id="">
+<div>
 (lambda (+ * a b x y)
   (+ (* a x) (* b y)))
 </div>
@@ -1375,7 +1375,7 @@ C.prompt();
 
 <p> We have not yet explained how to load compiled code into the evaluator machine or how to run it. We will assume that the explicit-control-evaluator machine has been defined as in section <a href="5-4-explicit-control.html">5.4.4</a>, with the additional operations specified in footnote Footnote 38. We will implement a procedure <code>compile-and-go</code> that compiles a Scheme expression, loads the resulting object code into the evaluator machine, and causes the machine to run the code in the evaluator global environment, print the result, and enter the evaluator's driver loop. We will also modify the evaluator so that interpreted expressions can call compiled procedures as well as interpreted ones. We can then put a compiled procedure into the machine and use the evaluator to call it:
 
-<div id="">
+<div>
 (compile-and-go
  '(define (factorial n)
     (if (= n 1)
@@ -1395,7 +1395,7 @@ C.prompt();
 
 <p> To allow the evaluator to handle compiled procedures (for example, to evaluate the call to <code>factorial</code> above), we need to change the code at <code>apply-dispatch</code> (section <a href="5-4-explicit-control.html">5.4.1</a>) so that it recognizes compiled procedures (as distinct from compound or primitive procedures) and transfers control directly to the entry point of the compiled code:@footnote{Of course, compiled procedures as well as interpreted procedures are compound (nonprimitive). For compatibility with the terminology used in the explicit-control evaluator, in this section we will use ``compound'' to mean interpreted (as opposed to compiled).}
 
-<div id="">
+<div>
 apply-dispatch
   (test (op primitive-procedure?) (reg proc))
   (branch (label primitive-apply))
@@ -1418,7 +1418,7 @@ C.prompt();
 
 <p> To enable us to run some compiled code when we start the evaluator machine, we add a <code>branch</code> instruction at the beginning of the evaluator machine, which causes the machine to go to a new entry point if the <code>flag</code> register is set.@footnote{Now that the evaluator machine starts with a <code>branch</code>, we must always initialize the <code>flag</code> register before starting the evaluator machine. To start the machine at its ordinary read-eval-print loop, we could use
 
-<div id="">
+<div>
 (define (start-eceval)
   (set! the-global-environment (setup-environment))
   (set-register-contents! eceval 'flag false)
@@ -1429,7 +1429,7 @@ C.prompt();
 </script>
 }
 
-<div id="">
+<div>
 (branch (label external-entry))      ; branches if <code>flag</code> is set
 read-eval-print-loop
   (perform (op initialize-stack))
@@ -1441,7 +1441,7 @@ C.prompt();
 
 <p> <code>External-entry</code> assumes that the machine is started with <code>val</code> containing the location of an instruction sequence that puts a result into <code>val</code> and ends with <code>(goto (reg continue))</code>. Starting at this entry point jumps to the location designated by <code>val</code>, but first assigns <code>continue</code> so that execution will return to <code>print-result</code>, which prints the value in <code>val</code> and then goes to the beginning of the evaluator's read-eval-print loop.@footnote{Since a compiled procedure is an object that the system may try to print, we also modify the system print operation <code>user-print</code> (from section <a href="4-1-metacircular.html">4.1.4</a>) so that it will not attempt to print the components of a compiled procedure:
 
-<div id="">
+<div>
 (define (user-print object)
   (cond ((compound-procedure? object)
          (display (list 'compound-procedure
@@ -1457,7 +1457,7 @@ C.prompt();
 </script>
 }
 
-<div id="">
+<div>
 external-entry
   (perform (op initialize-stack))
   (assign env (op get-global-environment))
@@ -1470,7 +1470,7 @@ C.prompt();
 
 <p> Now we can use the following procedure to compile a procedure definition, execute the compiled code, and run the read-eval-print loop so we can try the procedure. Because we want the compiled code to return to the location in <code>continue</code> with its result in <code>val</code>, we compile the expression with a target of <code>val</code> and a linkage of <code>return</code>. In order to transform the object code produced by the compiler into executable instructions for the evaluator register machine, we use the procedure <code>assemble</code> from the register-machine simulator (section <a href="5-2-simulator.html">5.2.2</a>). We then initialize the <code>val</code> register to point to the list of instructions, set the <code>flag</code> so that the evaluator will go to <code>external-entry</code>, and start the evaluator.
 
-<div id="">
+<div>
 (define (compile-and-go expression)
   (let ((instructions
          (assemble (statements
@@ -1487,7 +1487,7 @@ C.prompt();
 
 <p> If we have set up stack monitoring, as at the end of section <a href="5-4-explicit-control.html">5.4.4</a>, we can examine the stack usage of compiled code:
 
-<div id="">
+<div>
 (compile-and-go
  '(define (factorial n)
     (if (= n 1)
@@ -1540,7 +1540,7 @@ that would come closer in performance to the hand-tailored version?
 <div class="exercise" id="thm_5.46">
 <p> <b>Exercise 5.46:</b> Carry out an analysis like the one in Exercise 5-45 to determine the effectiveness of compiling the tree-recursive Fibonacci procedure
 
-<div id="">
+<div>
 (define (fib n)
   (if (< n 2)
       n
@@ -1557,7 +1557,7 @@ C.prompt();
 <div class="exercise" id="thm_5.47">
 <p> <b>Exercise 5.47:</b> This section described how to modify the explicit-control evaluator so that interpreted code can call compiled procedures. Show how to modify the compiler so that compiled procedures can call not only primitive procedures and compiled procedures, but interpreted procedures as well. This requires modifying <code>compile-procedure-call</code> to handle the case of compound (interpreted) procedures. Be sure to handle all the same <code>target</code> and <code>linkage</code> combinations as in <code>compile-proc-appl</code>. To do the actual procedure application, the code needs to jump to the evaluator's <code>compound-apply</code> entry point. This label cannot be directly referenced in object code (since the assembler requires that all labels referenced by the code it is assembling be defined there), so we will add a register called <code>compapp</code> to the evaluator machine to hold this entry point, and add an instruction to initialize it:
 
-<div id="">
+<div>
 (assign compapp (label compound-apply))
   (branch (label external-entry))      ; branches if <code>flag</code> is set
 read-eval-print-loop
@@ -1572,7 +1572,7 @@ C.prompt();
 <div class="exercise" id="thm_5.48">
 <p> <b>Exercise 5.48:</b> The <code>compile-and-go</code> interface implemented in this section is awkward, since the compiler can be called only once (when the evaluator machine is started). Augment the compiler-interpreter interface by providing a <code>compile-and-run</code> primitive that can be called from within the explicit-control evaluator as follows:
 
-<div id="">
+<div>
 ;;; EC-Eval input:
 (compile-and-run
  '(define (factorial n)

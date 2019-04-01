@@ -46,12 +46,19 @@ def validate(filename, verbose=False):
     return r.json()
 
 
-# all_messages = []
+all_messages = dict()
 for file_name in os.listdir("."):
-    if file_name.endswith(".html") and file_name[0:3] in ["3-5", "4t", "5t"]:
+    if file_name.endswith(".html") and file_name[0] in ["4", "5"]:
         print("Processing " + file_name)
         messages = validate(file_name)["messages"]
         for m in messages:
             if not (m["message"].startswith("An “img” element must have an “alt” attribute") or
                     m["message"].startswith("The “name” attribute is obsolete")):
-                print("Type: %(type)s, Line: %(lastLine)d, Description: %(message)s" % m)
+                # print("Type: %(type)s, Line: %(lastLine)d, Description: %(message)s" % m)
+                if all_messages.get(m.message):
+                    all_messages[m.message] = all_messages[m.message] + 1
+                else:
+                    all_messages[m.message] = 0
+
+for key in sorted(all_messages.keys()):
+    print(key)

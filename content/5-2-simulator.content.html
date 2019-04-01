@@ -16,7 +16,7 @@
 
 <div class="exercise">
 
-<div id="">
+<div>
 (make-machine <register-names> <operations> <controller>)
 </div>
 <script>
@@ -25,7 +25,7 @@ C.prompt();
 
 <p> constructs and returns a model of the machine with the given registers, operations, and controller.
 
-<div id="">
+<div>
 (set-register-contents! <machine-model> <register-name> <value>)
 </div>
 <script>
@@ -34,7 +34,7 @@ C.prompt();
 
 <p> stores a value in a simulated register in the given machine.
 
-<div id="">
+<div>
 (get-register-contents <machine-model> <register-name>)
 </div>
 <script>
@@ -43,7 +43,7 @@ C.prompt();
 
 <p> returns the contents of a simulated register in the given machine.
 
-<div id="">
+<div>
 (start <machine-model>)
 </div>
 <script>
@@ -55,7 +55,7 @@ C.prompt();
 
 <p> As an example of how these procedures are used, we can define <code>gcd-machine</code> to be a model of the GCD machine of section <a href="5-1-register.html">5.1.1</a> as follows:
 
-<div id="">
+<div>
 (define gcd-machine
   (make-machine
    '(a b t)
@@ -77,7 +77,7 @@ C.prompt();
 
 <p> To compute GCDs with this machine, we set the input registers, start the machine, and examine the result when the simulation terminates:
 
-<div id="">
+<div>
 (set-register-contents! gcd-machine 'a 206)
 done
 
@@ -106,7 +106,7 @@ C.prompt();
 
 <p> <code>Make-machine</code> then extends this basic model (by sending it messages) to include the registers, operations, and controller of the particular machine being defined. First it allocates a register in the new machine for each of the supplied register names and installs the designated operations in the machine. Then it uses an <code>assembler</code> (described below in section <a href="5-2-simulator.html">5.2.2</a>) to transform the controller list into instructions for the new machine and installs these as the machine's instruction sequence. <code>Make-machine</code> returns as its value the modified machine model.
 
-<div id="">
+<div>
 (define (make-machine register-names ops controller-text)
   (let ((machine (make-new-machine)))
     (for-each (lambda (register-name)
@@ -125,7 +125,7 @@ C.prompt();
 
 <p> We will represent a register as a procedure with local state, as in Chapter 3. The procedure <code>make-register</code> creates a register that holds a value that can be accessed or changed:
 
-<div id="">
+<div>
 (define (make-register name)
   (let ((contents '*unassigned*))
     (define (dispatch message)
@@ -142,7 +142,7 @@ C.prompt();
 
 <p> The following procedures are used to access registers:
 
-<div id="">
+<div>
 (define (get-contents register)
   (register 'get))
 
@@ -157,7 +157,7 @@ C.prompt();
 
 <p> We can also represent a stack as a procedure with local state. The procedure <code>make-stack</code> creates a stack whose local state consists of a list of the items on the stack. A stack accepts requests to <code>push</code> an item onto the stack, to <code>pop</code> the top item off the stack and return it, and to <code>initialize</code> the stack to empty.
 
-<div id="">
+<div>
 (define (make-stack)
   (let ((s '()))
     (define (push x)
@@ -185,7 +185,7 @@ C.prompt();
 
 <p> The following procedures are used to access stacks:
 
-<div id="">
+<div>
 (define (pop stack)
   (stack 'pop))
 
@@ -260,7 +260,7 @@ C.prompt();
 
 <p> For convenience, we provide an alternate procedural interface to a machine's <code>start</code> operation, as well as procedures to set and examine register contents, as specified at the beginning of section 5.2:
 
-<div id="">
+<div>
 (define (start machine)
   (machine 'start))
 
@@ -277,7 +277,7 @@ C.prompt();
 
 <p> These procedures (and many procedures in sections 5-2-2 and 5-2-3) use the following to look up the register with a given name in a given machine:
 
-<div id="">
+<div>
 (define (get-register machine reg-name)
   ((machine 'get-register) reg-name))
 </div>
@@ -295,7 +295,7 @@ C.prompt();
 
 <p> The <code>assemble</code> procedure is the main entry to the assembler. It takes the controller text and the machine model as arguments and returns the instruction sequence to be stored in the model. <code>Assemble</code> calls <code>extract-labels</code> to build the initial instruction list and label table from the supplied controller text. The second argument to <code>extract-labels</code> is a procedure to be called to process these results: This procedure uses <code>update-insts!</code> to generate the instruction execution procedures and insert them into the instruction list, and returns the modified list.
 
-<div id="">
+<div>
 (define (assemble controller-text machine)
   (extract-labels controller-text
     (lambda (insts labels)
@@ -308,7 +308,7 @@ C.prompt();
 
 <p> <code>Extract-labels</code> takes as arguments a list <code>text</code> (the sequence of controller instruction expressions) and a <code>receive</code> procedure. <code>Receive</code> will be called with two values: (1) a list <code>insts</code> of instruction data structures, each containing an instruction from <code>text</code>; and (2) a table called <code>labels</code>, which associates each label from <code>text</code> with the position in the list <code>insts</code> that the label designates.
 
-<div id="">
+<div>
 (define (extract-labels text receive)
   (if (null? text)
       (receive '() '())
@@ -330,7 +330,7 @@ C.prompt();
 
 <p> <code>Extract-labels</code> works by sequentially scanning the elements of the <code>text</code> and accumulating the <code>insts</code> and the <code>labels</code>. If an element is a symbol (and thus a label) an appropriate entry is added to the <code>labels</code> table. Otherwise the element is accumulated onto the <code>insts</code> list.@footnote{Using the <code>receive</code> procedure here is a way to get <code>extract-labels</code> to effectively return two values---<code>labels</code> and <code>insts</code>---without explicitly making a compound data structure to hold them. An alternative implementation, which returns an explicit pair of values, is
 
-<div id="">
+<div>
 (define (extract-labels text)
   (if (null? text)
       (cons '() '())
@@ -349,7 +349,7 @@ C.prompt();
 
 <p> which would be called by <code>assemble</code> as follows:
 
-<div id="">
+<div>
 (define (assemble controller-text machine)
   (let ((result (extract-labels controller-text)))
     (let ((insts (car result)) (labels (cdr result)))
@@ -364,7 +364,7 @@ C.prompt();
 
 <p> <code>Update-insts!</code> modifies the instruction list, which initially contains only the text of the instructions, to include the corresponding execution procedures:
 
-<div id="">
+<div>
 (define (update-insts! insts labels machine)
   (let ((pc (get-register machine 'pc))
         (flag (get-register machine 'flag))
@@ -385,7 +385,7 @@ C.prompt();
 
 <p> The machine instruction data structure simply pairs the instruction text with the corresponding execution procedure. The execution procedure is not yet available when <code>extract-labels</code> constructs the instruction, and is inserted later by <code>update-insts!</code>.
 
-<div id="">
+<div>
 (define (make-instruction text)
   (cons text '()))
 
@@ -406,7 +406,7 @@ C.prompt();
 
 <p> Elements of the label table are pairs:
 
-<div id="">
+<div>
 (define (make-label-entry label-name insts)
   (cons label-name insts))
 </div>
@@ -416,7 +416,7 @@ C.prompt();
 
 <p> Entries will be looked up in the table with
 
-<div id="">
+<div>
 (define (lookup-label labels label-name)
   (let ((val (assoc label-name labels)))
     (if val
@@ -430,7 +430,7 @@ C.prompt();
 <div class="exercise" id="thm_5.8">
 <p> <b>Exercise 5.8:</b> The following register-machine code is ambiguous, because the label <code>here</code> is defined more than once:
 
-<div id="">
+<div>
 start
   (goto (label here))
 here
@@ -452,7 +452,7 @@ C.prompt();
 
 <p> The assembler calls <code>make-execution-procedure</code> to generate the execution procedure for an instruction. Like the <code>analyze</code> procedure in the evaluator of section <a href="4-1-metacircular.html">4.1.7</a>, this dispatches on the type of instruction to generate the appropriate execution procedure.
 
-<div id="">
+<div>
 (define (make-execution-procedure inst labels machine
                                   pc flag stack ops)
   (cond ((eq? (car inst) 'assign)
@@ -482,7 +482,7 @@ C.prompt();
 
 <p> The <code>make-assign</code> procedure handles <code>assign</code> instructions:
 
-<div id="">
+<div>
 (define (make-assign inst machine labels operations pc)
   (let ((target
          (get-register machine (assign-reg-name inst)))
@@ -503,7 +503,7 @@ C.prompt();
 
 <p> <code>Make-assign</code> extracts the target register name (the second element of the instruction) and the value expression (the rest of the list that forms the instruction) from the <code>assign</code> instruction using the selectors
 
-<div id="">
+<div>
 (define (assign-reg-name assign-instruction)
   (cadr assign-instruction))
 
@@ -518,7 +518,7 @@ C.prompt();
 
 <p> The result returned by <code>make-assign</code> is the execution procedure for the <code>assign</code> instruction. When this procedure is called (by the machine model's <code>execute</code> procedure), it sets the contents of the target register to the result obtained by executing <code>value-proc</code>. Then it advances the <code>pc</code> to the next instruction by running the procedure
 
-<div id="">
+<div>
 (define (advance-pc pc)
   (set-contents! pc (cdr (get-contents pc))))
 </div>
@@ -532,7 +532,7 @@ C.prompt();
 
 <p> <code>Make-test</code> handles <code>test</code> instructions in a similar way. It extracts the expression that specifies the condition to be tested and generates an execution procedure for it. At simulation time, the procedure for the condition is called, the result is assigned to the <code>flag</code> register, and the <code>pc</code> is advanced:
 
-<div id="">
+<div>
 (define (make-test inst machine labels operations flag pc)
   (let ((condition (test-condition inst)))
     (if (operation-exp? condition)
@@ -553,7 +553,7 @@ C.prompt();
 
 <p> The execution procedure for a <code>branch</code> instruction checks the contents of the <code>flag</code> register and either sets the contents of the <code>pc</code> to the branch destination (if the branch is taken) or else just advances the <code>pc</code> (if the branch is not taken). Notice that the indicated destination in a <code>branch</code> instruction must be a label, and the <code>make-branch</code> procedure enforces this. Notice also that the label is looked up at assembly time, not each time the <code>branch</code> instruction is simulated.
 
-<div id="">
+<div>
 (define (make-branch inst machine labels flag pc)
   (let ((dest (branch-dest inst)))
     (if (label-exp? dest)
@@ -574,7 +574,7 @@ C.prompt();
 
 <p> A <code>goto</code> instruction is similar to a branch, except that the destination may be specified either as a label or as a register, and there is no condition to check---the <code>pc</code> is always set to the new destination.
 
-<div id="">
+<div>
 (define (make-goto inst machine labels pc)
   (let ((dest (goto-dest inst)))
     (cond ((label-exp? dest)
@@ -602,7 +602,7 @@ C.prompt();
 
 <p> The stack instructions <code>save</code> and <code>restore</code> simply use the stack with the designated register and advance the <code>pc</code>:
 
-<div id="">
+<div>
 (define (make-save inst machine stack pc)
   (let ((reg (get-register machine
                            (stack-inst-reg-name inst))))
@@ -626,7 +626,7 @@ C.prompt();
 
 <p> The final instruction type, handled by <code>make-perform</code>, generates an execution procedure for the action to be performed. At simulation time, the action procedure is executed and the <code>pc</code> advanced.
 
-<div id="">
+<div>
 (define (make-perform inst machine labels operations pc)
   (let ((action (perform-action inst)))
     (if (operation-exp? action)
@@ -648,7 +648,7 @@ C.prompt();
 
 <p> The value of a <code>reg</code>, <code>label</code>, or <code>const</code> expression may be needed for assignment to a register (<code>make-assign</code>) or for input to an operation (<code>make-operation-exp</code>, below). The following procedure generates execution procedures to produce values for these expressions during the simulation:
 
-<div id="">
+<div>
 (define (make-primitive-exp exp machine labels)
   (cond ((constant-exp? exp)
          (let ((c (constant-exp-value exp)))
@@ -671,7 +671,7 @@ C.prompt();
 
 <p> The syntax of <code>reg</code>, <code>label</code>, and <code>const</code> expressions is determined by
 
-<div id="">
+<div>
 (define (register-exp? exp) (tagged-list? exp 'reg))
 
 (define (register-exp-reg exp) (cadr exp))
@@ -690,7 +690,7 @@ C.prompt();
 
 <p> <code>Assign</code>, <code>perform</code>, and <code>test</code> instructions may include the application of a machine operation (specified by an <code>op</code> expression) to some operands (specified by <code>reg</code> and <code>const</code> expressions). The following procedure produces an execution procedure for an ``operation expression''---a list containing the operation and operand expressions from the instruction:
 
-<div id="">
+<div>
 (define (make-operation-exp exp machine labels operations)
   (let ((op (lookup-prim (operation-exp-op exp) operations))
         (aprocs
@@ -706,7 +706,7 @@ C.prompt();
 
 <p> The syntax of operation expressions is determined by
 
-<div id="">
+<div>
 (define (operation-exp? exp)
   (and (pair? exp) (tagged-list? (car exp) 'op)))
 
@@ -722,7 +722,7 @@ C.prompt();
 
 <p> Observe that the treatment of operation expressions is very much like the treatment of procedure applications by the <code>analyze-application</code> procedure in the evaluator of section <a href="4-1-metacircular.html">4.1.7</a> in that we generate an execution procedure for each operand. At simulation time, we call the operand procedures and apply the Scheme procedure that simulates the operation to the resulting values. The simulation procedure is found by looking up the operation name in the operation table for the machine:
 
-<div id="">
+<div>
 (define (lookup-prim symbol operations)
   (let ((val (assoc symbol operations)))
     (if val
@@ -744,7 +744,7 @@ C.prompt();
 <div class="exercise" id="thm_5.11">
 <p> <b>Exercise 5.11:</b> When we introduced <code>save</code> and <code>restore</code> in section <a href="5-1-register.html">5.1.4</a>, we didn't specify what would happen if you tried to restore a register that was not the last one saved, as in the sequence
 
-<div id="">
+<div>
 (save y)
 (save x)
 (restore y)
@@ -802,7 +802,7 @@ for each register, a list (without duplicates) of the sources from which it is a
 
 <p> Simulation is useful not only for verifying the correctness of a proposed machine design but also for measuring the machine's performance. For example, we can install in our simulation program a ``meter'' that measures the number of stack operations used in a computation. To do this, we modify our simulated stack to keep track of the number of times registers are saved on the stack and the maximum depth reached by the stack, and add a message to the stack's interface that prints the statistics, as shown below. We also add an operation to the basic machine model to print the stack statistics, by initializing <code>the-ops</code> in <code>make-new-machine</code> to
 
-<div id="">
+<div>
 (list (list 'initialize-stack
             (lambda () (stack 'initialize)))
       (list 'print-stack-statistics
@@ -814,7 +814,7 @@ C.prompt();
 
 <p> Here is the new version of <code>make-stack</code>:
 
-<div id="">
+<div>
 (define (make-stack)
   (let ((s '())
         (number-pushes 0)
@@ -881,7 +881,7 @@ C.prompt();
 <div class="exercise" id="thm_5.19">
 <p> <b>Exercise 5.19:</b> Alyssa P. Hacker wants a <code>breakpoint</code> feature in the simulator to help her debug her machine designs. You have been hired to install this feature for her. She wants to be able to specify a place in the controller sequence where the simulator will stop and allow her to examine the state of the machine. You are to implement a procedure
 
-<div id="">
+<div>
 (set-breakpoint <machine> <label> <n>)
 </div>
 <script>
@@ -890,7 +890,7 @@ C.prompt();
 
 <p> that sets a breakpoint just before the nth instruction after the given label. For example,
 
-<div id="">
+<div>
 (set-breakpoint gcd-machine 'test-b 4)
 </div>
 <script>
@@ -899,7 +899,7 @@ C.prompt();
 
 <p> installs a breakpoint in <code>gcd-machine</code> just before the assignment to register <code>a</code>. When the simulator reaches the breakpoint it should print the label and the offset of the breakpoint and stop executing instructions. Alyssa can then use <code>get-register-contents</code> and <code>set-register-contents!</code> to manipulate the state of the simulated machine. She should then be able to continue execution by saying
 
-<div id="">
+<div>
 (proceed-machine <machine>)
 </div>
 <script>
@@ -908,7 +908,7 @@ C.prompt();
 
 <p> She should also be able to remove a specific breakpoint by means of
 
-<div id="">
+<div>
 (cancel-breakpoint <machine> <label> <n>)
 </div>
 <script>
@@ -917,7 +917,7 @@ C.prompt();
 
 <p> or to remove all breakpoints by means of
 
-<div id="">
+<div>
 (cancel-all-breakpoints <machine>)
 </div>
 <script>

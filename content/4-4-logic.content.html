@@ -20,7 +20,7 @@
 
 <p> This approach, when it works, can be a very powerful way to write programs. Part of the power comes from the fact that a single ``what is'' fact can be used to solve a number of different problems that would have different ``how to'' components. As an example, consider the <code>append</code> operation, which takes two lists as arguments and combines their elements to form a single list. In a procedural language such as Lisp, we could define <code>append</code> in terms of the basic list constructor <code>cons</code>, as we did in section <a href="2-2-closure.html">2.2.1</a>:
 
-<div id="">
+<div>
 (define (append x y)
   (if (null? x)
       y
@@ -73,7 +73,7 @@ b c d)</code>.
 
 <p> The personnel data base for Microshaft contains <code>assertions</code> about company personnel. Here is the information about Ben Bitdiddle, the resident computer wizard:
 
-<div id="">
+<div>
 (address (Bitdiddle Ben) (Slumerville (Ridge Road) 10))
 (job (Bitdiddle Ben) (computer wizard))
 (salary (Bitdiddle Ben) 60000)
@@ -86,7 +86,7 @@ C.prompt();
 
 <p> As resident wizard, Ben is in charge of the company's computer division, and he supervises two programmers and one technician. Here is the information about them:
 
-<div id="">
+<div>
 (address (Hacker Alyssa P) (Cambridge (Mass Ave) 78))
 (job (Hacker Alyssa P) (computer programmer))
 (salary (Hacker Alyssa P) 40000)
@@ -108,7 +108,7 @@ C.prompt();
 
 <p> There is also a programmer trainee, who is supervised by Alyssa:
 
-<div id="">
+<div>
 (address (Reasoner Louis) (Slumerville (Pine Tree Road) 80))
 (job (Reasoner Louis) (computer programmer trainee))
 (salary (Reasoner Louis) 30000)
@@ -122,7 +122,7 @@ C.prompt();
 
 <p> Ben is a high-level employee. His supervisor is the company's big wheel himself:
 
-<div id="">
+<div>
 (supervisor (Bitdiddle Ben) (Warbucks Oliver))
 
 (address (Warbucks Oliver) (Swellesley (Top Heap Road)))
@@ -135,7 +135,7 @@ C.prompt();
 
 <p> Besides the computer division supervised by Ben, the company has an accounting division, consisting of a chief accountant and his assistant:
 
-<div id="">
+<div>
 (address (Scrooge Eben) (Weston (Shady Lane) 10))
 (job (Scrooge Eben) (accounting chief accountant))
 (salary (Scrooge Eben) 75000)
@@ -152,7 +152,7 @@ C.prompt();
 
 <p> There is also a secretary for the big wheel:
 
-<div id="">
+<div>
 (address (Aull DeWitt) (Slumerville (Onion Square) 5))
 (job (Aull DeWitt) (administration secretary))
 (salary (Aull DeWitt) 25000)
@@ -164,7 +164,7 @@ C.prompt();
 
 <p> The data base also contains assertions about which kinds of jobs can be done by people holding other kinds of jobs. For instance, a computer wizard can do the jobs of both a computer programmer and a computer technician:
 
-<div id="">
+<div>
 (can-do-job (computer wizard) (computer programmer))
 (can-do-job (computer wizard) (computer technician))
 </div>
@@ -174,7 +174,7 @@ C.prompt();
 
 <p> A computer programmer could fill in for a trainee:
 
-<div id="">
+<div>
 (can-do-job (computer programmer)
             (computer programmer trainee))
 </div>
@@ -184,7 +184,7 @@ C.prompt();
 
 <p> Also, as is well known,
 
-<div id="">
+<div>
 (can-do-job (administration secretary)
             (administration big wheel))
 </div>
@@ -196,7 +196,7 @@ C.prompt();
 
 <p> The query language allows users to retrieve information from the data base by posing queries in response to the system's prompt. For example, to find all computer programmers one can say
 
-<div id="">
+<div>
 ;;; Query input:
 (job ?x (computer programmer))
 </div>
@@ -206,7 +206,7 @@ C.prompt();
 
 <p> The system will respond with the following items:
 
-<div id="">
+<div>
 ;;; Query results:
 (job (Hacker Alyssa P) (computer programmer))
 (job (Fect Cy D) (computer programmer))
@@ -219,7 +219,7 @@ C.prompt();
 
 <p> A pattern can have more than one variable. For example, the query
 
-<div id="">
+<div>
 (address ?x ?y)
 </div>
 <script>
@@ -233,7 +233,7 @@ C.prompt();
 
 <p> The same pattern variable can appear more than once in a query, specifying that the same ``anything'' must appear in each position. This is why variables have names. For example,
 
-<div id="">
+<div>
 (supervisor ?x ?x)
 </div>
 <script>
@@ -245,7 +245,7 @@ C.prompt();
 
 <p> The query
 
-<div id="">
+<div>
 (job ?x (computer ?type))
 </div>
 <script>
@@ -255,7 +255,7 @@ C.prompt();
 
 <p> matches all job entries whose third item is a two-element list whose first item is <code>computer</code>:
 
-<div id="">
+<div>
 (job (Bitdiddle Ben) (computer wizard))
 (job (Hacker Alyssa P) (computer programmer))
 (job (Fect Cy D) (computer programmer))
@@ -267,7 +267,7 @@ C.prompt();
 
 <p> This same pattern does <em>not</em> match
 
-<div id="">
+<div>
 (job (Reasoner Louis) (computer programmer trainee))
 </div>
 <script>
@@ -277,7 +277,7 @@ C.prompt();
 
 <p> because the third item in the entry is a list of three elements, and the pattern's third item specifies that there should be two elements. If we wanted to change the pattern so that the third item could be any list beginning with <code>computer</code>, we could specify@footnote{This uses the dotted-tail notation introduced in Exercise 2-20.}
 
-<div id="">
+<div>
 (job ?x (computer . ?type))
 </div>
 <script>
@@ -286,7 +286,7 @@ C.prompt();
 
 For example,
 
-<div id="">
+<div>
 (computer . ?type)
 </div>
 <script>
@@ -296,7 +296,7 @@ C.prompt();
 
 <p> matches the data
 
-<div id="">
+<div>
 (computer programmer trainee)
 </div>
 <script>
@@ -306,7 +306,7 @@ C.prompt();
 
 <p> with <code>?type</code> as the list <code>(programmer trainee)</code>. It also matches the data
 
-<div id="">
+<div>
 (computer programmer)
 </div>
 <script>
@@ -316,7 +316,7 @@ C.prompt();
 
 <p> with <code>?type</code> as the list <code>(programmer)</code>, and matches the data
 
-<div id="">
+<div>
 (computer)
 </div>
 <script>
@@ -367,7 +367,7 @@ the names and addresses of all people who live in Slumerville.
 
 <p> We can use <code>and</code> as follows to find the addresses of all the computer programmers:
 
-<div id="">
+<div>
 (and (job ?person (computer programmer))
      (address ?person ?where))
 </div>
@@ -377,7 +377,7 @@ C.prompt();
 
 <p> The resulting output is
 
-<div id="">
+<div>
 (and (job (Hacker Alyssa P) (computer programmer))
      (address (Hacker Alyssa P) (Cambridge (Mass Ave) 78)))
 
@@ -390,7 +390,7 @@ C.prompt();
 
 In general,
 
-<div id="">
+<div>
 (and <query_1> <query_2> ... <query_n>)
 </div>
 <script>
@@ -403,7 +403,7 @@ C.prompt();
 
 <p> Another means of constructing compound queries is through <code>or</code>. For example,
 
-<div id="">
+<div>
 (or (supervisor ?x (Bitdiddle Ben))
     (supervisor ?x (Hacker Alyssa P)))
 </div>
@@ -413,7 +413,7 @@ C.prompt();
 
 <p> will find all employees supervised by Ben Bitdiddle or Alyssa P. Hacker:
 
-<div id="">
+<div>
 (or (supervisor (Hacker Alyssa P) (Bitdiddle Ben))
     (supervisor (Hacker Alyssa P) (Hacker Alyssa P)))
 
@@ -432,7 +432,7 @@ C.prompt();
 
 <p> In general,
 
-<div id="">
+<div>
 (or <query_1> <query_2> ... <query_n>)
 </div>
 <script>
@@ -443,7 +443,7 @@ C.prompt();
 
 <p> Compound queries can also be formed with <code>not</code>. For example,
 
-<div id="">
+<div>
 (and (supervisor ?x (Bitdiddle Ben))
      (not (job ?x (computer programmer))))
 </div>
@@ -453,7 +453,7 @@ C.prompt();
 
 <p> finds all people supervised by Ben Bitdiddle who are not computer programmers. In general,
 
-<div id="">
+<div>
 (not <query_1>)
 </div>
 <script>
@@ -464,7 +464,7 @@ C.prompt();
 
 <p> The final combining form is called <code>lisp-value</code>. When <code>lisp-value</code> is the first element of a pattern, it specifies that the next element is a Lisp predicate to be applied to the rest of the (instantiated) elements as arguments. In general,
 
-<div id="">
+<div>
 (lisp-value <predicate> <arg_1> ... <arg_n>)
 </div>
 <script>
@@ -473,7 +473,7 @@ C.prompt();
 
 <p> will be satisfied by assignments to the pattern variables for which the <predicate> applied to the instantiated <arg_1> ... <arg_n> is true. For example, to find all people whose salary is greater than $30,000 we could write@footnote{<code>Lisp-value</code> should be used only to perform an operation not provided in the query language. In particular, it should not be used to test equality (since that is what the matching in the query language is designed to do) or inequality (since that can be done with the <code>same</code> rule shown below).}
 
-<div id="">
+<div>
 (and (salary ?person ?amount)
      (lisp-value > ?amount 30000))
 </div>
@@ -505,7 +505,7 @@ all people who are supervised by someone who is not in the computer division, to
 
 <p> In addition to primitive queries and compound queries, the query language provides means for abstracting queries. These are given by <code>rules</code> . The rule
 
-<div id="">
+<div>
 (rule (lives-near ?person-1 ?person-2)
       (and (address ?person-1 (?town . ?rest-1))
            (address ?person-2 (?town . ?rest-2))
@@ -517,7 +517,7 @@ C.prompt();
 
 <p> specifies that two people live near each other if they live in the same town. The final <code>not</code> clause prevents the rule from saying that all people live near themselves. The <code>same</code> relation is defined by a very simple rule:@footnote{Notice that we do not need <code>same</code> in order to make two things be the same: We just use the same pattern variable for each---in effect, we have one thing instead of two things in the first place. For example, see <code>?town</code> in the <code>lives-near</code> rule and <code>?middle-manager</code> in the <code>wheel</code> rule below. <code>Same</code> is useful when we want to force two things to be different, such as <code>?person-1</code> and <code>?person-2</code> in the <code>lives-near</code> rule. Although using the same pattern variable in two parts of a query forces the same value to appear in both places, using different pattern variables does not force different values to appear. (The values assigned to different pattern variables may be the same or different.)}
 
-<div id="">
+<div>
 (rule (same ?x ?x))
 </div>
 <script>
@@ -526,7 +526,7 @@ C.prompt();
 
 <p> The following rule declares that a person is a ``wheel'' in an organization if he supervises someone who is in turn a supervisor:
 
-<div id="">
+<div>
 (rule (wheel ?person)
       (and (supervisor ?middle-manager ?person)
            (supervisor ?x ?middle-manager)))
@@ -537,7 +537,7 @@ C.prompt();
 
 <p> The general form of a rule is
 
-<div id="">
+<div>
 (rule <conclusion> <body>)
 </div>
 <script>
@@ -547,7 +547,7 @@ C.prompt();
 
 <p> where <conclusion> is a pattern and <body> is any query.@footnote{We will also allow rules without bodies, as in <code>same</code>, and we will interpret such a rule to mean that the rule conclusion is satisfied by any values of the variables.} We can think of a rule as representing a large (even infinite) set of assertions, namely all instantiations of the rule conclusion with variable assignments that satisfy the rule body. When we described simple queries (patterns), we said that an assignment to variables satisfies a pattern if the instantiated pattern is in the data base. But the pattern needn't be explicitly in the data base as an assertion. It can be an implicit assertion implied by a rule. For example, the query
 
-<div id="">
+<div>
 (lives-near ?x (Bitdiddle Ben))
 </div>
 <script>
@@ -557,7 +557,7 @@ C.prompt();
 
 results in
 
-<div id="">
+<div>
 (lives-near (Reasoner Louis) (Bitdiddle Ben))
 (lives-near (Aull DeWitt) (Bitdiddle Ben))
 </div>
@@ -567,7 +567,7 @@ C.prompt();
 
 To find all computer programmers who live near Ben Bitdiddle, we can ask
 
-<div id="">
+<div>
 (and (job ?x (computer programmer))
      (lives-near ?x (Bitdiddle Ben)))
 </div>
@@ -577,7 +577,7 @@ C.prompt();
 
 <p> As in the case of compound procedures, rules can be used as parts of other rules (as we saw with the <code>lives-near</code> rule above) or even be defined recursively. For instance, the rule
 
-<div id="">
+<div>
 (rule (outranked-by ?staff-person ?boss)
       (or (supervisor ?staff-person ?boss)
           (and (supervisor ?staff-person ?middle-manager)
@@ -611,7 +611,7 @@ all people who can replace someone who is being paid more than they are, togethe
 <div class="exercise" id="thm_4.59">
 <p> <b>Exercise 4.59:</b> Ben Bitdiddle has missed one meeting too many. Fearing that his habit of forgetting meetings could cost him his job, Ben decides to do something about it. He adds all the weekly meetings of the firm to the Microshaft data base by asserting the following:
 
-<div id="">
+<div>
 (meeting accounting (Monday 9am))
 (meeting administration (Monday 10am))
 (meeting computer (Wednesday 3pm))
@@ -623,7 +623,7 @@ C.prompt();
 
 <p> Each of the above assertions is for a meeting of an entire division. Ben also adds an entry for the company-wide meeting that spans all the divisions. All of the company's employees attend this meeting.
 
-<div id="">
+<div>
 (meeting whole-company (Wednesday 4pm))
 </div>
 <script>
@@ -644,7 +644,7 @@ plus all meetings of that person's division. Fill in the body of Alyssa's
 rule.
 </li>
 
-<div id="">
+<div>
 (rule (meeting-time ?person ?day-and-time)
       <rule-body>)
 </div>
@@ -660,7 +660,7 @@ C.prompt();
 <div class="exercise">
 <b>Exercise 4.60:</b> By giving the query
 
-<div id="">
+<div>
 (lives-near ?person (Hacker Alyssa P))
 </div>
 <script>
@@ -669,7 +669,7 @@ C.prompt();
 
 <p> Alyssa P. Hacker is able to find people who live near her, with whom she can ride to work. On the other hand, when she tries to find all pairs of people who live near each other by querying
 
-<div id="">
+<div>
 (lives-near ?person-1 ?person-2)
 </div>
 <script>
@@ -678,7 +678,7 @@ C.prompt();
 
 <p> she notices that each pair of people who live near each other is listed twice; for example,
 
-<div id="">
+<div>
 (lives-near (Hacker Alyssa P) (Fect Cy D))
 (lives-near (Fect Cy D) (Hacker Alyssa P))
 </div>
@@ -706,7 +706,7 @@ For any <code>u</code>, <code>v</code>, <code>y</code>, and <code>z</code>, <cod
 
 <p> To express this in our query language, we define two rules for a relation
 
-<div id="">
+<div>
 (append-to-form x y z)
 </div>
 <script>
@@ -715,7 +715,7 @@ C.prompt();
 
 <p> which we can interpret to mean ``<code>x</code> and <code>y</code> <code>append</code> to form <code>z</code>'':
 
-<div id="">
+<div>
 (rule (append-to-form () ?y ?y))
 
 (rule (append-to-form (?u . ?v) ?y (?u . ?z))
@@ -729,7 +729,7 @@ C.prompt();
 
 <p> Given these two rules, we can formulate queries that compute the <code>append</code> of two lists:
 
-<div id="">
+<div>
 ;;; Query input:
 (append-to-form (a b) (c d) ?z)
 ;;; Query results:
@@ -741,7 +741,7 @@ C.prompt();
 
 <p> What is more striking, we can use the same rules to ask the question ``Which list, when <code>append</code>ed to <code>(a b)</code>, yields <code>(a b c d)</code>?''  This is done as follows:
 
-<div id="">
+<div>
 ;;; Query input:
 (append-to-form (a b) ?y (a b c d))
 ;;; Query results:
@@ -753,7 +753,7 @@ C.prompt();
 
 <p> We can also ask for all pairs of lists that <code>append</code> to form <code>(a b c d)</code>:
 
-<div id="">
+<div>
 ;;; Query input:
 (append-to-form ?x ?y (a b c d))
 ;;; Query results:
@@ -772,7 +772,7 @@ C.prompt();
 <div class="exercise" id="thm_4.61">
 <p> <b>Exercise 4.61:</b> The following rules implement a <code>next-to</code> relation that finds adjacent elements of a list:
 
-<div id="">
+<div>
 (rule (?x next-to ?y in (?x ?y . ?u)))
 
 (rule (?x next-to ?y in (?v . ?z))
@@ -784,7 +784,7 @@ C.prompt();
 
 <p> What will the response be to the following queries?
 
-<div id="">
+<div>
 (?x next-to ?y in (1 (2 3) 4))
 
 (?x next-to 1 in (2 1 3 1))
@@ -801,7 +801,7 @@ C.prompt();
 <div class="exercise" id="thm_4.63">
 <p> <b>Exercise 4.63:</b> The following data base (see Genesis 4) traces the genealogy of the descendants of Ada back to Adam, by way of Cain:
 
-<div id="">
+<div>
 (son Adam Cain)
 (son Cain Enoch)
 (son Enoch Irad)
@@ -837,7 +837,7 @@ C.prompt();
 
 <p> The pattern matcher is all the mechanism that is needed to process simple queries that don't involve rules. For instance, to process the query
 
-<div id="">
+<div>
 (job ?x (computer programmer))
 </div>
 <script>
@@ -876,7 +876,7 @@ C.prompt();
 
 <p> The real elegance of the stream-of-frames implementation is evident when we deal with compound queries. The processing of compound queries makes use of the ability of our matcher to demand that a match be consistent with a specified frame. For example, to handle the <code>and</code> of two queries, such as
 
-<div id="">
+<div>
 (and (can-do-job ?x (computer programmer trainee))
      (job ?person ?x))
 </div>
@@ -886,7 +886,7 @@ C.prompt();
 
 <p> (informally, ``Find all people who can do the job of a computer programmer trainee''), we first find all entries that match the pattern
 
-<div id="">
+<div>
 (can-do-job ?x (computer programmer trainee))
 </div>
 <script>
@@ -895,7 +895,7 @@ C.prompt();
 
 <p> This produces a stream of frames, each of which contains a binding for <code>?x</code>. Then for each frame in the stream we find all entries that match
 
-<div id="">
+<div>
 (job ?person ?x)
 </div>
 <script>
@@ -954,7 +954,7 @@ frames     | |    ^          +-------+ |  frames
 
 <p> From the stream-of-frames viewpoint, the <code>not</code> of some query acts as a filter that removes all frames for which the query can be satisfied. For instance, given the pattern
 
-<div id="">
+<div>
 (not (job ?x (computer programmer)))
 </div>
 <script>
@@ -963,7 +963,7 @@ C.prompt();
 
 <p> we attempt, for each frame in the input stream, to produce extension frames that satisfy <code>(job ?x (computer programmer))</code>. We remove from the input stream all frames for which such extensions exist. The result is a stream consisting of only those frames in which the binding for <code>?x</code> does not satisfy <code>(job ?x (computer programmer))</code>. For example, in processing the query
 
-<div id="">
+<div>
 (and (supervisor ?x ?y)
      (not (job ?x (computer programmer))))
 </div>
@@ -983,7 +983,7 @@ C.prompt();
 
 <p> The unification algorithm is the most technically difficult part of the query system. With complex patterns, performing unification may seem to require deduction. To unify <code>(?x ?x)</code> and <code>((a ?y c) (a b ?z))</code>, for example, the algorithm must infer that <code>?x</code> should be <code>(a b c)</code>, <code>?y</code> should be <code>b</code>, and <code>?z</code> should be <code>c</code>. We may think of this process as solving a set of equations among the pattern components. In general, these are simultaneous equations, which may require substantial manipulation to solve.@footnote{In one-sided pattern matching, all the equations that contain pattern variables are explicit and already solved for the unknown (the pattern variable).} For example, unifying <code>(?x ?x)</code> and <code>((a ?y c) (a b ?z))</code> may be thought of as specifying the simultaneous equations
 
-<div id="">
+<div>
 ?x  =  (a ?y c)
 ?x  =  (a b ?z)
 </div>
@@ -993,7 +993,7 @@ C.prompt();
 
 <p> These equations imply that
 
-<div id="">
+<div>
 (a ?y c)  =  (a b ?z)
 </div>
 <script>
@@ -1002,7 +1002,7 @@ C.prompt();
 
 <p> which in turn implies that
 
-<div id="">
+<div>
 a  =  a, ?y  =  b, c  =  ?z,
 </div>
 <script>
@@ -1011,7 +1011,7 @@ C.prompt();
 
 <p> and hence that
 
-<div id="">
+<div>
 ?x  =  (a b c)
 </div>
 <script>
@@ -1026,7 +1026,7 @@ C.prompt();
 
 <p> Unification is the key to the component of the query system that makes inferences from rules. To see how this is accomplished, consider processing a query that involves applying a rule, such as
 
-<div id="">
+<div>
 (lives-near ?x (Hacker Alyssa P))
 </div>
 <script>
@@ -1035,7 +1035,7 @@ C.prompt();
 
 <p> To process this query, we first use the ordinary pattern-match procedure described above to see if there are any assertions in the data base that match this pattern. (There will not be any in this case, since our data base includes no direct assertions about who lives near whom.)  The next step is to attempt to unify the query pattern with the conclusion of each rule. We find that the pattern unifies with the conclusion of the rule
 
-<div id="">
+<div>
 (rule (lives-near ?person-1 ?person-2)
       (and (address ?person-1 (?town . ?rest-1))
            (address ?person-2 (?town . ?rest-2))
@@ -1101,7 +1101,7 @@ a stream of extended frames obtained by applying all possible rules (using the u
 
 <p> The driver also checks for the special command <code>assert!</code>, which signals that the input is not a query but rather an assertion or rule to be added to the data base. For instance,
 
-<div id="">
+<div>
 (assert! (job (Bitdiddle Ben) (computer wizard)))
 
 (assert! (rule (wheel ?person)
@@ -1116,7 +1116,7 @@ C.prompt();
 
 <p> The means of combination used in the query language may at first seem identical to the operations <code>and</code>, <code>or</code>, and <code>not</code> of mathematical logic, and the application of query-language rules is in fact accomplished through a legitimate method of inference.@footnote{That a particular method of inference is legitimate is not a trivial assertion. One must prove that if one starts with true premises, only true conclusions can be derived. The method of inference represented by rule applications is <code>modus ponens</code> , the familiar method of inference that says that if A is true and <em>A implies B</em> is true, then we may conclude that B is true.} This identification of the query language with mathematical logic is not really valid, though, because the query language provides a <code>control structure</code> that interprets the logical statements procedurally. We can often take advantage of this control structure. For example, to find all of the supervisors of programmers we could formulate a query in either of two logically equivalent forms:
 
-<div id="">
+<div>
 (and (job ?x (computer programmer))
      (supervisor ?x ?y))
 </div>
@@ -1127,7 +1127,7 @@ C.prompt();
 
 or
 
-<div id="">
+<div>
 (and (supervisor ?x ?y)
      (job ?x (computer programmer)))
 </div>
@@ -1145,7 +1145,7 @@ C.prompt();
 
 <p> A consequence of the procedural interpretation of logic programs is that it is possible to construct hopelessly inefficient programs for solving certain problems. An extreme case of inefficiency occurs when the system falls into infinite loops in making deductions. As a simple example, suppose we are setting up a data base of famous marriages, including
 
-<div id="">
+<div>
 (assert! (married Minnie Mickey))
 </div>
 <script>
@@ -1154,7 +1154,7 @@ C.prompt();
 
 If we now ask
 
-<div id="">
+<div>
 (married Mickey ?who)
 </div>
 <script>
@@ -1164,7 +1164,7 @@ C.prompt();
 
 <p> we will get no response, because the system doesn't know that if A is married to B, then B is married to A. So we assert the rule
 
-<div id="">
+<div>
 (assert! (rule (married ?x ?y)
                (married ?y ?x)))
 </div>
@@ -1174,7 +1174,7 @@ C.prompt();
 
 <p> and again query
 
-<div id="">
+<div>
 (married Mickey ?who)
 </div>
 <script>
@@ -1204,7 +1204,7 @@ The <code>married</code> rule is also applicable, so the interpreter again evalu
 
 <p> Another quirk in the query system concerns <code>not</code>. Given the data base of section <a href="4-4-logic.html">4.4.1</a>, consider the following two queries:
 
-<div id="">
+<div>
 (and (supervisor ?x ?y)
      (not (job ?x (computer programmer))))
 
@@ -1224,7 +1224,7 @@ C.prompt();
 <div class="exercise" id="thm_4.64">
 <p> <b>Exercise 4.64:</b> Louis Reasoner mistakenly deletes the <code>outranked-by</code> rule (section <a href="4-4-logic.html">4.4.1</a>) from the data base. When he realizes this, he quickly reinstalls it. Unfortunately, he makes a slight change in the rule, and types it in as
 
-<div id="">
+<div>
 (rule (outranked-by ?staff-person ?boss)
       (or (supervisor ?staff-person ?boss)
           (and (outranked-by ?middle-manager ?boss)
@@ -1236,7 +1236,7 @@ C.prompt();
 
 <p> Just after Louis types this information into the system, DeWitt Aull comes by to find out who outranks Ben Bitdiddle. He issues the query
 
-<div id="">
+<div>
 (outranked-by (Bitdiddle Ben) ?who)
 </div>
 <script>
@@ -1249,7 +1249,7 @@ C.prompt();
 <div class="exercise" id="thm_4.65">
 <p> <b>Exercise 4.65:</b> Cy D. Fect, looking forward to the day when he will rise in the organization, gives a query to find all the wheels (using the <code>wheel</code> rule of section <a href="4-4-logic.html">4.4.1</a>):
 
-<div id="">
+<div>
 (wheel ?who)
 </div>
 <script>
@@ -1258,7 +1258,7 @@ C.prompt();
 
 <p> To his surprise, the system responds
 
-<div id="">
+<div>
 ;;; Query results:
 (wheel (Warbucks Oliver))
 (wheel (Bitdiddle Ben))
@@ -1276,7 +1276,7 @@ C.prompt();
 <div class="exercise" id="thm_4.66">
 <p> <b>Exercise 4.66:</b> Ben has been generalizing the query system to provide statistics about the company. For example, to find the total salaries of all the computer programmers one will be able to say
 
-<div id="">
+<div>
 (sum ?amount
      (and (job ?x (computer programmer))
           (salary ?x ?amount)))
@@ -1287,7 +1287,7 @@ C.prompt();
 
 <p> In general, Ben's new system allows expressions of the form
 
-<div id="">
+<div>
 (accumulation-function <variable>
                        <query pattern>)
 </div>
@@ -1321,7 +1321,7 @@ details by presenting a complete implementation of the system.
 
 <p> The driver loop for the query system repeatedly reads input expressions. If the expression is a rule or assertion to be added to the data base, then the information is added. Otherwise the expression is assumed to be a query. The driver passes this query to the evaluator <code>qeval</code> together with an initial frame stream consisting of a single empty frame. The result of the evaluation is a stream of frames generated by satisfying the query with variable values found in the data base. These frames are used to form a new stream consisting of copies of the original query in which the variables are instantiated with values supplied by the stream of frames, and this final stream is printed at the terminal:
 
-<div id="">
+<div>
 (define input-prompt ";;; Query input:")
 (define output-prompt ";;; Query results:")
 
@@ -1356,7 +1356,7 @@ C.prompt();
 
 <p> To instantiate an expression, we copy it, replacing any variables in the expression by their values in a given frame. The values are themselves instantiated, since they could contain variables (for example, if <code>?x</code> in <code>exp</code> is bound to <code>?y</code> as the result of unification and <code>?y</code> is in turn bound to 5). The action to take if a variable cannot be instantiated is given by a procedural argument to <code>instantiate</code>.
 
-<div id="">
+<div>
 (define (instantiate exp frame unbound-var-handler)
   (define (copy exp)
     (cond ((var? exp)
@@ -1379,7 +1379,7 @@ C.prompt();
 
 <p> The <code>qeval</code> procedure, called by the <code>query-driver-loop</code>, is the basic evaluator of the query system. It takes as inputs a query and a stream of frames, and it returns a stream of extended frames. It identifies special forms by a data-directed dispatch using <code>get</code> and <code>put</code>, just as we did in implementing generic operations in Chapter 2. Any query that is not identified as a special form is assumed to be a simple query, to be processed by <code>simple-query</code>.
 
-<div id="">
+<div>
 (define (qeval query frame-stream)
   (let ((qproc (get (type query) 'qeval)))
     (if qproc
@@ -1396,7 +1396,7 @@ C.prompt();
 
 <p> The <code>simple-query</code> procedure handles simple queries. It takes as arguments a simple query (a pattern) together with a stream of frames, and it returns the stream formed by extending each frame by all data-base matches of the query.
 
-<div id="">
+<div>
 (define (simple-query query-pattern frame-stream)
   (stream-flatmap
    (lambda (frame)
@@ -1415,7 +1415,7 @@ C.prompt();
 
 <p> <code>And</code> queries are handled as illustrated in Figure 4-5 by the <code>conjoin</code> procedure. <code>Conjoin</code> takes as inputs the conjuncts and the frame stream and returns the stream of extended frames. First, <code>conjoin</code> processes the stream of frames to find the stream of all possible frame extensions that satisfy the first query in the conjunction. Then, using this as the new frame stream, it recursively applies <code>conjoin</code> to the rest of the queries.
 
-<div id="">
+<div>
 (define (conjoin conjuncts frame-stream)
   (if (empty-conjunction? conjuncts)
       frame-stream
@@ -1429,7 +1429,7 @@ C.prompt();
 
 <p> The expression
 
-<div id="">
+<div>
 (put 'and 'qeval conjoin)
 </div>
 <script>
@@ -1441,7 +1441,7 @@ C.prompt();
 
 <p> <code>Or</code> queries are handled similarly, as shown in Figure 4-6. The output streams for the various disjuncts of the <code>or</code> are computed separately and merged using the <code>interleave-delayed</code> procedure from section <a href="4-4-logic.html">4.4.4</a>-6. (See Exercise 4-71 and Exercise 4-72.)
 
-<div id="">
+<div>
 (define (disjoin disjuncts frame-stream)
   (if (empty-disjunction? disjuncts)
       the-empty-stream
@@ -1462,7 +1462,7 @@ C.prompt();
 
 <p> <code>Not</code> is handled by the method outlined in section <a href="4-4-logic.html">4.4.2</a>. We attempt to extend each frame in the input stream to satisfy the query being negated, and we include a given frame in the output stream only if it cannot be extended.
 
-<div id="">
+<div>
 (define (negate operands frame-stream)
   (stream-flatmap
    (lambda (frame)
@@ -1480,7 +1480,7 @@ C.prompt();
 
 <p> <code>Lisp-value</code> is a filter similar to <code>not</code>. Each frame in the stream is used to instantiate the variables in the pattern, the indicated predicate is applied, and the frames for which the predicate returns false are filtered out of the input stream. An error results if there are unbound pattern variables.
 
-<div id="">
+<div>
 (define (lisp-value call frame-stream)
   (stream-flatmap
    (lambda (frame)
@@ -1502,7 +1502,7 @@ C.prompt();
 
 <p> <code>Execute</code>, which applies the predicate to the arguments, must <code>eval</code> the predicate expression to get the procedure to apply. However, it must not evaluate the arguments, since they are already the actual arguments, not expressions whose evaluation (in Lisp) will produce the arguments. Note that <code>execute</code> is implemented using <code>eval</code> and <code>apply</code> from the underlying Lisp system.
 
-<div id="">
+<div>
 (define (execute exp)
   (apply (eval (predicate exp) user-initial-environment)
          (args exp)))
@@ -1513,7 +1513,7 @@ C.prompt();
 
 <p> The <code>always-true</code> special form provides for a query that is always satisfied. It ignores its contents (normally empty) and simply passes through all the frames in the input stream. <code>Always-true</code> is used by the <code>rule-body</code> selector (section <a href="4-4-logic.html">4.4.4</a>-7) to provide bodies for rules that were defined without bodies (that is, rules whose conclusions are always satisfied).
 
-<div id="">
+<div>
 (define (always-true ignore frame-stream) frame-stream)
 
 (put 'always-true 'qeval always-true)
@@ -1528,7 +1528,7 @@ C.prompt();
 
 <p> <code>Find-assertions</code>, called by <code>simple-query</code> (section <a href="4-4-logic.html">4.4.4</a>-2), takes as input a pattern and a frame. It returns a stream of frames, each extending the given one by a data-base match of the given pattern. It uses <code>fetch-assertions</code> (section <a href="4-4-logic.html">4.4.4</a>-5) to get a stream of all the assertions in the data base that should be checked for a match against the pattern and the frame. The reason for <code>fetch-assertions</code> here is that we can often apply simple tests that will eliminate many of the entries in the data base from the pool of candidates for a successful match. The system would still work if we eliminated <code>fetch-assertions</code> and simply checked a stream of all assertions in the data base, but the computation would be less efficient because we would need to make many more calls to the matcher.
 
-<div id="">
+<div>
 (define (find-assertions pattern frame)
   (stream-flatmap (lambda (datum)
                     (check-an-assertion datum pattern frame))
@@ -1540,7 +1540,7 @@ C.prompt();
 
 <p> <code>Check-an-assertion</code> takes as arguments a pattern, a data object (assertion), and a frame and returns either a one-element stream containing the extended frame or <code>the-empty-stream</code> if the match fails.
 
-<div id="">
+<div>
 (define (check-an-assertion assertion query-pat query-frame)
   (let ((match-result
          (pattern-match query-pat assertion query-frame)))
@@ -1554,7 +1554,7 @@ C.prompt();
 
 <p> The basic pattern matcher returns either the symbol <code>failed</code> or an extension of the given frame. The basic idea of the matcher is to check the pattern against the data, element by element, accumulating bindings for the pattern variables. If the pattern and the data object are the same, the match succeeds and we return the frame of bindings accumulated so far. Otherwise, if the pattern is a variable we extend the current frame by binding the variable to the data, so long as this is consistent with the bindings already in the frame. If the pattern and the data are both pairs, we (recursively) match the <code>car</code> of the pattern against the <code>car</code> of the data to produce a frame; in this frame we then match the <code>cdr</code> of the pattern against the <code>cdr</code> of the data. If none of these cases are applicable, the match fails and we return the symbol <code>failed</code>.
 
-<div id="">
+<div>
 (define (pattern-match pat dat frame)
   (cond ((eq? frame 'failed) 'failed)
         ((equal? pat dat) frame)
@@ -1573,7 +1573,7 @@ C.prompt();
 
 <p> Here is the procedure that extends a frame by adding a new binding, if this is consistent with the bindings already in the frame:
 
-<div id="">
+<div>
 (define (extend-if-consistent var dat frame)
   (let ((binding (binding-in-frame var frame)))
     (if binding
@@ -1600,7 +1600,7 @@ C.prompt();
 
 <p> <code>Apply-rules</code> is the rule analog of <code>find-assertions</code> (section <a href="4-4-logic.html">4.4.4</a>-3). It takes as input a pattern and a frame, and it forms a stream of extension frames by applying rules from the data base. <code>Stream-flatmap</code> maps <code>apply-a-rule</code> down the stream of possibly applicable rules (selected by <code>fetch-rules</code>, section <a href="4-4-logic.html">4.4.4</a>-5) and combines the resulting streams of frames.
 
-<div id="">
+<div>
 (define (apply-rules pattern frame)
   (stream-flatmap (lambda (rule)
                     (apply-a-rule rule pattern frame))
@@ -1614,7 +1614,7 @@ C.prompt();
 
 <p> Before any of this happens, however, the program renames all the variables in the rule with unique new names. The reason for this is to prevent the variables for different rule applications from becoming confused with each other. For instance, if two rules both use a variable named <code>?x</code>, then each one may add a binding for <code>?x</code> to the frame when it is applied. These two <code>?x</code>'s have nothing to do with each other, and we should not be fooled into thinking that the two bindings must be consistent. Rather than rename variables, we could devise a more clever environment structure; however, the renaming approach we have chosen here is the most straightforward, even if not the most efficient. (See Exercise 4-79.)  Here is the <code>apply-a-rule</code> procedure:
 
-<div id="">
+<div>
 (define (apply-a-rule rule query-pattern query-frame)
   (let ((clean-rule (rename-variables-in rule)))
     (let ((unify-result
@@ -1634,7 +1634,7 @@ C.prompt();
 
 <p> We generate unique variable names by associating a unique identifier (such as a number) with each rule application and combining this identifier with the original variable names. For example, if the rule-application identifier is 7, we might change each <code>?x</code> in the rule to <code>?x-7</code> and each <code>?y</code> in the rule to <code>?y-7</code>. (<code>Make-new-variable</code> and <code>new-rule-application-id</code> are included with the syntax procedures in section <a href="4-4-logic.html">4.4.4</a>-7.)
 
-<div id="">
+<div>
 (define (rename-variables-in rule)
   (let ((rule-application-id (new-rule-application-id)))
     (define (tree-walk exp)
@@ -1652,7 +1652,7 @@ C.prompt();
 
 <p> The unification algorithm is implemented as a procedure that takes as inputs two patterns and a frame and returns either the extended frame or the symbol <code>failed</code>. The unifier is like the pattern matcher except that it is symmetrical---variables are allowed on both sides of the match. <code>Unify-match</code> is basically the same as <code>pattern-match</code>, except that there is extra code (marked ``<code>***</code>'' below) to handle the case where the object on the right side of the match is a variable.
 
-<div id="">
+<div>
 (define (unify-match p1 p2 frame)
   (cond ((eq? frame 'failed) 'failed)
         ((equal? p1 p2) frame)
@@ -1698,7 +1698,7 @@ C.prompt();
 
 <p> Although the formal manipulations used in deriving these two equations are identical, the first result is a valid assertion about infinite series but the second is not. Similarly, for our unification results, reasoning with an arbitrary syntactically constructed expression may lead to errors.}  On the other hand, we do not want to reject attempts to bind a variable to itself. For example, consider unifying <code>(?x ?x)</code> and <code>(?y ?y)</code>. The second attempt to bind <code>?x</code> to <code>?y</code> matches <code>?y</code> (the stored value of <code>?x</code>) against <code>?y</code> (the new value of <code>?x</code>). This is taken care of by the <code>equal?</code>  clause of <code>unify-match</code>.
 
-<div id="">
+<div>
 (define (extend-if-possible var val frame)
   (let ((binding (binding-in-frame var frame)))
     (cond (binding
@@ -1720,7 +1720,7 @@ C.prompt();
 
 <p> <code>Depends-on?</code> is a predicate that tests whether an expression proposed to be the value of a pattern variable depends on the variable. This must be done relative to the current frame because the expression may contain occurrences of a variable that already has a value that depends on our test variable. The structure of <code>depends-on?</code> is a simple recursive tree walk in which we substitute for the values of variables whenever necessary.
 
-<div id="">
+<div>
 (define (depends-on? exp var frame)
   (define (tree-walk e)
     (cond ((var? e)
@@ -1744,7 +1744,7 @@ C.prompt();
 
 <p> One important problem in designing logic programming languages is that of arranging things so that as few irrelevant data-base entries as possible will be examined in checking a given pattern. In our system, in addition to storing all assertions in one big stream, we store all assertions whose <code>car</code>s are constant symbols in separate streams, in a table indexed by the symbol. To fetch an assertion that may match a pattern, we first check to see if the <code>car</code> of the pattern is a constant symbol. If so, we return (to be tested using the matcher) all the stored assertions that have the same <code>car</code>. If the pattern's <code>car</code> is not a constant symbol, we return all the stored assertions. Cleverer methods could also take advantage of information in the frame, or try also to optimize the case where the <code>car</code> of the pattern is not a constant symbol. We avoid building our criteria for indexing (using the <code>car</code>, handling only the case of constant symbols) into the program; instead we call on predicates and selectors that embody our criteria.
 
-<div id="">
+<div>
 (define THE-ASSERTIONS the-empty-stream)
 
 (define (fetch-assertions pattern frame)
@@ -1763,7 +1763,7 @@ C.prompt();
 
 <p> <code>Get-stream</code> looks up a stream in the table and returns an empty stream if nothing is stored there.
 
-<div id="">
+<div>
 (define (get-stream key1 key2)
   (let ((s (get key1 key2)))
     (if s s the-empty-stream)))
@@ -1774,7 +1774,7 @@ C.prompt();
 
 <p> Rules are stored similarly, using the <code>car</code> of the rule conclusion. Rule conclusions are arbitrary patterns, however, so they differ from assertions in that they can contain variables. A pattern whose <code>car</code> is a constant symbol can match rules whose conclusions start with a variable as well as rules whose conclusions have the same <code>car</code>. Thus, when fetching rules that might match a pattern whose <code>car</code> is a constant symbol we fetch all rules whose conclusions start with a variable as well as those whose conclusions have the same <code>car</code> as the pattern. For this purpose we store all rules whose conclusions start with a variable in a separate stream in our table, indexed by the symbol <code>?</code>.
 
-<div id="">
+<div>
 (define THE-RULES the-empty-stream)
 
 (define (fetch-rules pattern frame)
@@ -1795,7 +1795,7 @@ C.prompt();
 
 <p> <code>Add-rule-or-assertion!</code> is used by <code>query-driver-loop</code> to add assertions and rules to the data base. Each item is stored in the index, if appropriate, and in a stream of all assertions or rules in the data base.
 
-<div id="">
+<div>
 (define (add-rule-or-assertion! assertion)
   (if (rule? assertion)
       (add-rule! assertion)
@@ -1820,7 +1820,7 @@ C.prompt();
 
 <p> To actually store an assertion or a rule, we check to see if it can be indexed. If so, we store it in the appropriate stream.
 
-<div id="">
+<div>
 (define (store-assertion-in-index assertion)
   (if (indexable? assertion)
       (let ((key (index-key-of assertion)))
@@ -1848,7 +1848,7 @@ C.prompt();
 
 <p> The following procedures define how the data-base index is used. A pattern (an assertion or a rule conclusion) will be stored in the table if it starts with a variable or a constant symbol.
 
-<div id="">
+<div>
 (define (indexable? pat)
   (or (constant-symbol? (car pat))
       (var? (car pat))))
@@ -1859,7 +1859,7 @@ C.prompt();
 
 <p> The key under which a pattern is stored in the table is either <code>?</code> (if it starts with a variable) or the constant symbol with which it starts.
 
-<div id="">
+<div>
 (define (index-key-of pat)
   (let ((key (car pat)))
     (if (var? key) '? key)))
@@ -1870,7 +1870,7 @@ C.prompt();
 
 <p> The index will be used to retrieve items that might match a pattern if the pattern starts with a constant symbol.
 
-<div id="">
+<div>
 (define (use-index? pat)
   (constant-symbol? (car pat)))
 </div>
@@ -1881,7 +1881,7 @@ C.prompt();
 <div class="exercise" id="thm_4.70">
 <p> <b>Exercise 4.70:</b> What is the purpose of the <code>let</code> bindings in the procedures <code>add-assertion!</code> and <code>add-rule!</code> ?  What would be wrong with the following implementation of <code>add-assertion!</code> ?  Hint: Recall the definition of the infinite stream of ones in section <a href="3-5-streams.html">3.5.2</a>: <code>(define ones (cons-stream 1 ones))</code>.
 
-<div id="">
+<div>
 (define (add-assertion! assertion)
   (store-assertion-in-index assertion)
   (set! THE-ASSERTIONS
@@ -1902,7 +1902,7 @@ C.prompt();
 they take a delayed argument (like the <code>integral</code> procedure in section
 3-5-4). This postpones looping in some cases (see Exercise 4-71).
 
-<div id="">
+<div>
 (define (stream-append-delayed s1 delayed-s2)
   (if (stream-null? s1)
       (force delayed-s2)
@@ -1924,7 +1924,7 @@ C.prompt();
 
 <p> <code>Stream-flatmap</code>, which is used throughout the query evaluator to map a procedure over a stream of frames and combine the resulting streams of frames, is the stream analog of the <code>flatmap</code> procedure introduced for ordinary lists in section <a href="2-2-closure.html">2.2.3</a>. Unlike ordinary <code>flatmap</code>, however, we accumulate the streams with an interleaving process, rather than simply appending them (see Exercise 4-72 and Exercise 4-73).
 
-<div id="">
+<div>
 (define (stream-flatmap proc s)
   (flatten-stream (stream-map proc s)))
 
@@ -1941,7 +1941,7 @@ C.prompt();
 
 <p> The evaluator also uses the following simple procedure to generate a stream consisting of a single element:
 
-<div id="">
+<div>
 (define (singleton-stream x)
   (cons-stream x the-empty-stream))
 </div>
@@ -1953,7 +1953,7 @@ C.prompt();
 
 <p> <code>Type</code> and <code>contents</code>, used by <code>qeval</code> (section <a href="4-4-logic.html">4.4.4</a>-2), specify that a special form is identified by the symbol in its <code>car</code>. They are the same as the <code>type-tag</code> and <code>contents</code> procedures in section <a href="2-4-representation.html">2.4.2</a>, except for the error message.
 
-<div id="">
+<div>
 (define (type exp)
   (if (pair? exp)
       (car exp)
@@ -1970,7 +1970,7 @@ C.prompt();
 
 <p> The following procedures, used by <code>query-driver-loop</code> (in section <a href="4-4-logic.html">4.4.4</a>-1), specify that rules and assertions are added to the data base by expressions of the form <code>(assert! <rule-or-assertion</code>>):
 
-<div id="">
+<div>
 (define (assertion-to-be-added? exp)
   (eq? (type exp) 'assert!))
 
@@ -1983,7 +1983,7 @@ C.prompt();
 
 <p> Here are the syntax definitions for the <code>and</code>, <code>or</code>, <code>not</code>, and <code>lisp-value</code> special forms (section <a href="4-4-logic.html">4.4.4</a>-2):
 
-<div id="">
+<div>
 (define (empty-conjunction? exps) (null? exps))
 (define (first-conjunct exps) (car exps))
 (define (rest-conjuncts exps) (cdr exps))
@@ -2003,7 +2003,7 @@ C.prompt();
 
 <p> The following three procedures define the syntax of rules:
 
-<div id="">
+<div>
 (define (rule? statement)
   (tagged-list? statement 'rule))
 
@@ -2022,7 +2022,7 @@ C.prompt();
 
 <p> <code>Expand-question-mark</code> and <code>contract-question-mark</code> use several procedures with <code>string</code> in their names. These are Scheme primitives.}
 
-<div id="">
+<div>
 (define (query-syntax-process exp)
   (map-over-symbols expand-question-mark exp))
 
@@ -2047,7 +2047,7 @@ C.prompt();
 
 <p> Once the variables are transformed in this way, the variables in a pattern are lists starting with <code>?</code>, and the constant symbols (which need to be recognized for data-base indexing, section <a href="4-4-logic.html">4.4.4</a>-5) are just the symbols.
 
-<div id="">
+<div>
 (define (var? exp)
   (tagged-list? exp '?))
 
@@ -2059,7 +2059,7 @@ C.prompt();
 
 <p> Unique variables are constructed during rule application (in section <a href="4-4-logic.html">4.4.4</a>-4) by means of the following procedures. The unique identifier for a rule application is a number, which is incremented each time a rule is applied.
 
-<div id="">
+<div>
 (define rule-counter 0)
 
 (define (new-rule-application-id)
@@ -2075,7 +2075,7 @@ C.prompt();
 
 <p> When <code>query-driver-loop</code> instantiates the query to print the answer, it converts any unbound pattern variables back to the right form for printing, using
 
-<div id="">
+<div>
 (define (contract-question-mark variable)
   (string->symbol
    (string-append "?"
@@ -2093,7 +2093,7 @@ C.prompt();
 
 <p> Frames are represented as lists of bindings, which are variable-value pairs:
 
-<div id="">
+<div>
 (define (make-binding variable value)
   (cons variable value))
 
@@ -2116,7 +2116,7 @@ C.prompt();
 <div class="exercise" id="thm_4.71">
 <p> <b>Exercise 4.71:</b> Louis Reasoner wonders why the <code>simple-query</code> and <code>disjoin</code> procedures (section <a href="4-4-logic.html">4.4.4</a>-2) are implemented using explicit <code>delay</code> operations, rather than being defined as follows:
 
-<div id="">
+<div>
 (define (simple-query query-pattern frame-stream)
   (stream-flatmap
    (lambda (frame)
@@ -2145,7 +2145,7 @@ C.prompt();
 <div class="exercise" id="thm_4.73">
 <p> <b>Exercise 4.73:</b> Why does <code>flatten-stream</code> use <code>delay</code> explicitly?  What would be wrong with defining it as follows:
 
-<div id="">
+<div>
 (define (flatten-stream stream)
   (if (stream-null? stream)
       the-empty-stream
@@ -2166,7 +2166,7 @@ C.prompt();
 Fill in the missing expressions in Alyssa's program.
 </li>
 
-<div id="">
+<div>
 (define (simple-stream-flatmap proc s)
   (simple-flatten (stream-map proc s)))
 
@@ -2187,7 +2187,7 @@ Does the query system's behavior change if we change it in this way?
 <div class="exercise" id="thm_4.75">
 <p> <b>Exercise 4.75:</b> Implement for the query language a new special form called <code>unique</code>. <code>Unique</code> should succeed if there is precisely one item in the data base satisfying a specified query. For example,
 
-<div id="">
+<div>
 (unique (job ?x (computer wizard)))
 </div>
 <script>
@@ -2196,7 +2196,7 @@ C.prompt();
 
 <p> should print the one-item stream
 
-<div id="">
+<div>
 (unique (job (Bitdiddle Ben) (computer wizard)))
 </div>
 <script>
@@ -2205,7 +2205,7 @@ C.prompt();
 
 <p> since Ben is the only computer wizard, and
 
-<div id="">
+<div>
 (unique (job ?x (computer programmer)))
 </div>
 <script>
@@ -2214,7 +2214,7 @@ C.prompt();
 
 <p> should print the empty stream, since there is more than one computer programmer. Moreover,
 
-<div id="">
+<div>
 (and (job ?x ?j) (unique (job ?anyone ?j)))
 </div>
 <script>
@@ -2225,7 +2225,7 @@ C.prompt();
 
 <p> There are two parts to implementing <code>unique</code>. The first is to write a procedure that handles this special form, and the second is to make <code>qeval</code> dispatch to that procedure. The second part is trivial, since <code>qeval</code> does its dispatching in a data-directed way. If your procedure is called <code>uniquely-asserted</code>, all you need to do is
 
-<div id="">
+<div>
 (put 'unique 'qeval uniquely-asserted)
 </div>
 <script>
@@ -2256,7 +2256,7 @@ C.prompt();
 <div class="exercise" id="thm_4.79">
 <p> <b>Exercise 4.79:</b> When we implemented the Lisp evaluator in section <a href="4-1-metacircular.html">4.1</a>, we saw how to use local environments to avoid name conflicts between the parameters of procedures. For example, in evaluating
 
-<div id="">
+<div>
 (define (square x)
   (* x x))
 

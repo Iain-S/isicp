@@ -561,10 +561,10 @@ C.prompt("scheme-define-cond-p");
 </div>
 
 <div class="exercise" id="thm_4.5">
-<p> <b>Exercise 4.5:</b> Scheme allows an additional syntax for <code>cond</code> clauses, (test => recipient)}. If <test> evaluates to a true value, then <recipient> is evaluated. Its value must be a procedure of one argument; this procedure is then invoked on the value of the <test>, and the result is returned as the value of
+<p> <b>Exercise 4.5:</b> Scheme allows an additional syntax for <code>cond</code> clauses, (test => recipient)}. If &lt;test&gt; evaluates to a true value, then &lt;recipient&gt; is evaluated. Its value must be a procedure of one argument; this procedure is then invoked on the value of the &lt;test&gt;, and the result is returned as the value of
 the <code>cond</code> expression. For example
 
-<div id="">
+<div>
 (cond ((assoc 'b '((a 1) (b 2))) => cadr)
       (else false))
 </div>
@@ -578,9 +578,9 @@ C.prompt();
 <div class="exercise" id="thm_4.6">
 <p> <b>Exercise 4.6:</b> <code>Let</code> expressions are derived expressions, because
 
-<div id="">
-(let ((<var_1> <exp_1>) ... (<var_n> <exp_n>))
-  <body>)
+<div>
+(let ((&lt;var_1&gt; &lt;exp_1&gt;) ... (&lt;var_n&gt; &lt;exp_n&gt;))
+  &lt;body&gt;)
 </div>
 <script>
 C.prompt();
@@ -589,12 +589,12 @@ C.prompt();
 
 <p> is equivalent to
 
-<div id="">
-((lambda (<var_1> ... <var_n>)
-   <body>)
- <exp_1>
+<div>
+((lambda (&lt;var_1&gt; ... &lt;var_n&gt;)
+   &lt;body&gt;)
+ &lt;exp_1&gt;
  ...
- <exp_n>)
+ &lt;exp_n&gt;)
 </div>
 <script>
 C.prompt();
@@ -606,7 +606,7 @@ C.prompt();
 <div class="exercise" id="thm_4.7">
 <p> <b>Exercise 4.7:</b> <code>Let*</code> is similar to <code>let</code>, except that the bindings of the <code>let</code> variables are performed sequentially from left to right, and each binding is made in an environment in which all of the preceding bindings are visible. For example
 
-<div id="">
+<div>
 (let* ((x 3)
        (y (+ x 2))
        (z (+ x y 5)))
@@ -619,7 +619,7 @@ C.prompt();
 
 <p> returns 39. Explain how a <code>let*</code> expression can be rewritten as a set of nested <code>let</code> expressions, and write a procedure <code>let*->nested-lets</code> that performs this transformation. If we have already implemented <code>let</code> (Exercise 4-6) and we want to extend the evaluator to handle <code>let*</code>, is it sufficient to add a clause to <code>eval</code> whose action is
 
-<div id="">
+<div>
 (eval (let*->nested-lets exp) env)
 </div>
 <script>
@@ -634,16 +634,16 @@ C.prompt();
 <p> <b>Exercise 4.8:</b> ``Named <code>let</code>'' is a variant
 of <code>let</code> that has the form
 
-<div id="">
-(let <var> <bindings> <body>)
+<div>
+(let &lt;var&gt; &lt;bindings&gt; &lt;body&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> The <bindings> and <body> are just as in ordinary <code>let</code>, except that <var> is bound within <body> to a procedure whose body is <body> and whose parameters are the variables in the <bindings>. Thus, one can repeatedly execute the <body> by invoking the procedure named <var>. For example, the iterative Fibonacci procedure (section 1-2-2) can be rewritten using named <code>let</code> as follows:
+<p> The &lt;bindings&gt; and &lt;body&gt; are just as in ordinary <code>let</code>, except that &lt;var&gt; is bound within &lt;body&gt; to a procedure whose body is &lt;body&gt; and whose parameters are the variables in the &lt;bindings&gt;. Thus, one can repeatedly execute the &lt;body&gt; by invoking the procedure named &lt;var&gt;. For example, the iterative Fibonacci procedure (section 1-2-2) can be rewritten using named <code>let</code> as follows:
 
-<div id="">
+<div>
 (define (fib n)
   (let fib-iter ((a 1)
                  (b 0)
@@ -677,7 +677,7 @@ show how to implement them as derived expressions.
 
 <p> For conditionals, we accept anything to be true that is not the explicit <code>false</code> object.
 
-<div id="">
+<div>
 (define (true? x)
   (not (eq? x false)))
 
@@ -695,17 +695,15 @@ C.prompt();
 <ul>
 
 <li>
-<code>(apply-primitive-procedure proc args)}
-
+<code>(apply-primitive-procedure proc args)</code>
 
 applies the given primitive procedure to the argument values in the list
-<args> and returns the result of the application.
+&lt;args&gt; and returns the result of the application.
 
 <li>
-<code>(primitive-procedure? proc)
+<code>(primitive-procedure? proc)</code>
 
-
-<p> tests whether <proc> is a primitive procedure.
+tests whether &lt;proc&gt; is a primitive procedure.
 
 </ul>
 
@@ -715,7 +713,7 @@ applies the given primitive procedure to the argument values in the list
 <p> Compound procedures are constructed from parameters, procedure bodies, and
 environments using the constructor <code>make-procedure</code>:
 
-<div id="">
+<div>
 (define (make-procedure parameters body env)
   (list 'procedure parameters body env))
 
@@ -742,39 +740,39 @@ We use the following operations for manipulating environments:
 <ul>
 
 <li>
-<code>(lookup-variable-value var env)}
+<code>(lookup-variable-value var env)</code>
 
-returns the value that is bound to the symbol <var> in the environment
-<env>, or signals an error if the variable is unbound.
-
+returns the value that is bound to the symbol &lt;var&gt; in the environment
+&lt;env&gt;, or signals an error if the variable is unbound.
+</li>
 <li>
-<code>(extend-environment variables values base-env)}
+<code>(extend-environment variables values base-env)</code>
 
 <p> returns a new environment, consisting of a new frame in which the symbols in
-the list <variables> are bound to the corresponding elements in the list
-<values>, where the enclosing environment is the environment
-<base-env>.
-
+the list &lt;variables> are bound to the corresponding elements in the list
+&lt;values>, where the enclosing environment is the environment
+&lt;base-env>.
+</li>
 <li>
-<code>(define-variable! var value env)}
+<code>(define-variable! var value env)</code>
 
-adds to the first frame in the environment <env> a new binding that
-associates the variable <var> with the value <value>.
-
+adds to the first frame in the environment &lt;env> a new binding that
+associates the variable &lt;var&gt; with the value &lt;value>.
+</li>
 <li>
-<code>(set-variable-value! var value env)}
+<code>(set-variable-value! var value env)</code>
 
-changes the binding of the variable <var> in the environment <env>
-so that the variable is now bound to the value <value>, or signals an
+changes the binding of the variable &lt;var&gt; in the environment &lt;env>
+so that the variable is now bound to the value &lt;value>, or signals an
 error if the variable is unbound.
-
+</li>
 </ul>
 
 <p> To implement these operations we represent an environment as a list of frames.
 The enclosing environment of an environment is the <code>cdr</code> of the list. The
 empty environment is simply the empty list.
 
-<div id="">
+<div>
 (define (enclosing-environment env) (cdr env))
 
 (define (first-frame env) (car env))
@@ -789,7 +787,7 @@ C.prompt();
 variables bound in that frame and a list of the associated
 values.<a name="footnote_link_1-14" class="footnote_link" href="#footnote_1-14">14</a>
 
-<div id="">
+<div>
 (define (make-frame variables values)
   (cons variables values))
 
@@ -810,11 +808,11 @@ we make a frame consisting of the list of variables and the list of values, and
 we adjoin this to the environment. We signal an error if the number of
 variables does not match the number of values.
 
-<div id="">
+<div>
 (define (extend-environment vars vals base-env)
   (if (= (length vars) (length vals))
       (cons (make-frame vars vals) base-env)
-      (if (< (length vars) (length vals))
+      (if (&lt; (length vars) (length vals))
           (error "Too many arguments supplied" vars vals)
           (error "Too few arguments supplied" vars vals))))
 </div>
@@ -828,7 +826,7 @@ element in the list of values. If we do not find the variable in the current
 frame, we search the enclosing environment, and so on. If we reach the empty
 environment, we signal an ``unbound variable'' error.
 
-<div id="">
+<div>
 (define (lookup-variable-value var env)
   (define (env-loop env)
     (define (scan vars vals)
@@ -852,7 +850,7 @@ C.prompt();
 variable, just as in <code>lookup-variable-value</code>, and change the corresponding
 value when we find it.
 
-<div id="">
+<div>
 (define (set-variable-value! var val env)
   (define (env-loop env)
     (define (scan vars vals)
@@ -876,7 +874,7 @@ C.prompt();
 and change the binding if it exists (just as in <code>set-variable-value!</code>).
 If no such binding exists, we adjoin one to the first frame.
 
-<div id="">
+<div>
 (define (define-variable! var val env)
   (let ((frame (first-frame env)))
     (define (scan vars vals)
@@ -943,7 +941,7 @@ can appear in the expressions we will be evaluating. The global environment
 also includes bindings for the symbols <code>true</code> and <code>false</code>, so that
 they can be used as variables in expressions to be evaluated.
 
-<div id="">
+<div>
 (define (setup-environment)
   (let ((initial-env
          (extend-environment (primitive-procedure-names)
@@ -966,7 +964,7 @@ chosen to represent a primitive procedure as a list beginning with the symbol
 <code>primitive</code> and containing a procedure in the underlying Lisp that
 implements that primitive.
 
-<div id="">
+<div>
 (define (primitive-procedure? proc)
   (tagged-list? proc 'primitive))
 
@@ -979,13 +977,13 @@ C.prompt();
 <p> <code>Setup-environment</code> will get the primitive names and implementation
 procedures from a list:<a name="footnote_link_1-16" class="footnote_link" href="#footnote_1-16">16</a>
 
-<div id="">
+<div>
 (define primitive-procedures
   (list (list 'car car)
         (list 'cdr cdr)
         (list 'cons cons)
         (list 'null? null?)
-        <more primitives>
+        &lt;more primitives&gt;
         ))
 
 (define (primitive-procedure-names)
@@ -1004,7 +1002,7 @@ C.prompt();
 the arguments, using the underlying Lisp
 system:<a name="footnote_link_1-17" class="footnote_link" href="#footnote_1-17">17</a>
 
-<div id="">
+<div>
 (define (apply-primitive-procedure proc args)
   (apply-in-underlying-scheme
    (primitive-implementation proc) args))
@@ -1023,7 +1021,7 @@ precede each printed result by an <code>output prompt</code>
  so as to distinguish
 the value of the expression from other output that may be printed.<a name="footnote_link_1-18" class="footnote_link" href="#footnote_1-18">18</a>
 
-<div id="">
+<div>
 (define input-prompt ";;; M-Eval input:")
 (define output-prompt ";;; M-Eval value:")
 
@@ -1049,13 +1047,13 @@ C.prompt();
 environment part of a compound procedure, which may be a very long list (or may
 even contain cycles).
 
-<div id="">
+<div>
 (define (user-print object)
   (if (compound-procedure? object)
       (display (list 'compound-procedure
                      (procedure-parameters object)
                      (procedure-body object)
-                     '<procedure-env>))
+                     '&lt;procedure-env&gt;))
       (display object)))
 </div>
 <script>
@@ -1065,7 +1063,7 @@ C.prompt();
 <p> Now all we need to do to run the evaluator is to initialize the global
 environment and start the driver loop. Here is a sample interaction:
 
-<div id="">
+<div>
 (define the-global-environment (setup-environment))
 
 (driver-loop)
@@ -1104,7 +1102,7 @@ might be helpful. One operational view of the meaning of a program is that a
 program is a description of an abstract (perhaps infinitely large) machine.
 For example, consider the familiar program to compute factorials:
 
-<div id="">
+<div>
 (define (factorial n)
   (if (= n 1)
       1
@@ -1363,11 +1361,11 @@ eliminate all the internal definitions in the body. The internally defined
 variables will be created with a <code>let</code> and then set to their values by
 assignment. For example, the procedure
 
-<div id="">
-(lambda <vars>
-  (define u <e1>)
-  (define v <e2>)
-  <e3>)
+<div>
+(lambda &lt;vars&gt;
+  (define u &lt;e1&gt;)
+  (define v &lt;e2&gt;)
+  &lt;e3&gt;)
 </div>
 <script>
 C.prompt();
@@ -1376,13 +1374,13 @@ C.prompt();
 
 would be transformed into
 
-<div id="">
-(lambda <vars>
+<div>
+(lambda &lt;vars&gt;
   (let ((u '*unassigned*)
         (v '*unassigned*))
-    (set! u <e1>)
-    (set! v <e2>)
-    <e3>))
+    (set! u &lt;e1&gt;)
+    (set! v &lt;e2&gt;)
+    &lt;e3&gt;))
 </div>
 <script>
 C.prompt();
@@ -1430,7 +1428,7 @@ Which place is better?  Why?
 
 <div class="exercise" id="thm_4.17">
 <p> <b>Exercise 4.17:</b> Draw diagrams of the environment
-in effect when evaluating the expression <e3> in the procedure in the
+in effect when evaluating the expression &lt;e3&gt; in the procedure in the
 text, comparing how this will be structured when definitions are interpreted
 sequentially with how it will be structured if definitions are scanned out as
 described. Why is there an extra frame in the transformed program?  Explain
@@ -1446,15 +1444,15 @@ the extra frame.
 <p> <b>Exercise 4.18:</b> Consider an alternative strategy
 for scanning out definitions that translates the example in the text to
 
-<div id="">
-(lambda <vars>
+<div>
+(lambda &lt;vars&gt;
   (let ((u '*unassigned*)
         (v '*unassigned*))
-    (let ((a <e1>)
-          (b <e2>))
+    (let ((a &lt;e1&gt;)
+          (b &lt;e2&gt;))
       (set! u a)
       (set! v b))
-    <e3>))
+    &lt;e3&gt;))
 </div>
 <script>
 C.prompt();
@@ -1464,7 +1462,7 @@ Here <code>a</code> and <code>b</code> are meant to represent new variable names
 by the interpreter, that do not appear in the user's program. Consider the
 <code>solve</code> procedure from section <a href="3-5-streams.html">3.5.4</a>:
 
-<div id="">
+<div>
 (define (solve f y0 dt)
   (define y (integral (delay dy) y0 dt))
   (define dy (stream-map f y))
@@ -1485,7 +1483,7 @@ this exercise?  What if they are scanned out as shown in the text?  Explain.
 and Eva Lu Ator are arguing about the desired result of evaluating the
 expression
 
-<div id="">
+<div>
 (let ((a 1))
   (define (f x)
     (define b (+ a x))
@@ -1530,7 +1528,7 @@ simultaneously and have the same scope as each other. The sample procedure
 <code>f</code> above can be written without internal definitions, but with exactly
 the same meaning, as
 
-<div id="">
+<div>
 (define (f x)
   (letrec ((even?
             (lambda (n)
@@ -1550,9 +1548,9 @@ C.prompt();
 
 <p> <code>Letrec</code> expressions, which have the form
 
-<div id="">
-(letrec ((<var_1> <exp_1>) ... (<var_n> <exp_n>))
-  <body>)
+<div>
+(letrec ((&lt;var_1&gt; &lt;exp_1&gt;) ... (&lt;var_n&gt; &lt;exp_n&gt;))
+  &lt;body&gt;)
 </div>
 <script>
 C.prompt();
@@ -1560,13 +1558,13 @@ C.prompt();
 
 
 <p> are a variation on <code>let</code> in which the expressions
-<exp_k> that provide the initial values for the
-variables <var_k> are evaluated in an environment
+&lt;exp_k&gt; that provide the initial values for the
+variables &lt;var_k&gt; are evaluated in an environment
 that includes all the <code>letrec</code> bindings. This permits recursion in the
 bindings, such as the mutual recursion of <code>even?</code> and <code>odd?</code> in the
 example above, or the evaluation of 10 factorial with
 
-<div id="">
+<div>
 (letrec ((fact
           (lambda (n)
             (if (= n 1)
@@ -1615,7 +1613,7 @@ trick of this sort is the Y <code>operator</code>
 details on the [lambda] calculus, and Gabriel 1988 for an exposition of the
 Y operator in Scheme.)}
 
-<div id="">
+<div>
 ((lambda (n)
    ((lambda (fact)
       (fact fact n))
@@ -1638,7 +1636,7 @@ Devise an analogous expression for computing Fibonacci numbers.
 <p> Consider the following procedure, which includes mutually recursive internal
 definitions:
 
-<div id="">
+<div>
 (define (f x)
   (define (even? n)
     (if (= n 0)
@@ -1657,14 +1655,14 @@ C.prompt();
 <p> Fill in the missing expressions to complete an alternative definition of
 <code>f</code>, which uses neither internal definitions nor <code>letrec</code>:
 
-<div id="">
+<div>
 (define (f x)
   ((lambda (even? odd?)
      (even? even? odd? x))
    (lambda (ev? od? n)
-     (if (= n 0) true (od? <??> <??> <??>)))
+     (if (= n 0) true (od? &lt;??> &lt;??> &lt;??>)))
    (lambda (ev? od? n)
-     (if (= n 0) false (ev? <??> <??> <??>)))))
+     (if (= n 0) false (ev? &lt;??> &lt;??> &lt;??>)))))
 </div>
 <script>
 C.prompt();
@@ -1680,7 +1678,7 @@ Thus if a program is executed many times, its syntax is analyzed many times.
 Consider, for example, evaluating <code>(factorial 4)</code> using the following
 definition of <code>factorial</code>:
 
-<div id="">
+<div>
 (define (factorial n)
   (if (= n 1)
       1
@@ -1717,7 +1715,7 @@ execution procedure may be called many times.
 
 <p> With the separation into analysis and execution, <code>eval</code> now becomes
 
-<div id="">
+<div>
 (define (eval exp env)
   ((analyze exp) env))
 </div>
@@ -1730,7 +1728,7 @@ to the environment. The <code>analyze</code> procedure is the same case analysis
 performed by the original <code>eval</code> of section <a href="4-1-metacircular.html">4.1.1</a>, except that the
 procedures to which we dispatch perform only analysis, not full evaluation:
 
-<div id="">
+<div>
 (define (analyze exp)
   (cond ((self-evaluating? exp)
          (analyze-self-evaluating exp))
@@ -1754,7 +1752,7 @@ C.prompt();
 self-evaluating expressions. It returns an execution procedure that ignores
 its environment argument and just returns the expression:
 
-<div id="">
+<div>
 (define (analyze-self-evaluating exp)
   (lambda (env) exp))
 </div>
@@ -1766,7 +1764,7 @@ C.prompt();
 of the quotation only once, in the analysis phase, rather than in the execution
 phase.
 
-<div id="">
+<div>
 (define (analyze-quoted exp)
   (let ((qval (text-of-quotation exp)))
     (lambda (env) qval)))
@@ -1783,7 +1781,7 @@ the position in the environment structure where the value of the variable will
 be found, thus obviating the need to scan the environment for the entry that
 matches the variable.}
 
-<div id="">
+<div>
 (define (analyze-variable exp)
   (lambda (env) (lookup-variable-value exp env)))
 </div>
@@ -1798,7 +1796,7 @@ analysis is a major gain in efficiency, because the <code>assignment-value</code
 expression will now be analyzed only once. The same holds true for
 definitions.
 
-<div id="">
+<div>
 (define (analyze-assignment exp)
   (let ((var (assignment-variable exp))
         (vproc (analyze (assignment-value exp))))
@@ -1820,7 +1818,7 @@ C.prompt();
 <p> For <code>if</code> expressions, we extract and analyze the predicate, consequent,
 and alternative at analysis time.
 
-<div id="">
+<div>
 (define (analyze-if exp)
   (let ((pproc (analyze (if-predicate exp)))
         (cproc (analyze (if-consequent exp)))
@@ -1838,7 +1836,7 @@ C.prompt();
 We analyze the <code>lambda</code> body only once, even though procedures resulting
 from evaluation of the <code>lambda</code> may be applied many times.
 
-<div id="">
+<div>
 (define (analyze-lambda exp)
   (let ((vars (lambda-parameters exp))
         (bproc (analyze-sequence (lambda-body exp))))
@@ -1856,7 +1854,7 @@ procedures are combined to produce an execution procedure that takes an
 environment as argument and sequentially calls each individual execution
 procedure with the environment as argument.
 
-<div id="">
+<div>
 (define (analyze-sequence exps)
   (define (sequentially proc1 proc2)
     (lambda (env) (proc1 env) (proc2 env)))
@@ -1884,7 +1882,7 @@ procedure body for a compound procedure has already been analyzed, so there is
 no need to do further analysis. Instead, we just call the execution procedure
 for the body on the extended environment.
 
-<div id="">
+<div>
 (define (analyze-application exp)
   (let ((fproc (analyze (operator exp)))
         (aprocs (map analyze (operands exp))))
@@ -1928,7 +1926,7 @@ other analysis procedures are straightforward transformations of the
 corresponding evaluation procedures (or <code>eval</code> clauses) in section
 4-1-1. She expected <code>analyze-sequence</code> to look like this:
 
-<div id="">
+<div>
 (define (analyze-sequence exps)
   (define (execute-sequence procs env)
     (cond ((null? (cdr procs)) ((car procs) env))

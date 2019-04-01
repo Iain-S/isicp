@@ -14,7 +14,7 @@
 
 <p> To design a register machine, we must design its <code>data paths</code> (registers and operations) and the <code>controller</code> that sequences these operations. To illustrate the design of a simple register machine, let us examine Euclid's Algorithm, which is used to compute the greatest common divisor (GCD) of two integers. As we saw in section <a href="1-2-procedures.html">1.2.5</a>, Euclid's Algorithm can be carried out by an iterative process, as specified by the following procedure:
 
-<div id="">
+<div>
 (define (gcd a b)
   (if (= b 0)
       a
@@ -87,7 +87,7 @@ C.prompt();
 <div class="exercise" id="thm_5.1">
 <p> <b>Exercise 5.1:</b> Design a register machine to compute factorials using the iterative algorithm specified by the following procedure. Draw data-path and controller diagrams for this machine.
 
-<div id="">
+<div>
 (define (factorial n)
   (define (iter product counter)
     (if (> counter n)
@@ -134,7 +134,7 @@ An unconditional branch (<code>goto</code> instruction) naming a controller labe
 <b>Figure 5.3:</b> A specification of the GCD
 machine.
 
-<div id="">
+<div>
 (data-paths
  (registers
   ((name a)
@@ -172,7 +172,7 @@ C.prompt();
 
 <p> To obtain this form of description, we will replace the arbitrary button and operation names by the definitions of their behavior. That is, instead of saying (in the controller) ``Push button <code>t<-r</code>'' and separately saying (in the data paths) ``Button <code>t<-r</code> assigns the value of the <code>rem</code> operation to register <code>t</code>'' and ``The <code>rem</code> operation's inputs are the contents of registers <code>a</code> and <code>b</code>,'' we will say (in the controller) ``Push the button that assigns to register <code>t</code> the value of the <code>rem</code> operation on the contents of registers <code>a</code> and <code>b</code>.''Similarly, instead of saying (in the controller) ``Perform the <code>=</code> test''and separately saying (in the data paths) ``The <code>=</code> test operates on the contents of register <code>b</code> and the constant 0,'' we will say ``Perform the <code>=</code> test on the contents of register <code>b</code> and the constant 0.''  We will omit the data-path description, leaving only the controller sequence. Thus, the GCD machine is described as follows:
 
-<div id="">
+<div>
 (controller
  test-b
    (test (op =) (reg b) (const 0))
@@ -215,7 +215,7 @@ to describe the iterative factorial machine of Exercise 5-1.
 
 <p> <code>Print</code>, on the other hand, differs from the operations we have been using in a fundamental way: It does not produce an output value to be stored in a register. Though it has an effect, this effect is not on a part of the machine we are designing. We will refer to this kind of operation as an <code>action</code> . We will represent an action in a data-path diagram just as we represent an operation that computes a value---as a trapezoid that contains the name of the action. Arrows point to the action box from any inputs (registers or constants). We also associate a button with the action. Pushing the button makes the action happen. To make a controller push an action button we use a new kind of instruction called <code>perform</code>. Thus, the action of printing the contents of register <code>a</code> is represented in a controller sequence by the instruction
 
-<div id="">
+<div>
 (perform (op print) (reg a))
 </div>
 <script>
@@ -256,7 +256,7 @@ C.prompt();
                      +-----+
 </pre>
 
-<div id="">
+<div>
  (controller
   gcd-loop
     (assign a (op read))
@@ -284,7 +284,7 @@ C.prompt();
 
 <p> Consider the GCD machine. The machine has an instruction that computes the remainder of the contents of registers <code>a</code> and <code>b</code> and assigns the result to register <code>t</code>. If we want to construct the GCD machine without using a primitive remainder operation, we must specify how to compute remainders in terms of simpler operations, such as subtraction. Indeed, we can write a Scheme procedure that finds remainders in this way:
 
-<div id="">
+<div>
 (define (remainder n d)
   (if (< n d)
       n
@@ -344,7 +344,7 @@ C.prompt();
 </pre>
 </div>
 
-<div id="">
+<div>
 (assign t (op rem) (reg a) (reg b))
 </div>
 <script>
@@ -357,7 +357,7 @@ C.prompt();
 <div class="exercise">
 <p> <b>Figure 5.6:</b> Controller instruction sequence for the GCD machine in Figure 5-5.
 
-<div id="">
+<div>
 (controller
  test-b
    (test (op =) (reg b) (const 0))
@@ -383,7 +383,7 @@ C.prompt();
 <div class="exercise" id="thm_5.3">
 <p> <b>Exercise 5.3:</b> Design a machine to compute square roots using Newton's method, as described in section <a href="1-1-elements.html">1.1.7</a>:
 
-<div id="">
+<div>
 (define (sqrt x)
   (define (good-enough? guess)
     (< (abs (- (square guess) x)) 0.001))
@@ -429,7 +429,7 @@ C.prompt();
        +-----+                             +-----+
 </pre>
 
-<div id="">
+<div>
 gcd-1
  (test (op =) (reg b) (const 0))
  (branch (label after-gcd-1))
@@ -461,7 +461,7 @@ C.prompt();
 <div class="exercise">
 <p> <b>Figure 5.8:</b> Portions of the controller sequence for a machine that uses the same data-path components for two different GCD computations.
 
-<div id="">
+<div>
 gcd-1
  (test (op =) (reg b) (const 0))
  (branch (label after-gcd-1))
@@ -489,7 +489,7 @@ C.prompt();
 <div class="exercise">
 <p> <b>Figure 5.9:</b> Using a <code>continue</code> register to avoid the duplicate controller sequence in Figure 5-8.
 
-<div id="">
+<div>
 gcd
  (test (op =) (reg b) (const 0))
  (branch (label gcd-done))
@@ -522,7 +522,7 @@ C.prompt();
 <div class="exercise">
 <p> <b>Figure 5.10:</b> Assigning labels to the <code>continue</code> register simplifies and generalizes the strategy shown in Figure 5-9.
 
-<div id="">
+<div>
 gcd
  (test (op =) (reg b) (const 0))
  (branch (label gcd-done))
@@ -562,7 +562,7 @@ C.prompt();
 
 <p> Implementing recursive processes, however, requires an additional mechanism. Consider the following recursive method for computing factorials, which we first examined in section <a href="1-2-procedures.html">1.2.1</a>:
 
-<div id="">
+<div>
 (define (factorial n)
   (if (= n 1)
       1
@@ -574,7 +574,7 @@ C.prompt();
 
 <p> As we see from the procedure, computing n! requires computing (n - 1)!. Our GCD machine, modeled on the procedure
 
-<div id="">
+<div>
 (define (gcd a b)
   (if (= b 0)
       a
@@ -604,7 +604,7 @@ C.prompt();
 
 <p> Let us examine a more complex recursive process, the tree-recursive computation of the Fibonacci numbers, which we introduced in section <a href="1-2-procedures.html">1.2.2</a>:
 
-<div id="">
+<div>
 (define (fib n)
   (if (< n 2)
       n
@@ -648,7 +648,7 @@ C.prompt();
              /_1_\                  fact  /___\  /___\ done
 </pre>
 
-<div id="">
+<div>
 (controller
    (assign continue (label fact-done))     ; set up final return address
  fact-loop
@@ -682,7 +682,7 @@ C.prompt();
 <b>Figure 5.12:</b> Controller for a machine to compute
 Fibonacci numbers.
 
-<div id="">
+<div>
 (controller
    (assign continue (label fib-done))
  fib-loop
@@ -728,7 +728,7 @@ C.prompt();
 @item
 Recursive exponentiation:
 
-<div id="">
+<div>
 (define (expt b n)
   (if (= n 0)
       1
@@ -741,7 +741,7 @@ C.prompt();
 @item
 Iterative exponentiation:
 
-<div id="">
+<div>
 (define (expt b n)
   (define (expt-iter counter product)
     (if (= counter 0)
@@ -768,7 +768,7 @@ C.prompt();
 
 <p> A controller instruction in our register-machine language has one of the following forms, where each <input_i> is either <code>(reg <register-name</code>>) or <code>(const <constant-value</code>>). These instructions were introduced in section <a href="5-1-register.html">5.1.1</a>:
 
-<div id="">
+<div>
 (assign &lt;register-name&gt; (reg &lt;register-name&gt;))
 
 (assign &lt;register-name&gt; (const &lt;constant-value&gt;))
@@ -789,7 +789,7 @@ C.prompt();
 
 <p> The use of registers to hold labels was introduced in section <a href="5-1-register.html">5.1.3</a>:
 
-<div id="">
+<div>
 (assign <register-name> (label <label-name>))
 
 (goto (reg <register-name>))
@@ -800,7 +800,7 @@ C.prompt();
 
 <p> Instructions to use the stack were introduced in section <a href="5-1-register.html">5.1.4</a>:
 
-<div id="">
+<div>
 (save <register-name>)
 
 (restore <register-name>)
