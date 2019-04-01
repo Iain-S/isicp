@@ -123,10 +123,10 @@ C.prompt();
 
 <p> Each code generator returns an <code>instruction sequence</code> containing the object code it has generated for the expression. Code generation for a compound expression is accomplished by combining the output from simpler code generators for component expressions, just as evaluation of a compound expression is accomplished by evaluating the component expressions.
 
-<p> The simplest method for combining instruction sequences is a procedure called <code>append-instruction-sequences</code>. It takes as arguments any number of instruction sequences that are to be executed sequentially; it appends them and returns the combined sequence. That is, if <seq_1> and <seq_2> are sequences of instructions, then evaluating
+<p> The simplest method for combining instruction sequences is a procedure called <code>append-instruction-sequences</code>. It takes as arguments any number of instruction sequences that are to be executed sequentially; it appends them and returns the combined sequence. That is, if &lt;seq_1&gt; and &lt;seq_2&gt; are sequences of instructions, then evaluating
 
 <div>
-(append-instruction-sequences <seq_1> <seq_2>)
+(append-instruction-sequences &lt;seq_1&gt; &lt;seq_2&gt;)
 </div>
 <script>
 C.prompt();
@@ -135,8 +135,8 @@ C.prompt();
 <p> produces the sequence
 
 <div>
-<seq_1>
-<seq_2>
+&lt;seq_1&gt;
+&lt;seq_2&gt;
 </div>
 <script>
 C.prompt();
@@ -151,7 +151,7 @@ C.prompt();
 C.prompt();
 </script>
 
-<p> produces one of the following four sequences of instructions, depending on how <seq_1> and <seq_2> use <reg_1> and <reg_2>:
+<p> produces one of the following four sequences of instructions, depending on how &lt;seq_1&gt; and &lt;seq_2&gt; use &lt;reg_1&gt; and &lt;reg_2&gt;:
 
 <pre>
 &lt;seq_1&gt; | (save &lt;reg_1&gt;)    | (save &lt;reg_2&gt;)    | (save &lt;reg_2&gt;)
@@ -355,13 +355,13 @@ C.prompt();
 <p> The code for an <code>if</code> expression compiled with a given target and linkage has the form
 
 <div>
-<<em>compilation of predicate, target <code>val</code>, linkage <code>next</code></em>>
+&lt;<em>compilation of predicate, target <code>val</code>, linkage <code>next</code></em>&gt;
  (test (op false?) (reg val))
  (branch (label false-branch))
 true-branch
- <<em>compilation of consequent with given target and given linkage or <code>after-if</code></em>>
+ &lt;<em>compilation of consequent with given target and given linkage or <code>after-if</code></em>&gt;
 false-branch
- <<em>compilation of alternative with given target and linkage</em>>
+ &lt;<em>compilation of alternative with given target and linkage</em>&gt;
 after-if
 </div>
 <script>
@@ -445,7 +445,7 @@ C.prompt();
 <p> When we compile the <code>lambda</code> expression, we also generate the code for the procedure body. Although the body won't be executed at the time of procedure construction, it is convenient to insert it into the object code right after the code for the <code>lambda</code>. If the linkage for the <code>lambda</code> expression is a label or <code>return</code>, this is fine. But if the linkage is <code>next</code>, we will need to skip around the code for the procedure body by using a linkage that jumps to a label that is inserted after the body. The object code thus has the form
 
  <em>construct procedure object and assign it to target register</em>
- <em>code for given linkage</em>> <em>or</em> <code>(goto (label after-lambda))</code>
+ <em>code for given linkage</em>&gt; <em>or</em> <code>(goto (label after-lambda))</code>
  <em>compilation of procedure body</em>
 after-lambda
 
@@ -607,13 +607,13 @@ C.prompt();
 (test (op primitive-procedure?) (reg proc))
  (branch (label primitive-branch))
 compiled-branch
- <<em>code to apply compiled procedure with given target and appropriate linkage</em>>
+ &lt;<em>code to apply compiled procedure with given target and appropriate linkage</em>&gt;
 primitive-branch
- (assign <target>
+ (assign &lt;target&gt;
          (op apply-primitive-procedure)
          (reg proc)
          (reg argl))
- <linkage>
+ &lt;linkage&gt;
 after-call
 </div>
 <script>
@@ -663,8 +663,8 @@ C.prompt();
  (assign val (op compiled-procedure-entry) (reg proc))
  (goto (reg val))
 proc-return
- (assign <target> (reg val))   ; included if target is not <code>val</code>
- (goto (label <linkage>))   ; linkage code
+ (assign &lt;target&gt; (reg val))   ; included if target is not <code>val</code>
+ (goto (label &lt;linkage&gt;))   ; linkage code
 </div>
 <script>
 C.prompt();
@@ -678,7 +678,7 @@ C.prompt();
  (assign val (op compiled-procedure-entry) (reg proc))
  (goto (reg val))
 proc-return
- (assign <target> (reg val))   ; included if target is not <code>val</code>
+ (assign &lt;target&gt; (reg val))   ; included if target is not <code>val</code>
  (restore continue)
  (goto (reg continue))   ; linkage code
 </div>
@@ -694,10 +694,10 @@ C.prompt();
 (assign val (op compiled-procedure-entry) (reg proc))
 (goto (reg val))
 
-<p> If the linkage is a label, we set up <code>continue</code> so that the procedure will return to that label. (That is, the <code>(goto (reg continue))</code> the procedure ends with becomes equivalent to the <code>(goto (label <linkage</code>>)) at <code>proc-return</code> above.)
+<p> If the linkage is a label, we set up <code>continue</code> so that the procedure will return to that label. (That is, the <code>(goto (reg continue))</code> the procedure ends with becomes equivalent to the <code>(goto (label &lt;linkage&gt;))</code> at <code>proc-return</code> above.)
 
 <div>
-(assign continue (label <linkage>))
+(assign continue (label &lt;linkage&gt;))
 (assign val (op compiled-procedure-entry) (reg proc))
 (goto (reg val))
 </div>
@@ -936,7 +936,7 @@ entry2
               (const (n))
               (reg argl)
               (reg env))
-  <<em>compilation of procedure body</em>>
+  &lt;<em>compilation of procedure body</em>&gt;
 after-lambda1
   (perform (op define-variable!)
            (const factorial)
@@ -1303,13 +1303,13 @@ C.prompt();
 
 <p> We can exploit this fact by inventing a new kind of variable-lookup operation, <code>lexical-address-lookup</code>, that takes as arguments an environment and a <code>lexical address</code> that consists of two numbers: a <code>frame number</code> , which specifies how many frames to pass over, and a <code>displacement number</code> , which specifies how many variables to pass over in that frame. <code>Lexical-address-lookup</code> will produce the value of the variable stored at that lexical address relative to the current environment. If we add the <code>lexical-address-lookup</code> operation to our machine, we can make the compiler generate code that references variables using this operation, rather than <code>lookup-variable-value</code>. Similarly, our compiled code can use a new <code>lexical-address-set!</code>  operation instead of <code>set-variable-value!</code>.
 
-<p> In order to generate such code, the compiler must be able to determine the lexical address of a variable it is about to compile a reference to. The lexical address of a variable in a program depends on where one is in the code. For example, in the following program, the address of <code>x</code> in expression <e1> is (2,0)---two frames back and the first variable in the frame. At that point <code>y</code> is at address (0,0) and <code>c</code> is at address (1,2). In expression <e2>, <code>x</code> is at (1,0), <code>y</code> is at (1,1), and <code>c</code> is at (0,2).
+<p> In order to generate such code, the compiler must be able to determine the lexical address of a variable it is about to compile a reference to. The lexical address of a variable in a program depends on where one is in the code. For example, in the following program, the address of <code>x</code> in expression &lt;e1&gt; is (2,0)---two frames back and the first variable in the frame. At that point <code>y</code> is at address (0,0) and <code>c</code> is at address (1,2). In expression &lt;e2&gt;, <code>x</code> is at (1,0), <code>y</code> is at (1,1), and <code>c</code> is at (0,2).
 
 <div>
 ((lambda (x y)
    (lambda (a b c d e)
-     ((lambda (y z) <e1>)
-      <e2>
+     ((lambda (y z) &lt;e1&gt;)
+      &lt;e2&gt;
       (+ c d x))))
  3
  4)
@@ -1331,7 +1331,7 @@ C.prompt();
 </div>
 
 <div class="exercise" id="thm_5.41">
-<p> <b>Exercise 5.41:</b> Write a procedure <code>find-variable</code> that takes as arguments a variable and a compile-time environment and returns the lexical address of the variable with respect to that environment. For example, in the program fragment that is shown above, the compile-time environment during the compilation of expression <e1> is <code>((y z) (a b c d e) (x y))</code>. <code>Find-variable</code> should produce
+<p> <b>Exercise 5.41:</b> Write a procedure <code>find-variable</code> that takes as arguments a variable and a compile-time environment and returns the lexical address of the variable with respect to that environment. For example, in the program fragment that is shown above, the compile-time environment during the compilation of expression &lt;e1&gt; is <code>((y z) (a b c d e) (x y))</code>. <code>Find-variable</code> should produce
 
 <div>
 (find-variable 'c '((y z) (a b c d e) (x y)))
@@ -1447,9 +1447,9 @@ C.prompt();
          (display (list 'compound-procedure
                         (procedure-parameters object)
                         (procedure-body object)
-                        '<procedure-env>)))
+                        '&lt;procedure-env&gt;)))
         ((compiled-procedure? object)
-         (display '<compiled-procedure>))
+         (display '&lt;compiled-procedure&gt;))
         (else (display object))))
 </div>
 <script>

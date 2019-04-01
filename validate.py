@@ -9,7 +9,7 @@ LOGGER = logging.getLogger(__name__)
 HTML_VALIDATOR_URL = "http://validator.w3.org/nu/?out=json"
 
 
-def validate(filename, verbose=False):
+def validate(filename):
     """
     Validate file and return JSON result as dictionary.
     "filename" can be a file name or an HTTP URL.
@@ -46,19 +46,20 @@ def validate(filename, verbose=False):
     return r.json()
 
 
-all_messages = dict()
+failures = 0
 for file_name in os.listdir("."):
-    if file_name.endswith(".html") and file_name[0:3] in ["5-2"]:
+    if file_name.endswith(".html") and file_name[0] in ["1", "2", "3", "4", "5"]:
         print("Processing " + file_name)
         messages = validate(file_name)["messages"]
         for m in messages:
-            if not (m["message"].startswith("An “img” element must have an “alt” attribute") or
-                    m["message"].startswith("The “name” attribute is obsolete")):
+            if not (m["message"].startswith("An “img” element must have an “alt” attribute")
+                    or m["message"].startswith("The “name” attribute is obsolete")):
+                failures += 1
+                # Note that the line in the .content.html file will be about 74 lines earlier than the printed number
+                # because of the extra ones added during rendering.
                 print("Type: %(type)s, Line: %(lastLine)d, Description: %(message)s" % m)
-                # if m["message"] in all_messages:
-                    # all_messages[m["message"]] = all_messages[m["message"]] + 1
-                # else:
-                    # all_messages[m["message"]] = 1
 
-# for tup in sorted(all_messages.items(), key=lambda k: k[1], reverse=True):
-    # print("{}: {}".format(tup[0], tup[1]))
+if failures == 0:
+    print("All files passed")
+else:
+    print("{} errors".format(failures))

@@ -30,14 +30,15 @@
 
 <ul>
 
-@item
-<code>(vector-ref <vector</code>> <@var{n>)} returns the nth
+<li>
+<code>(vector-ref &lt;vector&gt; &lt;n&gt;)</code> returns the nth
 element of the vector.
 
-@item
-<code>(vector-set! <vector</code>> <@var{n> <value>)}
+</li>
+<li>
+<code>(vector-set! &lt;vector&gt; &lt;n&gt; &lt;value&gt;)</code>
 sets the nth element of the vector to the designated value.
-
+</li>
 </ul>
 
 <p> For example, if <code>v</code> is a vector, then <code>(vector-ref v 5)</code> gets the fifth entry in the vector <code>v</code> and <code>(vector-set! v 5 7)</code> changes the value of the fifth entry of the vector <code>v</code> to 7.@footnote{For completeness, we should specify a <code>make-vector</code> operation that constructs vectors. However, in the present application we will use vectors only to model fixed divisions of the computer memory.}  For computer memory, this access can be implemented through the use of address arithmetic to combine a <code>base address</code> that specifies the beginning location of a vector in memory with an <code>index</code> that specifies the offset of a particular element of the vector.
@@ -84,9 +85,9 @@ the-cdrs |    | p2 | p4 |    | e0 | p7 |    | e0 |    | ...
 <p> For example, we can make a register machine support the instructions
 
 <div>
-(assign <reg_1> (op car) (reg <reg_2>))
+(assign &lt;reg_1&gt; (op car) (reg &lt;reg_2&gt;))
 
-(assign <reg_1> (op cdr) (reg <reg_2>))
+(assign &lt;reg_1&gt; (op cdr) (reg &lt;reg_2&gt;))
 </div>
 <script>
 C.prompt();
@@ -95,9 +96,9 @@ C.prompt();
 <p> if we implement these, respectively, as
 
 <div>
-(assign <reg_1> (op vector-ref) (reg the-cars) (reg <reg_2>))
+(assign &lt;reg_1&gt; (op vector-ref) (reg the-cars) (reg &lt;reg_2&gt;))
 
-(assign <reg_1> (op vector-ref) (reg the-cdrs) (reg <reg_2>))
+(assign &lt;reg_1&gt; (op vector-ref) (reg the-cdrs) (reg &lt;reg_2&gt;))
 </div>
 <script>
 C.prompt();
@@ -106,9 +107,9 @@ C.prompt();
 <p> The instructions
 
 <div>
-(perform (op set-car!) (reg <reg_1>) (reg <reg_2>))
+(perform (op set-car!) (reg &lt;reg_1&gt;) (reg &lt;reg_2&gt;))
 
-(perform (op set-cdr!) (reg <reg_1>) (reg <reg_2>))
+(perform (op set-cdr!) (reg &lt;reg_1&gt;) (reg &lt;reg_2&gt;))
 </div>
 <script>
 C.prompt();
@@ -118,10 +119,10 @@ C.prompt();
 
 <div>
 (perform
- (op vector-set!) (reg the-cars) (reg <reg_1>) (reg <reg_2>))
+ (op vector-set!) (reg the-cars) (reg &lt;reg_1&gt;) (reg &lt;reg_2&gt;))
 
 (perform
- (op vector-set!) (reg the-cdrs) (reg <reg_1>) (reg <reg_2>))
+ (op vector-set!) (reg the-cdrs) (reg &lt;reg_1&gt;) (reg &lt;reg_2&gt;))
 </div>
 <script>
 C.prompt();
@@ -130,7 +131,7 @@ C.prompt();
 <p> <code>Cons</code> is performed by allocating an unused index and storing the arguments to <code>cons</code> in <code>the-cars</code> and <code>the-cdrs</code> at that indexed vector position. We presume that there is a special register, <code>free</code>, that always holds a pair pointer containing the next available index, and that we can increment the index part of that pointer to find the next free location.@footnote{There are other ways of finding free storage. For example, we could link together all the unused pairs into a <code>free list</code> . Our free locations are consecutive (and hence can be accessed by incrementing a pointer) because we are using a compacting garbage collector, as we will see in section <a href="5-3-storage.html">5.3.2</a>.}  For example, the instruction
 
 <div>
-(assign <reg_1> (op cons) (reg <reg_2>) (reg <reg_3>))
+(assign &lt;reg_1&gt; (op cons) (reg &lt;reg_2&gt;) (reg &lt;reg_3&gt;))
 </div>
 <script>
 C.prompt();
@@ -140,10 +141,10 @@ C.prompt();
 
 <div>
 (perform
- (op vector-set!) (reg the-cars) (reg free) (reg <reg_2>))
+ (op vector-set!) (reg the-cars) (reg free) (reg &lt;reg_2&gt;))
 (perform
- (op vector-set!) (reg the-cdrs) (reg free) (reg <reg_3>))
-(assign <reg_1> (reg free))
+ (op vector-set!) (reg the-cdrs) (reg free) (reg &lt;reg_3&gt;))
+(assign &lt;reg_1&gt; (reg free))
 (assign free (op +) (reg free) (const 1))
 </div>
 <script>
@@ -153,7 +154,7 @@ C.prompt();
 <p> The <code>eq?</code> operation
 
 <div>
-(op eq?) (reg <reg_1>) (reg <reg_2>)
+(op eq?) (reg &lt;reg_1&gt;) (reg &lt;reg_2&gt;)
 </div>
 <script>
 C.prompt();
@@ -163,19 +164,19 @@ C.prompt();
 
 <h4> Implementing stacks </h4>
 
-<p> Although our register machines use stacks, we need do nothing special here, since stacks can be modeled in terms of lists. The stack can be a list of the saved values, pointed to by a special register <code>the-stack</code>. Thus, <code>(save <reg</code>>) can be implemented as
+<p> Although our register machines use stacks, we need do nothing special here, since stacks can be modeled in terms of lists. The stack can be a list of the saved values, pointed to by a special register <code>the-stack</code>. Thus, <code>(save &lt;reg&gt;)</code> can be implemented as
 
 <div>
-(assign the-stack (op cons) (reg <reg>) (reg the-stack))
+(assign the-stack (op cons) (reg &lt;reg&gt;) (reg the-stack))
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> Similarly, <code>(restore <reg</code>>) can be implemented as
+<p> Similarly, <code>(restore &lt;reg&gt;)</code> can be implemented as
 
 <div>
-(assign <reg> (op car) (reg the-stack))
+(assign &lt;reg&gt; (op car) (reg the-stack))
 (assign the-stack (op cdr) (reg the-stack))
 </div>
 <script>
