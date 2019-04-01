@@ -391,13 +391,13 @@ C.prompt();
 In general,
 
 <div>
-(and <query_1> <query_2> ... <query_n>)
+(and &lt;query_1&gt; &lt;query_2&gt; ... &lt;query_n&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> is satisfied by all sets of values for the pattern variables that simultaneously satisfy <query_1> ... <query_n>.
+<p> is satisfied by all sets of values for the pattern variables that simultaneously satisfy &lt;query_1&gt; ... &lt;query_n&gt;.
 
 <p> As for simple queries, the system processes a compound query by finding all assignments to the pattern variables that satisfy the query, then displaying instantiations of the query with those values.
 
@@ -433,13 +433,13 @@ C.prompt();
 <p> In general,
 
 <div>
-(or <query_1> <query_2> ... <query_n>)
+(or &lt;query_1&gt; &lt;query_2&gt; ... &lt;query_n&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> is satisfied by all sets of values for the pattern variables that satisfy at least one of <query_1> ... <query_n>.
+<p> is satisfied by all sets of values for the pattern variables that satisfy at least one of &lt;query_1&gt; ... &lt;query_n&gt;.
 
 <p> Compound queries can also be formed with <code>not</code>. For example,
 
@@ -454,24 +454,24 @@ C.prompt();
 <p> finds all people supervised by Ben Bitdiddle who are not computer programmers. In general,
 
 <div>
-(not <query_1>)
+(not &lt;query_1&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> is satisfied by all assignments to the pattern variables that do not satisfy <query_1>.@footnote{Actually, this description of <code>not</code> is valid only for simple cases. The real behavior of <code>not</code> is more complex. We will examine <code>not</code>'s peculiarities in sections 4-4-2 and 4-4-3.}
+<p> is satisfied by all assignments to the pattern variables that do not satisfy &lt;query_1&gt;.@footnote{Actually, this description of <code>not</code> is valid only for simple cases. The real behavior of <code>not</code> is more complex. We will examine <code>not</code>'s peculiarities in sections 4-4-2 and 4-4-3.}
 
 <p> The final combining form is called <code>lisp-value</code>. When <code>lisp-value</code> is the first element of a pattern, it specifies that the next element is a Lisp predicate to be applied to the rest of the (instantiated) elements as arguments. In general,
 
 <div>
-(lisp-value <predicate> <arg_1> ... <arg_n>)
+(lisp-value &lt;predicate&gt; &lt;arg_1&gt; ... &lt;arg_n&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> will be satisfied by assignments to the pattern variables for which the <predicate> applied to the instantiated <arg_1> ... <arg_n> is true. For example, to find all people whose salary is greater than $30,000 we could write@footnote{<code>Lisp-value</code> should be used only to perform an operation not provided in the query language. In particular, it should not be used to test equality (since that is what the matching in the query language is designed to do) or inequality (since that can be done with the <code>same</code> rule shown below).}
+<p> will be satisfied by assignments to the pattern variables for which the &lt;predicate&gt; applied to the instantiated &lt;arg_1&gt; ... &lt;arg_n&gt; is true. For example, to find all people whose salary is greater than $30,000 we could write@footnote{<code>Lisp-value</code> should be used only to perform an operation not provided in the query language. In particular, it should not be used to test equality (since that is what the matching in the query language is designed to do) or inequality (since that can be done with the <code>same</code> rule shown below).}
 
 <div>
 (and (salary ?person ?amount)
@@ -481,7 +481,7 @@ C.prompt();
 C.prompt();
 </script>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.56">
 <b>Exercise 4.56:</b> Formulate compound queries that
 retrieve the following information:
 
@@ -538,14 +538,14 @@ C.prompt();
 <p> The general form of a rule is
 
 <div>
-(rule <conclusion> <body>)
+(rule &lt;conclusion&gt; &lt;body&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
 
-<p> where <conclusion> is a pattern and <body> is any query.@footnote{We will also allow rules without bodies, as in <code>same</code>, and we will interpret such a rule to mean that the rule conclusion is satisfied by any values of the variables.} We can think of a rule as representing a large (even infinite) set of assertions, namely all instantiations of the rule conclusion with variable assignments that satisfy the rule body. When we described simple queries (patterns), we said that an assignment to variables satisfies a pattern if the instantiated pattern is in the data base. But the pattern needn't be explicitly in the data base as an assertion. It can be an implicit assertion implied by a rule. For example, the query
+<p> where &lt;conclusion&gt; is a pattern and &lt;body&gt; is any query.@footnote{We will also allow rules without bodies, as in <code>same</code>, and we will interpret such a rule to mean that the rule conclusion is satisfied by any values of the variables.} We can think of a rule as representing a large (even infinite) set of assertions, namely all instantiations of the rule conclusion with variable assignments that satisfy the rule body. When we described simple queries (patterns), we said that an assignment to variables satisfies a pattern if the instantiated pattern is in the data base. But the pattern needn't be explicitly in the data base as an assertion. It can be an implicit assertion implied by a rule. For example, the query
 
 <div>
 (lives-near ?x (Bitdiddle Ben))
@@ -636,28 +636,28 @@ On Friday morning, Ben wants to query the data base for all the meetings that
 occur that day. What query should he use?
 </li>
 
-</i>
+<li>
 Alyssa P. Hacker is unimpressed. She thinks it would be much more useful to be
 able to ask for her meetings by specifying her name. So she designs a rule
 that says that a person's meetings include all <code>whole-company</code> meetings
 plus all meetings of that person's division. Fill in the body of Alyssa's
 rule.
-</li>
+
 
 <div>
 (rule (meeting-time ?person ?day-and-time)
-      <rule-body>)
+      &lt;rule-body&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
 <p> Alyssa arrives at work on Wednesday morning and wonders what meetings she has to attend that day. Having defined the above rule, what query should she make to find this out?
-
+</li>
 </ul>
 </div>
 
-<div class="exercise">
+<div class="exercise" id="thm_4.60">
 <b>Exercise 4.60:</b> By giving the query
 
 <div>
@@ -1288,8 +1288,8 @@ C.prompt();
 <p> In general, Ben's new system allows expressions of the form
 
 <div>
-(accumulation-function <variable>
-                       <query pattern>)
+(accumulation-function &lt;variable&gt;
+                       &lt;query pattern&gt;)
 </div>
 <script>
 C.prompt();
@@ -1672,7 +1672,7 @@ C.prompt();
 
 <p> In unification, as in one-sided pattern matching, we want to accept a proposed extension of the frame only if it is consistent with existing bindings. The procedure <code>extend-if-possible</code> used in unification is the same as the <code>extend-if-consistent</code> used in pattern matching except for two special checks, marked ``<code>***</code>'' in the program below. In the first case, if the variable we are trying to match is not bound, but the value we are trying to match it with is itself a (different) variable, it is necessary to check to see if the value is bound, and if so, to match its value. If both parties to the match are unbound, we may bind either to the other.
 
-<p> The second check deals with attempts to bind a variable to a pattern that includes that variable. Such a situation can occur whenever a variable is repeated in both patterns. Consider, for example, unifying the two patterns <code>(?x ?x)</code> and <code>(?y <expression involving @code{?y</code>>)} in a frame where both <code>?x</code> and <code>?y</code> are unbound. First <code>?x</code> is matched against <code>?y</code>, making a binding of <code>?x</code> to <code>?y</code>. Next, the same <code>?x</code> is matched against the given expression involving <code>?y</code>. Since <code>?x</code> is already bound to <code>?y</code>, this results in matching <code>?y</code> against the expression. If we think of the unifier as finding a set of values for the pattern variables that make the patterns the same, then these patterns imply instructions to find a <code>?y</code> such that <code>?y</code> is equal to the expression involving <code>?y</code>. There is no general method for solving such equations, so we reject such bindings; these cases are recognized by the predicate <code>depends-on?</code>.@footnote{In general, unifying <code>?y</code> with an expression involving <code>?y</code> would require our being able to find a fixed point of the equation <code>?y</code> = <expression involving <code>?y</code>>. It is sometimes possible to syntactically form an expression that appears to be the solution. For example, <code>?y</code> = <code>(f ?y)</code> seems to have the fixed point <code>(f (f (f ... )))</code>, which we can produce by beginning with the expression <code>(f ?y)</code> and repeatedly substituting <code>(f ?y)</code> for <code>?y</code>. Unfortunately, not every such equation has a meaningful fixed point. The issues that arise here are similar to the issues of manipulating infinite series in mathematics. For example, we know that 2 is the solution to the equation y = 1 + y/2. Beginning with the expression 1 + y/2 and repeatedly substituting 1 + y/2 for y gives
+<p> The second check deals with attempts to bind a variable to a pattern that includes that variable. Such a situation can occur whenever a variable is repeated in both patterns. Consider, for example, unifying the two patterns <code>(?x ?x)</code> and <code>(?y &lt;expression involving ?y&gt;)</code> in a frame where both <code>?x</code> and <code>?y</code> are unbound. First <code>?x</code> is matched against <code>?y</code>, making a binding of <code>?x</code> to <code>?y</code>. Next, the same <code>?x</code> is matched against the given expression involving <code>?y</code>. Since <code>?x</code> is already bound to <code>?y</code>, this results in matching <code>?y</code> against the expression. If we think of the unifier as finding a set of values for the pattern variables that make the patterns the same, then these patterns imply instructions to find a <code>?y</code> such that <code>?y</code> is equal to the expression involving <code>?y</code>. There is no general method for solving such equations, so we reject such bindings; these cases are recognized by the predicate <code>depends-on?</code>.@footnote{In general, unifying <code>?y</code> with an expression involving <code>?y</code> would require our being able to find a fixed point of the equation <code>?y = &lt;expression involving ?y&gt;</code>. It is sometimes possible to syntactically form an expression that appears to be the solution. For example, <code>?y</code> = <code>(f ?y)</code> seems to have the fixed point <code>(f (f (f ... )))</code>, which we can produce by beginning with the expression <code>(f ?y)</code> and repeatedly substituting <code>(f ?y)</code> for <code>?y</code>. Unfortunately, not every such equation has a meaningful fixed point. The issues that arise here are similar to the issues of manipulating infinite series in mathematics. For example, we know that 2 is the solution to the equation y = 1 + y/2. Beginning with the expression 1 + y/2 and repeatedly substituting 1 + y/2 for y gives
 
 <pre>
 2 = y = 1 + y/2 = 1 + (1 + y/2)/2 = 1 + 1/2 + y/4 = ...
@@ -1968,7 +1968,7 @@ C.prompt();
 C.prompt();
 </script>
 
-<p> The following procedures, used by <code>query-driver-loop</code> (in section <a href="4-4-logic.html">4.4.4</a>-1), specify that rules and assertions are added to the data base by expressions of the form <code>(assert! <rule-or-assertion</code>>):
+<p> The following procedures, used by <code>query-driver-loop</code> (in section <a href="4-4-logic.html">4.4.4</a>-1), specify that rules and assertions are added to the data base by expressions of the form <code>(assert! &lt;rule-or-assertion&gt;)</code>:
 
 <div>
 (define (assertion-to-be-added? exp)
@@ -2164,20 +2164,20 @@ C.prompt();
 <ul>
 <li>
 Fill in the missing expressions in Alyssa's program.
-</li>
+
 
 <div>
 (define (simple-stream-flatmap proc s)
   (simple-flatten (stream-map proc s)))
 
 (define (simple-flatten stream)
-  (stream-map <??>
-              (stream-filter <??> stream)))
+  (stream-map &lt;??>
+              (stream-filter &lt;??> stream)))
 </div>
 <script>
 C.prompt();
 </script>
-
+</li>
 <li>
 Does the query system's behavior change if we change it in this way?
 </li>

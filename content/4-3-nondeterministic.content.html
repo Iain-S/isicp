@@ -63,13 +63,13 @@ C.prompt();
 <p> To extend Scheme to support nondeterminism, we introduce a new special form called <code>amb</code>.@footnote{The idea of <code>amb</code> for nondeterministic programming was first described in 1961 by John McCarthy (see McCarthy 1967).} The expression
 
 <div>
-(amb <e_1> <e_2> ... <e_@i{n}>)
+(amb &lt;e_1&gt; &lt;e_2&gt; ... &lt;e_@i{n}&gt;)
 </div>
 <script>
 C.prompt();
 </script>
 
-<p> returns the value of one of the n expressions <e_@i{i}> ``ambiguously.''  For example, the expression
+<p> returns the value of one of the n expressions &lt;e_@i{i}&gt; ``ambiguously.''  For example, the expression
 
 <div>
 (list (amb 1 2 3) (amb 'a 'b))
@@ -162,7 +162,7 @@ C.prompt();
 </script>
 
 <div class="exercise" id="thm_4.35">
-<p> <b>Exercise 4.35:</b> Write a procedure <code>an-integer-between</code> that returns an integer between two given bounds. This can be used to implement a procedure that finds Pythagorean triples, i.e., triples of integers (i,j,k) between the given bounds such that i <= j and i^2 + j^2 = k^2, as follows:
+<p> <b>Exercise 4.35:</b> Write a procedure <code>an-integer-between</code> that returns an integer between two given bounds. This can be used to implement a procedure that finds Pythagorean triples, i.e., triples of integers (i,j,k) between the given bounds such that i &lt;= j and i^2 + j^2 = k^2, as follows:
 
 <div>
 (define (a-pythagorean-triple-between low high)
@@ -287,20 +287,25 @@ C.prompt();
 
 <ul>
 
-@item
+<li>
 Betty: ``Kitty was second in the examination. I was only third.''
 
-@item
+</li>
+<li>
 Ethel: ``You'll be glad to hear that I was on top. Joan was second.''
 
-@item
+</li>
+<li>
 Joan: ``I was third, and poor old Ethel was bottom.''
 
-@item
+</li>
+<li>
 Kitty: ``I came out second. Mary was only fourth.''
 
-@item
+</li>
+<li>
 Mary: ``I was fourth. Top place was taken by Betty.''
+</li>
 
 </ul>
 
@@ -310,7 +315,6 @@ Mary: ``I was fourth. Top place was taken by Betty.''
 <div class="exercise" id="thm_4.43">
 <p> <b>Exercise 4.43:</b> Use the <code>amb</code> evaluator to solve the following puzzle:@footnote{This is taken from a booklet called ``Problematical Recreations,'' published in the 1960s by Litton Industries, where it is attributed to the @cite{Kansas State Engineer}.}
 
-<div class="exercise">
 <p> Mary Ann Moore's father has a yacht and so has each of his four friends: Colonel Downing, Mr. Hall, Sir Barnacle Hood, and Dr. Parker. Each of the five also has one daughter and each has named his yacht after a daughter of one of the others. Sir Barnacle's yacht is the Gabrielle, Mr. Moore owns the Lorna; Mr. Hall the Rosalind. The Melissa, owned by Colonel Downing, is named after Sir Barnacle's daughter. Gabrielle's father owns the yacht that is named after Dr. Parker's daughter. Who is Lorna's father?
 
 <p> Try to write the program so that it runs efficiently (see Exercise 4-40). Also determine how many solutions there are if we are not told that Mary Ann's last name is Moore.
@@ -605,16 +609,19 @@ C.prompt();
 
 <ul>
 
-@item
+<li>
 <code>amb</code> expressions---to provide a mechanism to make alternative choices if
 the current choice made by the <code>amb</code> expression leads to a dead end;
 
-@item
+</li>
+<li>
 the top-level driver---to provide a mechanism to report failure when the
 choices are exhausted;
 
-@item
+</li>
+<li>
 assignments---to intercept failures and undo assignments during backtracking.
+</li>
 
 </ul>
 
@@ -622,11 +629,13 @@ Failures are initiated only when a dead end is encountered. This occurs
 
 <ul>
 
-@item
+<li>
 if the user program executes <code>(amb)</code>;
 
-@item
+</li>
+<li>
 if the user types <code>try-again</code> at the top-level driver.
+</li>
 
 </ul>
 
@@ -634,16 +643,18 @@ Failure continuations are also called during processing of a failure:
 
 <ul>
 
-@item
+<li>
 When the failure continuation created by an assignment finishes undoing a side
 effect, it calls the failure continuation it intercepted, in order to propagate
 the failure back to the choice point that led to this assignment or to the top
 level.
 
-@item
+</li>
+<li>
 When the failure continuation for an <code>amb</code> runs out of choices, it calls
 the failure continuation that was originally given to the <code>amb</code>, in order
 to propagate the failure back to the previous choice point or to the top level.
+</li>
 
 </ul>
 
@@ -694,7 +705,7 @@ C.prompt();
 <p> For example, executing
 
 <div>
-(ambeval <exp>
+(ambeval &lt;exp&gt;
          the-global-environment
          (lambda (value fail) value)
          (lambda () 'failed))
@@ -1074,8 +1085,8 @@ C.prompt();
     (lambda (env succeed fail)
       (pproc env
              (lambda (pred-value fail2)
-               (if <??>
-                   <??>
+               (if &lt;??>
+                   &lt;??>
                    (succeed 'ok fail2)))
              fail))))
 </div>
