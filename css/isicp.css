@@ -143,12 +143,24 @@ li {
   cursor: pointer;
 }
 
+/* For desktop */
 #main {
   width: 45%;
   min-width: 400px;
   margin: auto;
   margin-bottom: 3em;
 }
+
+/* For mobile */
+@media only screen and (max-width: 768px) {
+  #main {
+    width: 100%;
+    min-width: 0;
+    margin: auto;
+    margin-bottom: 3em;
+  }
+}
+
 
 /*autoscroll*/
 .CodeMirror-scroll {
