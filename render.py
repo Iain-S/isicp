@@ -1,7 +1,17 @@
 #!/usr/bin/env python
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 import sys
 import re
+import codecs
+
+if sys.version_info.major < 3:
+    # The Python 2 open doesn't have an encoding= parameter
+    from io import open
+
+    # From https://stackoverflow.com/questions/10569438/how-to-print-unicode-character-in-python
+    UTF8Writer = codecs.getwriter('utf8')
+    sys.stdout = UTF8Writer(sys.stdout)
+
 
 tag_re = re.compile(
     r"^({{[\w@]+}})$"  # ()Capture {{Tag}} word,
@@ -23,4 +33,8 @@ def write_output(tagged_content, output_function):
 
 
 if __name__ == "__main__":
-    write_output(get_tagged_content(sys.argv[1]), print)
+    # print("processing {}".format(sys.argv[1]), file=sys.stderr)
+    def print_func(string):
+        print(string, end="")
+
+    write_output(get_tagged_content(sys.argv[1]), print_func)
