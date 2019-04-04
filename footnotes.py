@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
+import sys
+import re
+import os
 
 
-def get_footnote_indices(text):
-    footnote_indices = dict()
+def get_tex_tags(text):
+    """Returns a dict of {idx_start: (tag_type, idx_end), ...} for tex tags in text."""
+    tex_tags = dict()
     open_footnotes = list()
+    pattern = re.compile(r"@[a-z]+{")
 
-    search_from = 0
-    while True:
-        opens_at = text.find("@footnote{", search_from)
-
-        if opens_at == -1:
-            break
-
-        search_from = opens_at + 10
-        # Our footnote text begins 10 chars after the "@"
-        open_footnotes.append(search_from)
+    for match in pattern.finditer(text):
+        open_footnotes.append((match.end(), match.group(0)))
 
     # Starting with the last open footnote, look for a closing bracket
-    for opens_at in reversed(open_footnotes):
+    for opens_at, tag_type in reversed(open_footnotes):
         search_from = opens_at
         while True:
             # print("looking from {}".format(search_from))
@@ -27,15 +24,86 @@ def get_footnote_indices(text):
                 raise Exception("No closing bracket found for footnote starting at char " + opens_at)
 
             # If footnotes can be nested, this "}" may already be taken
-            if closes_at not in footnote_indices.values():
-                footnote_indices[opens_at] = closes_at
+            if closes_at not in [x[1] for x in tex_tags.values()]:
+                tex_tags[opens_at] = (tag_type, closes_at)
                 break
 
             else:
                 search_from = closes_at + 1
+    return tex_tags
 
-    return footnote_indices
+
+def get_footnote_indices(text):
+    """Returns the start and end indices for all @footnote{}s in the text."""
+    return {x: y[1] for x, y in get_tex_tags(text).items() if y[0] == "@footnote{"}
 
 
-def extract_footnotes():
-    pass
+def check_for_nesting(text):
+    """Takes the output of get_footnote_indices and checks for nesting."""
+    indices = get_footnote_indices(text)
+    for key1, value1 in indices.items():
+        for key2, value2 in indices.items():
+            if key1 == key2 and value1 == value2:
+                continue
+
+            elif key1 < key2 and value1 > value2:
+                print("nesting found between {} and {}".format(key1, value1))
+                return True
+
+    return False
+
+
+def extract_footnotes(text, footnote_linker):
+    """Takes the main text and a function, footnote_linker(link_number), which supplies the link text."""
+    if text.find("¡") > -1:
+        raise Exception("Need to choose another escape char")
+
+    modified_text = text
+    footnotes = dict()
+    index = 1
+
+    tex_tags = get_tex_tags(text)
+
+    for dict_key in sorted(tex_tags.keys()):
+        tag_type = tex_tags[dict_key][0]
+        opens_at = dict_key
+        closes_at = tex_tags[dict_key][1]
+
+        if tag_type == "@footnote{":
+            footnotes[index] = (tag_type, text[opens_at:closes_at])
+
+            # We want to put a link for the footnote and also some padding so that len(modified_text) is constant
+            footnote_link = footnote_linker(index)
+            padding = ((closes_at-opens_at)+11) - len(footnote_link)
+
+            if padding < 0:
+                raise Exception("links must be shorter than the footnote they replace")
+
+            index += 1
+
+            modified_text = modified_text[:opens_at-10] + footnote_link + "¡" * padding + modified_text[closes_at+1:]
+  
+    modified_text = modified_text.replace("¡", "")
+    return modified_text, footnotes
+
+
+def move_footnotes_to_end(text, chapter, first_footnote_number):
+    return "placeholder"
+
+
+if __name__ == "__main__":
+    if sys.argv[1] == "checknesting":
+        for input_filename in os.listdir(path="content"):
+            with open(os.path.join("content", input_filename), "r", encoding="utf8") as input_file:
+                print("Checking {}".format(os.path.join("content", input_filename)))
+                print("nesting found: {}".format(check_for_nesting(input_file.read())))
+                print(" ")
+                # There doesn't appear to be any nesting so that's one less thing to think about.
+
+    else:
+        with open(sys.argv[1], "r", encoding="utf-8") as input_file:
+            data = input_file.read().replace('\n', '')
+
+            for key, value in extract_footnotes(data)[1].items():
+                print("{} : {}".format(key, value[1]))
+                # assert value[1][-1] in (".", ")")
