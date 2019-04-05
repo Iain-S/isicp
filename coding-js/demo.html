@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>coding.js</title>
+<link rel="stylesheet" type="text/css" href="deps/codemirror/lib/codemirror.css" />
+<link rel="stylesheet" type="text/css" href="coding.css" />
+<link rel="stylesheet" type="text/css" href="base.css" />
+
+<script src="deps/codemirror/lib/codemirror.js"></script>
+<script src="deps/codemirror/mode/scheme/scheme.js"></script>
+<script src="deps/jquery.min.js"></script>
+<script src="coding.js"> </script>
+<script>
+  var c = new CodingJS();
+</script>
+</head>
+<body>
+
+<div id="main" style="width: 80%; margin-left: 10%">
+
+<h3> Introduction </h3>
+
+<p> coding.js and web-worker-interpreters make it possible for you to make your tutorial, blog post or textbook interactive. Writing code fragments that your users can <em>edit</em> and <em>run</em> is as easy as calling the <tt>prompt</tt> function with the id of the div element your code lives in.
+
+<div class="two-up">
+<div class="two-left">
+<br> <br>
+<div id="scheme-plus-1">
+(+ 137 349)
+</div>
+<script> c.prompt("scheme-plus-1"); </script>
+</div>
+
+<div class="two-right">
+<pre>
+&lt;div id="scheme-plus-1"&gt;
+(+ 137 349)
+&lt;/div&gt;
+
+&lt;script&gt;
+  c.prompt("scheme-plus-1");
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+
+<p> try editing the <tt>(+ 137 349)</tt>, then press Ctrl-Enter and watch the evaluated answer (originally <tt>486</tt>) change.
+
+<h3> Including coding.js </h3>
+
+<p> To use coding.js on your own website, simply clone the <a href="https://github.com/yuanchenyang/coding-js"> coding-js </a> github project and include the coding.js file. We can create a <tt>CodingJS</tt> object, which by default to a scheme interpreter.
+
+<pre style="margin-left: 3em">
+&lt;script src="coding.js"> &lt;/script&gt;
+&lt;script&gt;
+  c = CodingJS();
+&lt;/script&gt;
+</pre>
+
+<p> In this example, the language is set to scheme, so coding.js invokes a scheme interpreter behind the scenes whenever your user edits your code. The interpreter path is the relative path to the directory coding.js lives in and is used to load additional files (as the files are loaded relative to this page and not coding.js). For instance if you place coding.js in a <tt>js/ext/</tt> subdirectory, and want to use the language <tt>logic</tt>, do this instead.
+
+<pre style="margin-left: 3em">
+&lt;script src="js/ext/coding.js"> &lt;/script&gt;
+&lt;script&gt;
+  c = CodingJS("js/ext", "logic");
+&lt;/script&gt;
+</pre>
+
+<h3> Dependency management </h3>
+
+<p>Often, code fragments depend on each other. We have a prompt with a function definition:</p>
+
+<div class="two-up">
+<div class="two-left">
+<br> <br>
+<div id="scheme-define-factorial">
+(define (factorial n)
+  (if (= n 0)
+      1
+      (* n (factorial (- n 1)))))
+</div>
+<script>
+  c.prompt("scheme-define-factorial");
+</script>
+</div>
+
+<div class="two-right">
+<pre>
+&lt;div id="scheme-define-factorial"&gt;
+(define (factorial n)
+  (if (= n 0)
+      1
+      (* n (factorial (- n 1)))))
+&lt;/div&gt;
+
+&lt;script&gt;
+  c.prompt("scheme-define-factorial");
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+
+<p>We can reuse this definition of <tt>factorial</tt> in other code fragments:</p>
+
+<div class="two-up">
+<div class="two-left">
+<br>
+<div id="scheme-factorial">
+(factorial 10)
+</div>
+<script>
+  c.prompt("scheme-factorial", ["scheme-define-factorial"]);
+</script>
+</div>
+
+<div class="two-right">
+<pre>
+&lt;div id="scheme-factorial"&gt;
+(factorial 10);
+&lt;/div&gt;
+
+&lt;script&gt;
+  c.prompt("scheme-factorial", ["scheme-define-factorial"]);
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+
+<p> This is done by passing an additional argument to <tt>prompt</tt>, an array which lists the id's of all the dependencies. When a dependency is updated, everything that depends on it is changed as well; try modifying the definition of <tt>factorial</tt> and watch the call to <tt>(factorial 10)</tt> change.
+
+<h3> Related functions </h3>
+
+<p> <tt>prompt</tt> is part of a family of functions designed to be used "as-is". The other functions in the family introduce slight variations on <tt>prompt</tt>. They include <tt>frozen_prompt</tt>, <tt>no_output_prompt</tt>, <tt>no_output_frozen_prompt</tt> and <tt>hidden_prompt</tt>.
+
+<p> <tt>frozen_prompt</tt> makes a prompt that is not editable. Useful for exercise where users must wirte some definition for a function to be true.
+
+<div class="two-up">
+<div class="two-left">
+<br>
+<div id="scheme-define-x-10">
+(define x 10)
+</div>
+<div id="scheme-square-x">
+(* x x)
+</div>
+<script>
+c.prompt("scheme-define-x-10");
+c.frozen_prompt("scheme-square-x", ["scheme-define-x-10"]);
+</script>
+</div>
+
+<div class="two-right">
+<pre>
+&lt;div id="scheme-define-x-10"&gt;
+(define x 10)
+&lt;/div&gt;
+
+&lt;div id="scheme-square-x"&gt;
+(define x 10)
+(* x x);
+&lt;/div&gt;
+
+&lt;script&gt;
+  c.prompt("scheme-define-x-10");
+  c.frozen_prompt("scheme-square-x", ["scheme-define-x-10"]);
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+
+<p> <tt>no_output_prompt</tt> suppresses the output, so only the code is visible. It is not very useful.
+
+<p> <tt>no_output_frozen_prompt</tt> is a frozen prompt that suppresses output. It is useful for showing off language features as it suppresses error messages.
+
+<div class="two-up">
+<div class="two-left">
+<br>
+<div id="scheme-if-syntax">
+(if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;)
+</div>
+<script>
+  c.no_output_frozen_prompt("scheme-if-syntax");
+</script>
+</div>
+
+<div class="two-right">
+<pre>
+&lt;div id="scheme-factorial"&gt;
+(if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;)
+&lt;/div&gt;
+&lt;script&gt;
+  c.no_output_frozen_prompt("scheme-if-syntax");
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+
+<p> Lastly, <tt>hidden_prompt</tt> makes both the code and the output invisible, and can be used for exercise scaffolding, black-box functions, etc.
+
+<h3> Internals </h3>
+
+<p> This example demonstrates using some internal functions. <tt>make_editable</tt> causes a div to be converted into a CodeMirror editor instance, preloaded with the code it contained.
+<div id="scheme-number">
+486
+</div>
+<script>
+c.make_editable("scheme-number");
+</script>
+
+<p> the <tt>compute</tt> function calls a scheme (or language of your choice) interpreter, and in fact we can get all our functionality by binding it to the <tt>onBlur</tt> event listener that CodeMirror gives us.
+
+<div id="scheme-number-output" class="output"> </div>
+<script>
+c.editor_of["scheme-number"].setOption('onBlur', function() {
+  return compute("scheme-number");
+});
+</script>
+
+</body>
+</html>

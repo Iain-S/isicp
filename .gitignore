@@ -17,5 +17,5 @@ venv/
 # Don't ignore generated html files on this branch
 # [0-9]*.html
 
-
-coding-js
+# Don't ignore these js files on this branch
+# coding-js
