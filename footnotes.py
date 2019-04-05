@@ -88,7 +88,27 @@ def extract_footnotes(text, footnote_linker):
 
 
 def move_footnotes_to_end(text, chapter, first_footnote_number):
-    return "placeholder"
+    if not text.endswith("{{footnotes}}\n@@\n"):
+        raise Exception("Cannot find footnote section: " + text[-20:])
+
+    def foonote_linker(link_number):
+        this_link = link_number - 1 + first_footnote_number
+
+        return '<a id="footnote_link_{0}-{1}" class="footnote_link" href="#footnote_{0}-{1}">{1}</a>'.\
+            format(chapter, this_link)
+
+    modified_text, footnotes = extract_footnotes(text, foonote_linker)
+
+    def footnote_maker(link_number, link_text):
+        this_link = link_number - 1 + first_footnote_number
+        return '<div id="footnote_{0}-{1}" class="footnote">' \
+               '<p> <a href="#footnote_link_{0}-{1}" class="footnote_backlink">{1}</a>'.format(chapter, this_link) + \
+               link_text + "</p></div>"
+
+    for dict_key in sorted(footnotes.keys()):
+        modified_text = modified_text[:-3] + footnote_maker(dict_key, footnotes[dict_key][1]) + "\n@@\n"
+
+    return modified_text
 
 
 if __name__ == "__main__":
@@ -100,10 +120,21 @@ if __name__ == "__main__":
                 print(" ")
                 # There doesn't appear to be any nesting so that's one less thing to think about.
 
-    else:
-        with open(sys.argv[1], "r", encoding="utf-8") as input_file:
+    elif sys.argv[1] == "extract":
+        with open(sys.argv[2], "r", encoding="utf-8") as input_file:
             data = input_file.read().replace('\n', '')
 
             for key, value in extract_footnotes(data)[1].items():
                 print("{} : {}".format(key, value[1]))
                 # assert value[1][-1] in (".", ")")
+
+    elif sys.argv[1] == "move":
+        with open(sys.argv[2], "r", encoding="utf-8") as input_file:
+            data = input_file.read()
+
+            with open(sys.argv[2][:-12]+"footnote.content.html", "w", encoding="utf-8") as output_file:
+                modified_data = move_footnotes_to_end(data, 3, 34)
+                output_file.write(modified_data)
+
+    else:
+        print("command not recognised")

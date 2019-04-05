@@ -72,10 +72,10 @@ class ExtractFootnotesTest(unittest.TestCase):
         test_text = "something @footnote{this is the footnote @footnote{oo} @acronym{MIT}} ending@footnote{last one}"
 
         def foonote_linker(link_number):
-            return "{}".format(link_number)
+            return "2-{}".format(link_number)
 
         processed_text, footnote_dict = extract_footnotes(test_text, foonote_linker)
-        self.assertEqual("something 12 ending3", processed_text)  # not ideal but we know there's no nesting
+        self.assertEqual("something 2-12-2 ending2-3", processed_text)  # not ideal but we know there's no nesting
         self.assertDictEqual({1: ('@footnote{', 'this is the footnote @footnote{oo} @acronym{MIT}'),
                               2: ('@footnote{', 'oo'),
                               3: ('@footnote{', 'last one')}, footnote_dict)
@@ -97,12 +97,39 @@ class TestCheckForNesting(unittest.TestCase):
 
 class TestMoveFootnotesToEnd(unittest.TestCase):
     def test_move_single_note(self):
-
-        test_text = "t @footnote{z} d\n{{footnotes}}\n@@"
+        """Check that we can move a footnote fully (including adding links)."""
+        test_text = "t @footnote{zz@acronym{M}zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz} " \
+                    "d\n{{footnotes}}\n@@\n"
+        modified_text = move_footnotes_to_end(test_text, 2, 47)
         self.assertEqual('t <a id="footnote_link_2-47" class="footnote_link" href="#footnote_2-47">47</a> d\n'
                          '{{footnotes}}\n<div id="footnote_2-47" class="footnote">'
-                         '<p> <a href="#footnote_link_2-47" class="footnote_backlink">47</a>z\n@@',
-                         move_footnotes_to_end(test_text, 2, 47))
+                         '<p> <a href="#footnote_link_2-47" class="footnote_backlink">47</a>'
+                         'zz@acronym{M}zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</p></div>'
+                         '\n@@\n',
+                         modified_text)
+
+    def test_double_footnote(self):
+        """Check that we can move more than one footnote to the end."""
+        test_text = "1 " \
+                    "@footnote{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} " \
+                    "@footnote{bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb} " \
+                    "2\n{{footnotes}}\n@@\n"
+
+        modified_text = move_footnotes_to_end(test_text, 1, 1)
+
+        target_text = "1 " \
+                      '<a id="footnote_link_1-1" class="footnote_link" href="#footnote_1-1">1</a> ' \
+                      '<a id="footnote_link_1-2" class="footnote_link" href="#footnote_1-2">2</a> ' \
+                      "2\n{{footnotes}}\n" \
+                      '<div id="footnote_1-1" class="footnote">' \
+                      '<p> <a href="#footnote_link_1-1" class="footnote_backlink">1</a>' \
+                      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p></div>\n' \
+                      '<div id="footnote_1-2" class="footnote">' \
+                      '<p> <a href="#footnote_link_1-2" class="footnote_backlink">2</a>' \
+                      'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</p></div>\n' \
+                      "@@\n"
+
+        self.assertEqual(target_text, modified_text)
 
 
 if __name__ == "__main__":
