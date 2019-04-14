@@ -15,4 +15,11 @@ venv/
 # generated html files
 [0-9]*.html
 
+# external library
 coding-js
+
+# functional testing
+tests/geckodriver
+tests/geckodriver.log
+tests/chromedriver
+tests/chromedriver.log
