@@ -47,13 +47,14 @@ def validate(filename):
 
 
 failures = 0
-for file_name in os.listdir("."):
+file_names = list(os.listdir("../"))
+file_names.sort()
+for file_name in file_names:
     if file_name.endswith(".html") and file_name[0] in ["1", "2", "3", "4", "5"]:
         print("Processing " + file_name)
-        messages = validate(file_name)["messages"]
+        messages = validate("../" + file_name)["messages"]
         for m in messages:
             if not (m["message"].startswith("An “img” element must have an “alt” attribute")):
-                    # or m["message"].startswith("The “name” attribute is obsolete")):
                 failures += 1
                 # Note that the line in the .content.html file will be about 74 lines earlier than the printed number
                 # because of the extra ones added during rendering.
