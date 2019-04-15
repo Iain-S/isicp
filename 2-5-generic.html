@@ -16,30 +16,30 @@
         <script>
             window.initialEvalIsCompleted = false;
             C = new CodingJS("coding-js/", "scheme", {
-              onFocus: function (s) {
-                var ts = "";
-                for (var i = 0, d = C.get_all_deps(s); i < d.length; i++) {  //TODO list all deps
-                    ts += C.editor_of[d[i]].getValue() + "\n\n";
-                }
-            
-                ts += "<b>" + C.editor_of[s].getValue() + "</b>";
-            
-                if (!window.initialEvalIsCompleted) return;
-            
-                ga('send', 'event', 'editor', 'focus', s, 1);
-                mixpanel.track('editor focus', {
-                  'editor_name': s,
-                });
-                console.log('mixpanel editor focus');
-              },
-              onBlur: function (s, editor_value) {
-                if (!window.initialEvalIsCompleted) return;
-                mixpanel.track('editor blur', {
-                  'editor_name': s,
-                  'editor_value': C.editor_of[s].getValue(),
-                });
-                console.log('mixpanel editor blur', s, C.editor_of[s].getValue());
-              },
+              // onFocus: function (s) {
+              //   var ts = "";
+              //   for (var i = 0, d = C.get_all_deps(s); i < d.length; i++) {  //TODO list all deps
+              //       ts += C.editor_of[d[i]].getValue() + "\n\n";
+              //   }
+              //
+              //   ts += "<b>" + C.editor_of[s].getValue() + "</b>";
+              //
+              //   if (!window.initialEvalIsCompleted) return;
+              //
+              //   ga('send', 'event', 'editor', 'focus', s, 1);
+              //   mixpanel.track('editor focus', {
+              //     'editor_name': s,
+              //   });
+              //   console.log('mixpanel editor focus');
+              // },
+              // onBlur: function (s, editor_value) {
+              //   if (!window.initialEvalIsCompleted) return;
+              //   mixpanel.track('editor blur', {
+              //     'editor_name': s,
+              //     'editor_value': C.editor_of[s].getValue(),
+              //   });
+              //   console.log('mixpanel editor blur', s, C.editor_of[s].getValue());
+              // },
               onInitialEvalHasCompleted: function () {
                 window.initialEvalIsCompleted = true;
               }
@@ -64,10 +64,10 @@
             ga('send', 'pageview');
             </script> -->
         <!-- start Mixpanel -->
-        <script>(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-            for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
-            mixpanel.init("272f9543615f00ee5f6a20cf7d9f689d");
-        </script>
+<!--        <script>(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");-->
+<!--            for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);-->
+<!--            mixpanel.init("272f9543615f00ee5f6a20cf7d9f689d");-->
+<!--        </script>-->
         <!-- end Mixpanel -->
     </head>
     <body>
@@ -77,10 +77,10 @@
         </script>
         <div id="main">
 
-<a href='index.html' style="float:left"> <img src='images/chevron-up.svg' height=64 width=64> </a>
+<a href='index.html' style="float:left"><img src='images/chevron-up.svg' height=64 width=64></a>
 <span style="float:right">
-<a href='2-4-representation.html'> <img src='images/chevron-left.svg' height=64 width=64> </a>
-<a href='3-0-modularity-objects-and-state.html'> <img src='images/chevron-right.svg' height=64 width=64> </a>
+<a href='2-4-representation.html'><img src='images/chevron-left.svg' height=64 width=64></a>
+<a href='3-0-modularity-objects-and-state.html'><img src='images/chevron-right.svg' height=64 width=64></a>
 </span>
 
 <br> <br>
@@ -981,15 +981,15 @@ $$
             </div>
             <hr>
             <p> 
-                <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />
+                <a id="licence" rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />
                 <!-- ToDo Add an html5/rdfa compatible equivalent of xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type" -->
                 <span >Interactive SICP</span> is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at 
                 <!-- ToDo Add an html5/rdfa compatible equivalent of xmlns:dct="http://purl.org/dc/terms/" rel="dct:source" -->
                 <a href="https://mitpress.mit.edu/sicp/">https://mitpress.mit.edu/sicp/</a>.
             </p>
-            <p> 
-                <a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics"/></a>
-            </p>
+<!--            <p> -->
+<!--                <a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics"/></a>-->
+<!--            </p>-->
         </div>
     </body>
 </html>
