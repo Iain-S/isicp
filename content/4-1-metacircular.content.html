@@ -3,10 +3,10 @@
 @@
 
 {{main_text}}
-<a href='index.html' style="float:left"> <img src='images/chevron-up.svg' height=64 width=64> </a>
+<a href='index.html' style="float:left"><img src='images/chevron-up.svg' height=64 width=64></a>
 <span style="float:right">
-<a href='4-0-metalinguistic-abstraction.html'> <img src='images/chevron-left.svg' height=64 width=64> </a>
-<a href='4-2-lazy.html'> <img src='images/chevron-right.svg' height=64 width=64> </a>
+<a href='4-0-metalinguistic-abstraction.html'><img src='images/chevron-left.svg' height=64 width=64></a>
+<a href='4-2-lazy.html'><img src='images/chevron-right.svg' height=64 width=64></a>
 
 </span>
 <br> <br>
@@ -1312,7 +1312,8 @@ Consider a procedure with internal definitions, such as
     (if (= n 0)
         false
         (even? (- n 1))))
-  ⟨rest of body of f⟩)
+  ; rest of body of f
+  )
 </div>
 <script>
 C.prompt("scheme-internal-defs");
@@ -2060,7 +2061,7 @@ Any procedure defined in the underlying Lisp can be used as a primitive for the 
 <p> <a href="#footnote_link_1-17" class="footnote_backlink">17</a>
 <code>Apply-in-underlying-scheme</code> is the <code>apply</code> procedure we have used in earlier chapters. The metacircular evaluator's <code>apply</code> procedure (section <a href="4-1-metacircular.html">4.1.1</a>) models the working of this primitive. Having two different things called <code>apply</code> leads to a technical problem in running the metacircular evaluator, because defining the metacircular evaluator's <code>apply</code> will mask the definition of the primitive. One way around this is to rename the metacircular <code>apply</code> to avoid conflict with the name of the primitive procedure. We have assumed instead that we have saved a reference to the underlying <code>apply</code> by doing
 
-<div id="scheme-apply-in-underlying-scheme">
+<div id="apply-in-underlying-scheme">
 (define apply-in-underlying-scheme apply)
 </div>
 <script>
